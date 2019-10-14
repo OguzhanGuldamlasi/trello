@@ -1,0 +1,29 @@
+.card{
+    /*cursor:pointer;*/
+    box-sizing: border-box;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    padding: 0px;
+    text-align: center;
+    background-color: #f1f1f1;
+    height: 160px;
+    width: 200px;
+    display:inline-block;
+}
+.labels .green {
+ background-color: green;
+    width: 20px;
+    height: 20px;
+    display:inline-block;
+}
+.labels .blue {
+    background-color: blue;
+    width: 20px;
+    height: 20px;
+    display:inline-block;
+}
+.labels .red {
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    display:inline-block;
+}
