@@ -5,13 +5,21 @@ import '../styles/List.css';
 class List extends React.Component{
         constructor(props){
             super(props);
-            this.state={
-                name:this.props.name,
-                children:[]
-            };
+            if(this.props.state!=null){
+                this.state=this.props.state;
+            }
+            else{
+                this.state={
+                    id:this.props.listId,
+                    name:this.props.name,
+                    children:[]
+                };
+            }
+
             this.getIndex=this.getIndex.bind(this);
             this.appendChild=this.appendChild.bind(this);
             this.deleteChildren=this.deleteChildren.bind(this);
+            this.onDragStart=this.onDragStart.bind(this);
         }
         appendChild(draggedCard=null){
             if(draggedCard!=null){
@@ -57,13 +65,19 @@ class List extends React.Component{
         onDragOver(ev){
             ev.preventDefault();
         }
-
+        onDragStart(event){
+            let json=JSON.stringify(this.state);
+            event.dataTransfer.setData("list",json);
+        }
+        onDrag(event){
+            this.props.deleteList(this.state.id)
+        }
         render() {
             return(
-                <div draggable onDrop={event => this.onDrop(event)} onDragOver={(e)=>this.onDragOver(e)} className="cardList">
-                    <div   className="listName">{this.state.name}
-                        <button onClick={()=>this.appendChild()}>Add another Card</button>
+                <div onDrop={event => this.onDrop(event)} className="cardList">
+                    <div id={this.state.id} onDrag={(event)=>this.onDrag(event)}  onDragStart={event => this.onDragStart(event)} draggable  onDragOver={(e)=>this.onDragOver(e)}  className="listName">{this.state.name}
                     </div>
+                    <button onClick={()=>this.appendChild()}>Add another Card</button>
                     <div  className="cardContainer">
                         {this.state.children.map(child=>{return  <div className="cards">{child}</div>})}
                     </div>
