@@ -18,6 +18,7 @@ class Home extends React.Component{
         this.incrementCardId=this.incrementCardId.bind(this);
         this.getListIndex=this.getListIndex.bind(this);
         this.deleteList=this.deleteList.bind(this);
+        this.onDrop=this.onDrop.bind(this);
     }
     getIndex(id){
         for (let i = 0; i <this.state.cards.length ; i++) {
@@ -44,8 +45,10 @@ class Home extends React.Component{
     }
     deleteList(id){
         let index=this.getListIndex(id);
+        let array=this.state.lists;
+        array.splice(index,1);
         this.setState({
-            lists:this.state.lists.filter((_, i) => i !== index)
+            lists:array
         });
     }
     appendCard(card){
@@ -55,18 +58,28 @@ class Home extends React.Component{
         this.setState({cardId:this.state.cardId+1})
     }
     onDrop(event){
-        let state=JSON.parse(event.dataTransfer.getData("list"));
-        event.dataTransfer.clearData("list");
-        let list=<List deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.listId} listId={this.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />
-        let targetId=event.currentTarget.children.item(0).children.item(0).id;
+        event.stopPropagation();
+        let state;
+        try{
+             state=JSON.parse(event.dataTransfer.getData("list"));
+             event.dataTransfer.clearData("list");
+        }catch (e) {
+            return ;
+        }
+        this.deleteList(state.id);
+        let list=<List  onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let targetId=event.currentTarget.id;
         let index=this.getListIndex(targetId);
-        const newData=this.state.lists.slice(0);
-        newData.push(list);
+        let arr=this.state.lists;
+        arr.splice(index,0,list);
         this.setState({
-            lists:newData
-        })
+            lists:arr,
+            listId:this.state.listId+1
+        });
     }
     render(){
+        let lists=[];
+        this.state.lists.map(list=>lists.push(list));
         return (
             <div className="HomeComp">
                 <div className="addList">
@@ -82,7 +95,7 @@ class Home extends React.Component{
                                 inputArea.placeholder="Enter a name";
                                 return ;
                             }
-                            let newList=<List deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
+                            let newList=<List onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
                                 listId:this.state.listId+1
@@ -91,7 +104,7 @@ class Home extends React.Component{
                     }}>Add List</button>
                 </div>
                 <div className="listContainer">
-                    {this.state.lists.map(list=> {return <div   className={"lists"} onDrop={event => this.onDrop(event)}>{list}</div>})}
+                    {lists}
                 </div>
             </div>
         )

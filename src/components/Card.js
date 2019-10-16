@@ -5,6 +5,7 @@ class Card extends React.Component{
     constructor(props){
         super(props);
         if(this.props.state!=null){
+            console.log(this.props.state);
                 this.state=this.props.state;
         }
         else{
@@ -25,6 +26,7 @@ class Card extends React.Component{
         this.setImg=this.setImg.bind(this);
         this.onDragStart=this.onDragStart.bind(this);
         this.onDrag=this.onDrag.bind(this);
+        this.onDragOver=this.onDragOver.bind(this)
     }
     togglePopup() {
         this.setState({
@@ -59,9 +61,12 @@ class Card extends React.Component{
     onDrag(event){
         this.props.deleteChildren(this.state.cardId);
     }
+    onDragOver(event){
+        event.preventDefault();
+    }
     render() {
         return (
-            <div  onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
+            <div onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  `${this.state.coverImg}`}} />
                 <div className="labels">
                     {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
