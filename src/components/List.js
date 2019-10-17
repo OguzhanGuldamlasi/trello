@@ -20,7 +20,8 @@ class List extends React.Component{
             this.appendChild=this.appendChild.bind(this);
             this.deleteChildren=this.deleteChildren.bind(this);
             this.onDragStart=this.onDragStart.bind(this);
-            // this.onCardDrop=this.onCardDrop.bind(this)
+            this.onCardDrop=this.onCardDrop.bind(this);
+            this.onDrag=this.onDrag.bind(this)
         }
         appendChild(draggedCard=null){
             if(draggedCard!=null){
@@ -33,7 +34,7 @@ class List extends React.Component{
                 return;
             }
             let cardId=this.props.getCardId();
-            let card =<Card onDrop={this.onDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
+            let card =<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
             this.setState({
                 children:[
                     ...this.state.children,
@@ -58,7 +59,6 @@ class List extends React.Component{
             this.props.deleteCard(id);
         }
         onDrop=(ev)=>{
-            ev.stopPropagation();
             let state;
             try{
                 state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -68,21 +68,26 @@ class List extends React.Component{
                 ev.dataTransfer.clearData("card");
                 return ;
             }
-            let card=<Card onDrop={this.onDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.listId} deleteCard={this.props.deleteCard}  state={state}/>;
+            let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.listId} deleteCard={this.props.deleteCard}  state={state}/>;
             this.appendChild(card);
 
         };
-        // onCardDrop=(ev)=>{
-        //     ev.stopPropagation();
-        //     let state;
-        //     try{
-        //         state=JSON.parse(ev.dataTransfer.getData("card"));
-        //     }catch (e) {
-        //         return ;
-        //     }
-        //     let card=<Card onDrop={this.onDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.listId} deleteCard={this.props.deleteCard}  state={state}/>;
-        //     this.appendChild(card);
-        // };
+        onCardDrop=(ev)=>{
+            let state;
+            try{
+                state=JSON.parse(ev.dataTransfer.getData("card"));
+                ev.dataTransfer.clearData("card");
+            }catch (e) {
+                return ;
+            }
+            let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.listId} deleteCard={this.props.deleteCard}  state={state}/>;
+            let arr=[...this.state.children];
+            arr.splice(this.getIndex(ev.currentTarget.id),0,card);
+            this.setState({
+                children:arr
+            });
+            console.log("done")
+        };
         onDragOver(ev){
             ev.preventDefault()
         }
@@ -90,17 +95,19 @@ class List extends React.Component{
             let json=JSON.stringify(this.state);
             event.dataTransfer.setData("list",json);
         }
-
+        onDrag(){
+            this.props.deleteList(this.state.id);
+        }
         render() {
             return(
                 <div className="container">
-                <div id={this.state.id} onDrop={this.props.onDrop}  draggable  onDragStart={event => this.onDragStart(event)} onDragOver={(e)=>this.onDragOver(e)} className="cardList">
+                <div id={this.state.id} onDrop={this.props.onDrop} onDrag={event=>this.onDrag()}  draggable  onDragStart={event => this.onDragStart(event)} onDragOver={(e)=>this.onDragOver(e)} className="cardList">
                     Drag the lists here to change the position.
                     <button onClick={()=>this.appendChild()}>Add another Card</button>
                 </div>
                     <div className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}>{this.state.name}  (You can drop cards here or drop the cards on a card.)</div>
                     <div className="cardContainer">
-                        {this.state.children}
+                        {this.state.children.map(child=> <Card {...child}/>)}
                     </div>
                 </div>
             )

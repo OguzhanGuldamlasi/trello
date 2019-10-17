@@ -58,7 +58,6 @@ class Home extends React.Component{
         this.setState({cardId:this.state.cardId+1})
     }
     onDrop(event){
-        event.stopPropagation();
         let state;
         try{
              state=JSON.parse(event.dataTransfer.getData("list"));
@@ -66,15 +65,14 @@ class Home extends React.Component{
         }catch (e) {
             return ;
         }
-        this.deleteList(state.id);
-        let list=<List  onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        console.log(state);
+        let list=<List  onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let targetId=event.currentTarget.id;
         let index=this.getListIndex(targetId);
         let arr=this.state.lists;
         arr.splice(index,0,list);
         this.setState({
             lists:arr,
-            listId:this.state.listId+1
         });
     }
     render(){

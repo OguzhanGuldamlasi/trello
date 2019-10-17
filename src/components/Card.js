@@ -5,7 +5,6 @@ class Card extends React.Component{
     constructor(props){
         super(props);
         if(this.props.state!=null){
-            console.log(this.props.state);
                 this.state=this.props.state;
         }
         else{
