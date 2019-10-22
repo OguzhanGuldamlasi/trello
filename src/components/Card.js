@@ -65,7 +65,7 @@ class Card extends React.Component{
         });
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
-                if(response[i].answers[3].answer==this.state.cardId){
+                if(response[i].answers[9].answer==this.state.cardId){
                     let submissionId=response[i].id;
                     let submission=new Object();
                     submission['9']=this.state.cardId;
@@ -96,7 +96,7 @@ class Card extends React.Component{
             <div onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  `${this.state.coverImg}`}} />
                 <div className="labels">
-                    {/*{this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}*/}
+                    {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
                 </div>
                 <div className="toDO">
                     <span>{this.state.toDo}</span>

@@ -4,18 +4,22 @@ import '../styles/List.css';
 
 class List extends React.Component{
     componentDidMount() {
+        console.log("here")
         let child=[];
         for (let i = 0; i <this.props.cardInfos.length ; i++) {
             if(this.props.cardInfos[i].listId==this.state.id){
-
+               let labels=[];
+               let comments=[];
+               let checklist=[];
+               console.log(this.props.cardInfos[i].labels)
                 let state={
                   cardId:this.props.cardInfos[i].cardId,
                   toDo:this.props.cardInfos[i].toDo,
-                  labels:this.props.cardInfos[i].labels,
-                  checklist:this.props.cardInfos[i].checklist,
+                  labels:labels,
+                  checklist:checklist,
                   showEditForm:false,
                   description:this.props.cardInfos[i].description,
-                  comments:this.props.cardInfos[i].comments,
+                  comments:comments,
                   coverImg:this.props.cardInfos[i].coverImg,
                   listId:this.props.cardInfos[i].listId
                 };
