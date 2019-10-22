@@ -296,7 +296,7 @@ class EditCard extends React.Component {
                                             }
                                             else{
                                                 item.done=false;
-                                                document.getElementById(item.id).style.backgroundColor="transparent";
+                                                document.getElementById(item.id+index).style.backgroundColor="transparent";
                                             }
                                         }
                                         } type="checkbox"/></div></li>

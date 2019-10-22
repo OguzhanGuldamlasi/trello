@@ -2,10 +2,20 @@ import React from 'react'
 import EditCard from "./EditCard";
 import '../styles/Card.css'
 class Card extends React.Component{
+    submitCardAPI(state){
+        let submission=new Object();
+        submission['3']=state.cardId;
+        submission['4']=state.toDo;
+        submission['5']=state.description;
+        submission['6']=state.comments;
+        submission['7']=state.labels;
+        submission['8']=state.coverImg;
+        submission['9']=state.checklist;
+    }
     constructor(props){
         super(props);
         if(this.props.state!=null){
-                this.state=this.props.state;
+            this.state=this.props.state;
         }
         else{
             this.state={
@@ -13,7 +23,6 @@ class Card extends React.Component{
                 toDo:this.props.name,
                 labels:[],
                 checklist:[],
-                dueDate:new Date(),
                 showEditForm:false,
                 description:'',
                 comments:[],
@@ -25,7 +34,8 @@ class Card extends React.Component{
         this.setImg=this.setImg.bind(this);
         this.onDragStart=this.onDragStart.bind(this);
         this.onDrag=this.onDrag.bind(this);
-        this.onDragOver=this.onDragOver.bind(this)
+        this.onDragOver=this.onDragOver.bind(this);
+        this.submitCardAPI=this.submitCardAPI.bind(this)
     }
     togglePopup() {
         this.setState({
@@ -84,8 +94,8 @@ class Card extends React.Component{
                     }}>Delete</button>
                 </div>
                 <div>
-                <span className='Desc' style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} >add image here</span>
-                <span className='Comments' style={{visibility: this.state.comments.length>0 ? 'visible' : 'hidden'}}>{this.state.comments.length} add image here</span>
+                    <span className='Desc' style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} >add image here</span>
+                    <span className='Comments' style={{visibility: this.state.comments.length>0 ? 'visible' : 'hidden'}}>{this.state.comments.length} add image here</span>
                 </div>
             </div>
         );
