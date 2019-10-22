@@ -4,30 +4,35 @@ import '../styles/Card.css'
 class Card extends React.Component{
     submitCardAPI(state){
         let submission=new Object();
-        submission['3']=state.cardId;
-        submission['4']=state.toDo;
-        submission['5']=state.description;
-        submission['6']=state.comments;
-        submission['7']=state.labels;
-        submission['8']=state.coverImg;
-        submission['9']=state.checklist;
+        submission['9']=state.cardId;
+        submission['3']=state.toDo;
+        submission['4']=state.description;
+        submission['5']=state.comments;
+        submission['11']=state.labels;
+        submission['7']=state.coverImg;
+        submission['10']=state.checklist;
+        submission['12']=state.listId;
+        window.JF.createFormSubmission("92931856730969",submission,function (response) {});
     }
     constructor(props){
         super(props);
         if(this.props.state!=null){
             this.state=this.props.state;
+            this.state.listId=this.props.listId;
         }
         else{
             this.state={
                 cardId:this.props.id,
-                toDo:this.props.name,
+                toDo:'',
                 labels:[],
                 checklist:[],
                 showEditForm:false,
                 description:'',
                 comments:[],
                 coverImg:'',
-            };
+                listId:this.props.listId
+            }
+            this.submitCardAPI(this.state)
         }
         this.setTasks=this.setTasks.bind(this);
         this.setCheckList=this.setCheckList.bind(this);
@@ -43,14 +48,10 @@ class Card extends React.Component{
         });
     }
     setCheckList(checklist=this.state.checklist){
-        this.setState({
-            checklist:checklist
-        })
+        this.setTasks(undefined,undefined,undefined,undefined,undefined,undefined,checklist)
     }
     setImg(img){
-        this.setState({
-            coverImg:img
-        })
+        this.setTasks(undefined,undefined,undefined,undefined,img,undefined)
     }
     setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels=this.state.labels,nchecklist=this.state.checklist){
         this.setState({
@@ -61,6 +62,23 @@ class Card extends React.Component{
             comments:ncomments,
             coverImg:ncoverImg,
             checklist:nchecklist,
+        });
+        window.JF.getFormSubmissions("92931856730969",response=>{
+            for (let i = 0; i <response.length ; i++) {
+                if(response[i].answers[3].answer==this.state.cardId){
+                    let submissionId=response[i].id;
+                    let submission=new Object();
+                    submission['9']=this.state.cardId;
+                    submission['3']=this.state.toDo;
+                    submission['4']=this.state.description;
+                    submission['5']=this.state.comments;
+                    submission['11']=this.state.labels;
+                    submission['7']=this.state.coverImg;
+                    submission['10']=this.state.checklist;
+                    submission['12']=this.props.listId;
+                    window.JF.editSubmission(submissionId,submission,rep=>console.log());
+                }
+            }
         })
     }
     onDragStart(ev){
@@ -78,7 +96,7 @@ class Card extends React.Component{
             <div onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  `${this.state.coverImg}`}} />
                 <div className="labels">
-                    {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
+                    {/*{this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}*/}
                 </div>
                 <div className="toDO">
                     <span>{this.state.toDo}</span>
@@ -91,6 +109,14 @@ class Card extends React.Component{
                     <button className="deleteCard" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);
                         event.target.parentElement.parentElement.remove();
+                        window.JF.getFormSubmissions("92931856730969",response=>{
+                            for (let i = 0; i <response.length ; i++) {
+                                if(response[i].answers[9].answer==this.state.cardId){
+                                    console.log("delete")
+                                    window.JF.deleteSubmission(response[i].id,response=>console.log());
+                                }
+                            }
+                        })
                     }}>Delete</button>
                 </div>
                 <div>

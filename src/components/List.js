@@ -3,13 +3,35 @@ import Card from "./Card";
 import '../styles/List.css';
 
 class List extends React.Component{
+    componentDidMount() {
+        let child=[];
+        for (let i = 0; i <this.props.cardInfos.length ; i++) {
+            if(this.props.cardInfos[i].listId==this.state.id){
+                let state={
+                  cardId:this.props.cardInfos[i].cardId,
+                  toDo:this.props.cardInfos[i].toDo,
+                  labels:this.props.cardInfos[i].labels,
+                  checklist:this.props.cardInfos[i].checklist,
+                  showEditForm:false,
+                  description:this.props.cardInfos[i].description,
+                  comments:this.props.cardInfos[i].comments,
+                  coverImg:this.props.cardInfos[i].coverImg,
+                  listId:this.props.cardInfos[i].listId
+                };
+                (child.push(<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.listId} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
+            }
+        }
+        this.setState({
+            children:child
+        })
+    }
+
     submitListAPI(state){
         let submission=new Object();
         submission['3']=state.id;
         submission['4']=state.name;
         submission['5']="";
         window.JF.createFormSubmission("92931845207966",submission,function (response) {
-            console.log(response)
         });
     }
     constructor(props){
@@ -57,16 +79,14 @@ class List extends React.Component{
         this.props.appendCard(card);
         let id=this.state.id;
         window.JF.getFormSubmissions("92931845207966",response=> {
-            console.log(response)
             for (let i = 0; i <response.length; i++) {
                 if(response[i].answers[3].answer==id){
-                    console.log(response[i]);
                     let submissionId=response[i].id;
                     let submission=new Object();
-                    submission['3']=response[i].id;
-                    submission['4']=response[i].name;
-                    submission['5']=response[i].answers[5].answer=cardId+",";
-                    window.JF.editSubmission(submissionId,submission,rep=>console.log(rep));
+                    submission['3']=response[i].answers[3].answer;
+                    submission['4']=response[i].answers[4].answer;
+                    submission['5']=","+response[i].answers[5].answer+cardId+",";
+                    window.JF.editSubmission(submissionId,submission,rep=>console.log());
                     return;
                 }
             }
@@ -98,7 +118,24 @@ class List extends React.Component{
         }
         let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.listId} deleteCard={this.props.deleteCard}  state={state}/>;
         this.appendChild(card);
-
+        window.JF.getFormSubmissions("92931856730969",response=>{
+            for (let i = 0; i <response.length ; i++) {
+                if(response[i].answers[3].answer=state.cardId){
+                    let submissionId=response[i].id;
+                    let submission=new Object();
+                    submission['9']=state.cardId;
+                    submission['3']=state.toDo;
+                    submission['4']=state.description;
+                    submission['5']=state.comments;
+                    submission['11']=state.labels;
+                    submission['7']=state.coverImg;
+                    submission['10']=state.checklist;
+                    console.log(this.state.id);
+                    submission['12']=this.state.id;
+                    window.JF.editSubmission(submissionId,submission,rep=>console.log());
+                }
+            }
+        })
     };
     onCardDrop=(ev)=>{
         let state;
@@ -114,6 +151,23 @@ class List extends React.Component{
         this.setState({
             children:arr
         });
+        window.JF.getFormSubmissions("92931856730969",response=>{
+            for (let i = 0; i <response.length ; i++) {
+                if(response[i].answers[3].answer=state.cardId){
+                    let submissionId=response[i].id;
+                    let submission=new Object();
+                    submission['9']=state.cardId;
+                    submission['3']=state.toDo;
+                    submission['4']=state.description;
+                    submission['5']=state.comments;
+                    submission['11']=state.labels;
+                    submission['7']=state.coverImg;
+                    submission['10']=state.checklist;
+                    submission['12']=this.state.listId;
+                    window.JF.editSubmission(submissionId,submission,rep=>console.log());
+                }
+            }
+        })
     };
     onDragOver(ev){
         ev.preventDefault()
@@ -128,7 +182,7 @@ class List extends React.Component{
     render() {
         return(
             <div className="container">
-                <div id={this.state.id} onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
+                <div id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
                     Drag the lists here to change the position.
                     <button onClick={()=>this.appendChild()}>Add another Card</button>
                 </div>

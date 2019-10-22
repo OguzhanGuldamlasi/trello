@@ -5,14 +5,11 @@ import Card from "./Card"
 window.JF.initialize({apiKey:"1661f160d42273ac076477075ff09c51"});
 window.JF.login(
     function success(){},
-
     function error(){
         window.alert("Could not authorize user");
     }
 );
-function findCards() {
 
-}
 class Home extends React.Component{
     constructor(props){
         super(props);
@@ -20,7 +17,8 @@ class Home extends React.Component{
             cardId:0,
             listId:0,
             cards:[],
-            lists:[]
+            lists:[],
+            cardInfos:[]
         };
         this.getIndex=this.getIndex.bind(this);
         this.getCardId=this.getCardId.bind(this);
@@ -30,10 +28,11 @@ class Home extends React.Component{
         this.getListIndex=this.getListIndex.bind(this);
         this.deleteList=this.deleteList.bind(this);
         this.onDrop=this.onDrop.bind(this);
-
     }
     componentDidMount() {
         let dbLists=[];
+        let dbCards=[];
+        let biggestCardId=-1;
         let getIndex= this.getIndex;
         let getCardId= this.getCardId;
         let deleteCard= this.deleteCard;
@@ -43,21 +42,42 @@ class Home extends React.Component{
         let deleteList= this.deleteList;
         let onDrop= this.onDrop;
         let mainId=0;
+        window.JF.getFormSubmissions("92931856730969",(response)=>{
+            for (let i = 0; i <response.length ; i++) {
+                if(biggestCardId<response[i].answers[9].answer){
+                    biggestCardId=response[i].answers[9].answer;
+                }
+                let obj={
+                    cardId:response[i].answers[9].answer,
+                    toDo:response[i].answers[3].answer,
+                    description:response[i].answers[4].answer,
+                    comments:response[i].answers[5].answer,
+                    labels:response[i].answers[11].answer,
+                    coverImg:response[i].answers[7].answer,
+                    checklist:response[i].answers[10].answer,
+                    listId:response[i].answers[12].answer,
+                    showEditForm:false
+                };
+                dbCards.push(obj);
+                this.setState({cardInfos:dbCards,cardId:biggestCardId+1});
+                console.log(dbCards)
+            }
+        });
         window.JF.getFormSubmissions("92931845207966",(response)=> {
             for (let i = 0; i <response.length ; i++) {
                 let id=response[response.length-i-1].answers[3].answer;
                 let name=response[response.length-i-1].answers[4].answer;
                 let children=response[response.length-i-1].answers[5].answer;
                 let state1={id,name,children};
-                let list=<List deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
+                let list=<List cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
                 dbLists.push(list);
                 id=id-1+2;
                 mainId=id;
                 this.setState({lists:dbLists,listId:mainId});
             }
         });
-    }
 
+    }
     getIndex(id){
         for (let i = 0; i <this.state.cards.length ; i++) {
             if(id==this.state.cards[i].key){
@@ -108,7 +128,7 @@ class Home extends React.Component{
             childs.push(<Card {...childs[i]}/>)
         }
         state.children=[...childs];
-        let list=<List  onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let list=<List cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let targetId=event.currentTarget.id;
         let index=this.getListIndex(targetId);
         let arr=this.state.lists;
@@ -134,7 +154,7 @@ class Home extends React.Component{
                                 inputArea.placeholder="Enter a name";
                                 return ;
                             }
-                            let newList=<List  deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
+                            let newList=<List cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
                                 listId:this.state.listId+1
@@ -143,7 +163,7 @@ class Home extends React.Component{
                     }}>Add List</button>
                 </div>
                 <div className="listContainer">
-                    {this.state.lists}
+                    {this.state.lists.map(list=>{return list})}
                 </div>
             </div>
         )
