@@ -23,7 +23,7 @@ class List extends React.Component{
                   coverImg:this.props.cardInfos[i].coverImg,
                   listId:this.props.cardInfos[i].listId
                 };
-                (child.push(<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.listId} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
+                (child.push(<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
             }
         }
         this.setState({
@@ -124,7 +124,7 @@ class List extends React.Component{
             ev.dataTransfer.clearData("card");
             return ;
         }
-        let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.listId} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         this.appendChild(card);
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
@@ -152,7 +152,7 @@ class List extends React.Component{
         }catch (e) {
             return ;
         }
-        let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.listId} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         arr.splice(this.getIndex(ev.currentTarget.id),0,card);
         this.setState({
@@ -170,7 +170,7 @@ class List extends React.Component{
                     submission['11']=state.labels;
                     submission['7']=state.coverImg;
                     submission['10']=state.checklist;
-                    submission['12']=this.state.listId;
+                    submission['12']=this.state.id;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }
             }
