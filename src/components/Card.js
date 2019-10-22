@@ -71,10 +71,10 @@ class Card extends React.Component{
                     submission['9']=this.state.cardId;
                     submission['3']=this.state.toDo;
                     submission['4']=this.state.description;
-                    submission['5']=this.state.comments;
-                    submission['11']=this.state.labels;
+                    submission['5']+=JSON.stringify(this.state.comments);
+                    submission['11']+=JSON.stringify(this.state.labels)+",";
                     submission['7']=this.state.coverImg;
-                    submission['10']=this.state.checklist;
+                    submission['10']+=JSON.stringify(this.state.checklist);
                     submission['12']=this.props.listId;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }

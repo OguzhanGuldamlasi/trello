@@ -7,6 +7,7 @@ class List extends React.Component{
         let child=[];
         for (let i = 0; i <this.props.cardInfos.length ; i++) {
             if(this.props.cardInfos[i].listId==this.state.id){
+
                 let state={
                   cardId:this.props.cardInfos[i].cardId,
                   toDo:this.props.cardInfos[i].toDo,
@@ -23,9 +24,11 @@ class List extends React.Component{
         }
         this.setState({
             children:child
-        })
+        });
     }
-
+    f(){
+        console.log("pasfkdfds")
+    }
     submitListAPI(state){
         let submission=new Object();
         submission['3']=state.id;
@@ -48,6 +51,7 @@ class List extends React.Component{
             };
             this.submitListAPI(this.state);
         }
+        this.f=this.f.bind(this);
         this.submitListAPI=this.submitListAPI.bind(this);
         this.submitListAPI=this.submitListAPI.bind(this);
         this.getIndex=this.getIndex.bind(this);
@@ -130,7 +134,6 @@ class List extends React.Component{
                     submission['11']=state.labels;
                     submission['7']=state.coverImg;
                     submission['10']=state.checklist;
-                    console.log(this.state.id);
                     submission['12']=this.state.id;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }
@@ -182,7 +185,7 @@ class List extends React.Component{
     render() {
         return(
             <div className="container">
-                <div id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
+                <div onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
                     Drag the lists here to change the position.
                     <button onClick={()=>this.appendChild()}>Add another Card</button>
                 </div>

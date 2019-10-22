@@ -60,7 +60,6 @@ class Home extends React.Component{
                 };
                 dbCards.push(obj);
                 this.setState({cardInfos:dbCards,cardId:biggestCardId+1});
-                console.log(dbCards)
             }
         });
         window.JF.getFormSubmissions("92931845207966",(response)=> {
@@ -69,7 +68,7 @@ class Home extends React.Component{
                 let name=response[response.length-i-1].answers[4].answer;
                 let children=response[response.length-i-1].answers[5].answer;
                 let state1={id,name,children};
-                let list=<List cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
+                let list=<List onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
                 dbLists.push(list);
                 id=id-1+2;
                 mainId=id;
@@ -123,11 +122,6 @@ class Home extends React.Component{
         }catch (e) {
             return ;
         }
-        let childs=[...state.children];
-        for (let i = 0; i <childs.length ; i++) {
-            childs.push(<Card {...childs[i]}/>)
-        }
-        state.children=[...childs];
         let list=<List cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let targetId=event.currentTarget.id;
         let index=this.getListIndex(targetId);
@@ -154,7 +148,7 @@ class Home extends React.Component{
                                 inputArea.placeholder="Enter a name";
                                 return ;
                             }
-                            let newList=<List cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
+                            let newList=<List onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
                                 listId:this.state.listId+1
