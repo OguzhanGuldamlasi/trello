@@ -1,7 +1,6 @@
 import React from 'react'
 import List from "./List"
 import '../styles/home.css'
-import Card from "./Card"
 window.JF.initialize({apiKey:"1661f160d42273ac076477075ff09c51"});
 window.JF.login(
     function success(){},

@@ -10,7 +10,7 @@ class List extends React.Component{
                let labels=[];
                let comments=[];
                let checklist=[];
-               console.log(this.props.cardInfos[i].labels)
+               console.log(this.props.cardInfos[i].labels);
                 let state={
                   cardId:this.props.cardInfos[i].cardId,
                   toDo:this.props.cardInfos[i].toDo,
@@ -28,9 +28,6 @@ class List extends React.Component{
         this.setState({
             children:child
         });
-    }
-    f(){
-        console.log("pasfkdfds")
     }
     submitListAPI(state){
         let submission=new Object();
@@ -54,7 +51,6 @@ class List extends React.Component{
             };
             this.submitListAPI(this.state);
         }
-        this.f=this.f.bind(this);
         this.submitListAPI=this.submitListAPI.bind(this);
         this.submitListAPI=this.submitListAPI.bind(this);
         this.getIndex=this.getIndex.bind(this);
