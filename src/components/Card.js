@@ -54,7 +54,6 @@ class Card extends React.Component{
         this.setTasks(undefined,undefined,undefined,undefined,img,undefined)
     }
     setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels,nchecklist=this.state.checklist){
-        console.log(nlabels);
         this.setState({
             toDo:ntoDo,
             dueDate:ndueDate,
@@ -103,7 +102,7 @@ class Card extends React.Component{
             <div onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  `${this.state.coverImg}`}} />
                 <div className="labels">
-                    {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
+                    {this.state.labels!==undefined ? this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>}) : console.log() }
                 </div>
                 <div className="toDO">
                     <span>{this.state.toDo}</span>

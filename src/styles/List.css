@@ -11,3 +11,21 @@
     width: auto;
     height: auto;
 }
+.cardContainer{
+    position: relative;
+    width: auto;
+    padding: 0px;
+    border: 5px solid gray;
+    margin: 0;
+}
+.container{
+    max-width: 16%;
+    margin-right: 0.5rem;
+    border: 2px solid red;
+}
+
+#root  {
+    width: auto;
+    height: auto;
+    border: 3px solid red;
+}

@@ -1,4 +1,11 @@
-.listContainer{
-    border-style:solid;
-    border-width:10px;
+.listContainer {
+    display: flex;
 }
+.addList{
+
+    background-color:#008800;
+}
+/*.HomeComp{*/
+/*    height: 100vh;*/
+/*    display: grid;*/
+/*}*/
