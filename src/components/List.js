@@ -1,7 +1,6 @@
 import React from 'react'
 import Card from "./Card";
 import '../styles/List.css';
-
 class List extends React.Component{
     componentDidMount() {
         let child=[];
@@ -10,8 +9,7 @@ class List extends React.Component{
                let labels=[];
                let comments=[];
                let checklist=[];
-               console.log(this.props.cardInfos[i].labels);
-                let state={
+               let state={
                   cardId:this.props.cardInfos[i].cardId,
                   toDo:this.props.cardInfos[i].toDo,
                   labels:labels,
@@ -22,6 +20,7 @@ class List extends React.Component{
                   coverImg:this.props.cardInfos[i].coverImg,
                   listId:this.props.cardInfos[i].listId
                 };
+
                 (child.push(<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
             }
         }
@@ -110,6 +109,7 @@ class List extends React.Component{
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
+        console.log("onDrop");
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -123,9 +123,11 @@ class List extends React.Component{
         this.appendChild(card);
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
-                if(response[i].answers[3].answer=state.cardId){
+                if(response[i].answers[9].answer==state.cardId){
+                    console.log("here");
                     let submissionId=response[i].id;
                     let submission=new Object();
+                    console.log(state.cardId);
                     submission['9']=state.cardId;
                     submission['3']=state.toDo;
                     submission['4']=state.description;
@@ -155,7 +157,7 @@ class List extends React.Component{
         });
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
-                if(response[i].answers[3].answer=state.cardId){
+                if(response[i].answers[9].answer==state.cardId){
                     let submissionId=response[i].id;
                     let submission=new Object();
                     submission['9']=state.cardId;

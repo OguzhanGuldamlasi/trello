@@ -53,7 +53,8 @@ class Card extends React.Component{
     setImg(img){
         this.setTasks(undefined,undefined,undefined,undefined,img,undefined)
     }
-    setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels=this.state.labels,nchecklist=this.state.checklist){
+    setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels,nchecklist=this.state.checklist){
+        console.log(nlabels);
         this.setState({
             toDo:ntoDo,
             dueDate:ndueDate,
@@ -69,12 +70,18 @@ class Card extends React.Component{
                     let submissionId=response[i].id;
                     let submission=new Object();
                     submission['9']=this.state.cardId;
-                    submission['3']=this.state.toDo;
+                    if(this.state.toDo!==undefined){submission['3']=this.state.toDo;}
+                    else{submission['3']=''}
                     submission['4']=this.state.description;
-                    submission['5']+=JSON.stringify(this.state.comments);
-                    submission['11']+=JSON.stringify(this.state.labels)+",";
+                    if(this.state.comments!==undefined){submission['5']+=JSON.stringify(this.state.comments);}
+                    else{submission['5']+=''}
+                    if(this.state.labels!==undefined){
+                        console.log(JSON.stringify(this.state.labels));
+                        submission['11']=JSON.stringify(this.state.labels);}
+                    else{submission['11']+=''}
                     submission['7']=this.state.coverImg;
-                    submission['10']+=JSON.stringify(this.state.checklist);
+                    if(this.state.checkilst!==undefined){submission['10']+=JSON.stringify(this.state.checklist);}
+                    else{submission['10']+=''}
                     submission['12']=this.props.listId;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }
@@ -112,8 +119,9 @@ class Card extends React.Component{
                         window.JF.getFormSubmissions("92931856730969",response=>{
                             for (let i = 0; i <response.length ; i++) {
                                 if(response[i].answers[9].answer==this.state.cardId){
-                                    console.log("delete")
+                                    console.log("delete");
                                     window.JF.deleteSubmission(response[i].id,response=>console.log());
+                                    return ;
                                 }
                             }
                         })

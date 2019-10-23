@@ -167,6 +167,7 @@ class EditCard extends React.Component {
                                 <button className="blueLabel">
                                     <input id="blue" type="checkbox" onClick={() => {
                                         let labels = this.props.params.labels;
+
                                         if (document.activeElement.checked === true) {
                                             let label = {
                                                 colour: "blue",
@@ -183,6 +184,7 @@ class EditCard extends React.Component {
                                                     label.id = inputArea.value;
                                                 }
                                                 labels.push(label);
+                                                console.log(labels)
                                                 this.props.setTasks(undefined, undefined, undefined, undefined, undefined, labels);
                                                 document.activeElement.parentElement.childNodes[1].remove();
                                                 document.activeElement.parentElement.childNodes[1].remove();
