@@ -26,7 +26,6 @@
     height: 20px;
     /*display:inline-block;*/
 }
-
-.toDo{
-
+.card .coverImg{
+    background-size: contain;
 }
