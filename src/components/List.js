@@ -4,7 +4,6 @@ import '../styles/List.css';
 
 class List extends React.Component{
     componentDidMount() {
-        console.log("here")
         let child=[];
         for (let i = 0; i <this.props.cardInfos.length ; i++) {
             if(this.props.cardInfos[i].listId==this.state.id){

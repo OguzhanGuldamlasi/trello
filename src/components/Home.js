@@ -48,7 +48,7 @@ class Home extends React.Component{
                     biggestCardId=response[i].answers[9].answer;
                 }
                 let obj={
-                    cardId:response[i].answers[9].answer,
+                    cardId:response[i].answers[9].answer-1+1,
                     toDo:response[i].answers[3].answer,
                     description:response[i].answers[4].answer,
                     comments:response[i].answers[5].answer,
@@ -59,7 +59,7 @@ class Home extends React.Component{
                     showEditForm:false
                 };
                 dbCards.push(obj);
-                this.setState({cardInfos:dbCards,cardId:biggestCardId+1});
+                this.setState({cardInfos:dbCards,cardId:biggestCardId-1+2});
             }
         });
         window.JF.getFormSubmissions("92931845207966",(response)=> {
