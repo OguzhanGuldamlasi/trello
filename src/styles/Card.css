@@ -12,19 +12,19 @@
  background-color: green;
     width: 20px;
     height: 20px;
-    /*display:inline-block;*/
+    display:inline-block;
 }
 .labels .blue {
     background-color: blue;
     width: 20px;
     height: 20px;
-    /*display:inline-block;*/
+    display:inline-block;
 }
 .labels .red {
     background-color: red;
     width: 20px;
     height: 20px;
-    /*display:inline-block;*/
+    display:inline-block;
 }
 .card .coverImg{
     background-size: contain;

@@ -1,13 +1,15 @@
 import React from 'react'
 import Card from "./Card";
 import '../styles/List.css';
+
 class List extends React.Component{
     componentDidMount() {
         let child=[];
         for (let i = 0; i <this.props.cardInfos.length ; i++) {
             if(this.props.cardInfos[i].listId==this.state.id){
-               let labels=[];
-               let comments=[];
+               let labels=JSON.parse(this.props.cardInfos[i].labels.replace("undefined", ""));
+               let comments=JSON.parse(this.props.cardInfos[i].comments.replace("undefined",""));
+               // let checklist=JSON.parse(this.props.cardInfos[i].checklist.replace("undefined",""));
                let checklist=[];
                let state={
                   cardId:this.props.cardInfos[i].cardId,
@@ -109,7 +111,6 @@ class List extends React.Component{
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
-        console.log("onDrop");
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -124,10 +125,8 @@ class List extends React.Component{
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[9].answer==state.cardId){
-                    console.log("here");
                     let submissionId=response[i].id;
                     let submission=new Object();
-                    console.log(state.cardId);
                     submission['9']=state.cardId;
                     submission['3']=state.toDo;
                     submission['4']=state.description;

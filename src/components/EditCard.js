@@ -134,7 +134,7 @@ class EditCard extends React.Component {
                             <div className="labelSection">
                                 <button className="greenLabel">
                                     <input id="green" type="checkbox" onClick={() => {
-                                        let labels = this.props.params.labels;
+                                        let labels =this.props.params.labels
                                         if (document.activeElement.checked === true) {
 
                                             let label = {
@@ -167,7 +167,6 @@ class EditCard extends React.Component {
                                 <button className="blueLabel">
                                     <input id="blue" type="checkbox" onClick={() => {
                                         let labels = this.props.params.labels;
-
                                         if (document.activeElement.checked === true) {
                                             let label = {
                                                 colour: "blue",
@@ -184,7 +183,6 @@ class EditCard extends React.Component {
                                                     label.id = inputArea.value;
                                                 }
                                                 labels.push(label);
-                                                console.log(labels)
                                                 this.props.setTasks(undefined, undefined, undefined, undefined, undefined, labels);
                                                 document.activeElement.parentElement.childNodes[1].remove();
                                                 document.activeElement.parentElement.childNodes[1].remove();
@@ -249,7 +247,7 @@ class EditCard extends React.Component {
                                     };
 
                                 }}>
-                                    Add Checklist
+                                    Add to Checklist
                                 </button>
                                 <button ref="but2" style={{visibility: this.props.params.checklist.length>0 ? 'visible' : 'hidden'}} className="addItem" onClick={(e)=>{
                                     let inputArea=document.createElement("input");

@@ -31,7 +31,7 @@ class Card extends React.Component{
                 comments:[],
                 coverImg:'',
                 listId:this.props.listId
-            }
+            };
             this.submitCardAPI(this.state)
         }
         this.setTasks=this.setTasks.bind(this);
@@ -53,7 +53,7 @@ class Card extends React.Component{
     setImg(img){
         this.setTasks(undefined,undefined,undefined,undefined,img,undefined)
     }
-    setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels,nchecklist=this.state.checklist){
+    setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels=this.state.labels,nchecklist=this.state.checklist){
         this.setState({
             toDo:ntoDo,
             dueDate:ndueDate,
@@ -75,8 +75,7 @@ class Card extends React.Component{
                     if(this.state.comments!==undefined){submission['5']+=JSON.stringify(this.state.comments);}
                     else{submission['5']+=''}
                     if(this.state.labels!==undefined){
-                        console.log(JSON.stringify(this.state.labels));
-                        submission['11']=JSON.stringify(this.state.labels);}
+                        submission['11']+=JSON.stringify(this.state.labels);}
                     else{submission['11']+=''}
                     submission['7']=this.state.coverImg;
                     if(this.state.checkilst!==undefined){submission['10']+=JSON.stringify(this.state.checklist);}
@@ -102,7 +101,7 @@ class Card extends React.Component{
             <div onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  `${this.state.coverImg}`}} />
                 <div className="labels">
-                    {this.state.labels!==undefined ? this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>}) : console.log() }
+                    {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
                 </div>
                 <div className="toDO">
                     <span>{this.state.toDo}</span>
