@@ -289,18 +289,73 @@ class EditCard extends React.Component {
                                 {this.props.params.checklist[0]}
                                 <ul>
                                     {this.props.params.checklist.slice(1).map((item,index)=>{
-                                        return <li><div><span id={item.id+index}>{item.id}</span><input onClick={()=>{
-                                            window.JF.getFormSubmissions("92931856730969",)
+                                        return <li><div><span style={{backgroundColor : item.done  ?  'blue' :  'transparent'}} id={item.id+index}>{item.id}</span><input onClick={()=>{
+                                            let submission=[];
+                                            let editedSubmissionId;
                                             if(document.activeElement.checked===true){
                                                 item.done=true;
                                                 document.getElementById(item.id+index).style.backgroundColor="blue";
+                                                window.JF.getFormSubmissions("92931856730969",response=>{
+                                                    for (let j = 0; j <response.length ; j++) {
+                                                        if(response[j].answers[9].answer==this.props.id){
+                                                            console.log("here");
+                                                            editedSubmissionId=response[j].id;
+                                                            submission['9']=response[j].answers[9].answer;
+                                                            submission['3']=response[j].answers[3].answer;
+                                                            submission['4']=response[j].answers[4].answer;
+                                                            submission['5']=response[j].answers[5].answer;
+                                                            submission['11']=response[j].answers[11].answer;
+                                                            submission['7']=response[j].answers[7].answer;
+                                                            submission['10']=response[j].answers[10].answer;
+                                                            submission['12']=response[j].answers[12].answer;
+                                                            let checklist=JSON.parse(submission['10'].replace("undefined",""));
+                                                            console.log(checklist);
+                                                            for (let k = 0; k <checklist.length ; k++) {
+                                                                if(checklist[k].id==item.id){
+                                                                   checklist[k].done=true;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            submission['10']=JSON.stringify(checklist);
+                                                            window.JF.editSubmission(editedSubmissionId,submission,response=>console.log(response));
+                                                            break;
+                                                        }
+                                                    }
+                                                });
                                             }
                                             else{
                                                 item.done=false;
                                                 document.getElementById(item.id+index).style.backgroundColor="transparent";
+                                                window.JF.getFormSubmissions("92931856730969",response=>{
+                                                    for (let j = 0; j <response.length ; j++) {
+                                                        if(response[j].answers[9].answer==this.props.id){
+                                                            console.log("here");
+                                                            editedSubmissionId=response[j].id;
+                                                            submission['9']=response[j].answers[9].answer;
+                                                            submission['3']=response[j].answers[3].answer;
+                                                            submission['4']=response[j].answers[4].answer;
+                                                            submission['5']=response[j].answers[5].answer;
+                                                            submission['11']=response[j].answers[11].answer;
+                                                            submission['7']=response[j].answers[7].answer;
+                                                            submission['10']=response[j].answers[10].answer;
+                                                            submission['12']=response[j].answers[12].answer;
+                                                            let checklist=JSON.parse(submission['10'].replace("undefined",""));
+                                                            console.log(checklist);
+                                                            for (let k = 0; k <checklist.length ; k++) {
+                                                                if(checklist[k].id==item.id){
+                                                                    checklist[k].done=false;
+                                                                    break;
+                                                                }
+                                                            }
+                                                            submission['10']=JSON.stringify(checklist);
+                                                            window.JF.editSubmission(editedSubmissionId,submission,response=>console.log(response));
+                                                            break;
+                                                        }
+                                                    }
+                                                });
                                             }
                                         }
-                                        } type="checkbox"/></div></li>
+                                        } value={item.done ? 'checked' : null} type="checkbox"/></div></li>
                                     })}
                                 </ul>
                             </div>
