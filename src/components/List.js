@@ -131,10 +131,10 @@ class List extends React.Component{
                     submission['9']=state.cardId;
                     submission['3']=state.toDo;
                     submission['4']=state.description;
-                    submission['5']=state.comments;
-                    submission['11']=state.labels;
+                    submission['5']=JSON.stringify(state.comments);
+                    submission['11']=JSON.stringify(state.labels);
                     submission['7']=state.coverImg;
-                    submission['10']=state.checklist;
+                    submission['10']=JSON.stringify(state.checklist);
                     submission['12']=this.state.id;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }
@@ -163,10 +163,10 @@ class List extends React.Component{
                     submission['9']=state.cardId;
                     submission['3']=state.toDo;
                     submission['4']=state.description;
-                    submission['5']=state.comments;
-                    submission['11']=state.labels;
+                    submission['5']=JSON.stringify(state.comments);
+                    submission['11']=JSON.stringify(state.labels);
                     submission['7']=state.coverImg;
-                    submission['10']=state.checklist;
+                    submission['10']=JSON.stringify(state.checklist);
                     submission['12']=this.state.id;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }
@@ -190,10 +190,11 @@ class List extends React.Component{
                     Drag the lists here to change the position.
                     <button onClick={()=>this.appendChild()}>Add another Card</button>
                 </div>
-                <div className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}>{this.state.name}  (You can drop cards here or drop the cards on a card.)</div>
                 <div className="cardContainer">
                     {this.state.children.map(child=> {return child})}
                 </div>
+                <div className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}>{this.state.name}  (You can drop cards here or drop the cards on a card.)</div>
+
             </div>
         )
     }

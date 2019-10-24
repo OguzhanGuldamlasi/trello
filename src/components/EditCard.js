@@ -355,7 +355,7 @@ class EditCard extends React.Component {
                                                 });
                                             }
                                         }
-                                        } value={item.done ? 'checked' : null} type="checkbox"/></div></li>
+                                        } checked={item.done} type="checkbox"/></div></li>
                                     })}
                                 </ul>
                             </div>
