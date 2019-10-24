@@ -290,6 +290,7 @@ class EditCard extends React.Component {
                                 <ul>
                                     {this.props.params.checklist.slice(1).map((item,index)=>{
                                         return <li><div><span id={item.id+index}>{item.id}</span><input onClick={()=>{
+                                            window.JF.getFormSubmissions("92931856730969",)
                                             if(document.activeElement.checked===true){
                                                 item.done=true;
                                                 document.getElementById(item.id+index).style.backgroundColor="blue";

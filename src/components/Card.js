@@ -54,6 +54,7 @@ class Card extends React.Component{
         this.setTasks(undefined,undefined,undefined,undefined,img,undefined)
     }
     setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels=this.state.labels,nchecklist=this.state.checklist){
+        console.log(nchecklist);
         this.setState({
             toDo:ntoDo,
             dueDate:ndueDate,
@@ -78,7 +79,7 @@ class Card extends React.Component{
                         submission['11']+=JSON.stringify(this.state.labels);}
                     else{submission['11']+=''}
                     submission['7']=this.state.coverImg;
-                    if(this.state.checkilst!==undefined){submission['10']+=JSON.stringify(this.state.checklist);}
+                    if(this.state.checklist!==undefined){submission['10']+=JSON.stringify(this.state.checklist);}
                     else{submission['10']+=''}
                     submission['12']=this.props.listId;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
@@ -107,7 +108,7 @@ class Card extends React.Component{
                     <span>{this.state.toDo}</span>
                 </div>
                 <div>
-                    {this.state.showEditForm ? <EditCard setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup.bind(this)}/> : null}
+                    {this.state.showEditForm ? <EditCard id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup.bind(this)}/> : null}
                 </div>
                 <div className="buttonDiv">
                     <button onClick={this.togglePopup.bind(this)}>Edit</button>
@@ -126,8 +127,9 @@ class Card extends React.Component{
                     }}>Delete</button>
                 </div>
                 <div>
-                    <span className='Desc' style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} >add image here</span>
-                    <span className='Comments' style={{visibility: this.state.comments.length>0 ? 'visible' : 'hidden'}}>{this.state.comments.length} add image here</span>
+                    <span className='Desc' style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} >add image here about descriptions</span>
+                    <span className='Comments' style={{visibility: this.state.comments.length>0 ? 'visible' : 'hidden'}}>{this.state.comments.length} add image here about comments</span>
+                    <span className="Checklist" style={{visibility:this.state.comments.length>0 ? 'visible':'hidden'}}>Add image here about checklist</span>
                 </div>
             </div>
         );
