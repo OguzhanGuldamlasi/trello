@@ -18,7 +18,15 @@
     border: none;
     border-radius: 15px;
 }
+.listInput {
+    background-color: black;
+    -webkit-transition: width 0.5s ease-in-out;
+    transition: width 0.5s ease-in-out;
 
+}
+.listInput:focus{
+    width: 40%;
+}
 .addListButton:hover {background-color: #3e8e41}
 
 .addListButton:active {

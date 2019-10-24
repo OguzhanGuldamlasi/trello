@@ -29,6 +29,7 @@ class Home extends React.Component{
         this.onDrop=this.onDrop.bind(this);
     }
     componentDidMount() {
+        console.log("mounted")
         let dbLists=[];
         let dbCards=[];
         let biggestCardId=-1;
@@ -136,7 +137,9 @@ class Home extends React.Component{
             <div className="HomeComp">
                 <div className="addList">
                     <button className="addListButton" onClick={()=> {
+                        document.activeElement.addEventListener("click",ev=>ev.stopPropagation());
                         let inputArea =document.createElement("input");
+                        inputArea.className="listInput";
                         inputArea.placeholder="Enter a list name";
                         document.getElementsByClassName("addList")[0].append(inputArea);
                         let saveButton=document.createElement("button");

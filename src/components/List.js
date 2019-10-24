@@ -7,11 +7,27 @@ class List extends React.Component{
         let child=[];
         for (let i = 0; i <this.props.cardInfos.length ; i++) {
             if(this.props.cardInfos[i].listId==this.state.id){
-               let labels=JSON.parse(this.props.cardInfos[i].labels.replace("undefined", ""));
-               let comments=JSON.parse(this.props.cardInfos[i].comments.replace("undefined",""));
-               // let checklist=JSON.parse(this.props.cardInfos[i].checklist.replace("undefined",""));
-                console.log();
-               let checklist=JSON.parse(this.props.cardInfos[i].checklist.replace("undefined",""));
+                console.log("here");
+                // if(this.props.cardInfos[i].labels.replace)
+                let labels;
+                let comments;
+                let checklist;
+                try{
+                labels=JSON.parse(this.props.cardInfos[i].labels.replace("undefined", ""));}
+                catch (e) {
+                labels=[];
+                }
+                try{
+               comments=JSON.parse(this.props.cardInfos[i].comments.replace("undefined",""));}
+               catch (e) {
+               comments=[];
+               }
+               try {
+                    checklist = JSON.parse(this.props.cardInfos[i].checklist.replace("undefined", ""));
+               }catch (e) {
+                   checklist=[];
+               }
+               console.log("here");
                let state={
                   cardId:this.props.cardInfos[i].cardId,
                   toDo:this.props.cardInfos[i].toDo,
