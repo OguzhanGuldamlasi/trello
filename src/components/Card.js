@@ -97,7 +97,6 @@ class Card extends React.Component{
                 break;
             }
         }
-        console.log(card);
         card.style.backgroundColor="yellow";
         card.style.border="dashed";
     }
@@ -108,6 +107,7 @@ class Card extends React.Component{
         event.preventDefault();
     }
     render() {
+        let editCard;
         return (
             <div  onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  this.state.coverImg}} />

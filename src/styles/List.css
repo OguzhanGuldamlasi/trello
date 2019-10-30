@@ -31,14 +31,16 @@
     background-image:url("../images/plus (1).png")  ;
 }
 .addCard{
+    padding:2px 5px;
     background-color:#ABAB8F;
     border-radius: 25px;
     border: 2px solid #ABAB8F;
     position: relative;
-    left: 25px;
+    left: 70px;
 }
 .listName{
-    position: center;
+    position: relative;
+    left: 90px;
     font-weight: normal;
     font-family: 'Orienta', sans-serif;
 }

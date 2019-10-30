@@ -78,11 +78,9 @@ class EditCard extends React.Component {
     render() {
         let i;
         return (
-            <div className='popup'>
-                <div className='popup\_inner'>
-                    <div className="editForm">
+            <div id='popup'>
                         <div className="toDoDiv">
-                            <input className="toDoName" placeholder={this.props.params.toDo}
+                            <input className="toDoName" placeholder="Enter the card name"
                                    onChange={e => this.setToDo(e)}/>
                         </div>
                         <div className="descDiv">
@@ -114,16 +112,6 @@ class EditCard extends React.Component {
                                                 <span>{comment.file}</span>
                                             </div>
                                         </li>
-                                        <button className="deleteButton" onClick={() => {
-                                            document.getElementById(comment.id).innerHTML = null;
-                                            let comments = this.props.params.comments;
-                                            for (let i = 0; i < comments.length; i++) {
-                                                if (comments[i] === comment) {
-                                                    comments.splice(i, 1);
-                                                }
-                                            }
-                                        }}>Delete
-                                        </button>
                                     </div>
                                 })}
                             </ul>
@@ -371,8 +359,6 @@ class EditCard extends React.Component {
                             </div>
                         </div>
                         <button onClick={this.props.closePopup}>close me</button>
-                    </div>
-                </div>
             </div>
         );
     }

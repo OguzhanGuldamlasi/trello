@@ -210,7 +210,7 @@ class List extends React.Component{
                     <a className="addCard" onClick={()=>this.appendChild()}>
                     <span className="addImage"/>
                     <span>
-                       	&nbsp; 	&nbsp; 	&nbsp; Add a Card
+                       	&nbsp; 	&nbsp;Add a Card
                     </span>
                     </a>
                 </div>
