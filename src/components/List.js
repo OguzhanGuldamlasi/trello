@@ -155,7 +155,8 @@ class List extends React.Component{
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }
             }
-        })
+        });
+
     };
     onCardDrop=(ev)=>{
         let state;
@@ -203,13 +204,20 @@ class List extends React.Component{
         return(
             <div className="container">
                 <div onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
-                    Drag the lists here to change the position.
-                    <button onClick={()=>this.appendChild()}>Add another Card</button>
+                    <div className="listName">
+                        {this.state.name}
+                    </div>
+                    <a onClick={()=>this.appendChild()}>
+                    <span className="addImage"/>
+                    <span>
+                        Add a Card
+                    </span>
+                    </a>
                 </div>
                 <div className="cardContainer">
                     {this.state.children.map(child=> {return child})}
                 </div>
-                <div className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}>{this.state.name}  (You can drop cards here or drop the cards on a card.)</div>
+                <div className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}> (You can drop cards here or drop the cards on a card.)</div>
 
             </div>
         )

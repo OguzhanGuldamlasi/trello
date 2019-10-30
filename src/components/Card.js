@@ -90,6 +90,17 @@ class Card extends React.Component{
     onDragStart(ev){
         let json=JSON.stringify(this.state);
         ev.dataTransfer.setData("card",json);
+        let cards=document.getElementsByClassName("card");
+        let card;
+        for (let i = 0; i <cards.length ; i++) {
+            if(cards[i].id==this.state.cardId){
+                card=cards[i];
+                break;
+            }
+        }
+        console.log(card);
+        card.style.backgroundColor="yellow";
+        card.style.border="dashed";
     }
     onDrag(event){
         this.props.deleteChildren(this.state.cardId);
@@ -99,7 +110,7 @@ class Card extends React.Component{
     }
     render() {
         return (
-            <div onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
+            <div  onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  `${this.state.coverImg}`}} />
                 <div className="labels">
                     {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}

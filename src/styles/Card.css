@@ -6,7 +6,9 @@
     background-color: #f1f1f1;
     height: auto;
     width: 100%;
-    /*display:inline-block;*/
+    display:inline-block;
+    border-radius: 25px;
+    border: 2px solid #73AD21;
 }
 .labels .green {
  background-color: green;
@@ -28,4 +30,7 @@
 }
 .card .coverImg{
     background-size: contain;
+}
+.card[on]{
+    background-color: yellow;
 }
