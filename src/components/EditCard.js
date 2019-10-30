@@ -4,6 +4,7 @@ import '../styles/EditCard.css';
 class EditCard extends React.Component {
     constructor(props){
         super(props);
+
         this.setToDo=this.setToDo.bind(this);
         this.openTextArea=this.openTextArea.bind(this);
         this.saveDesc=this.saveDesc.bind(this);

@@ -1,18 +1,15 @@
-.cardList{
-    cursor: pointer;
-    border-width: 10px;
-    background-color:#D5D8DC ;
-}
 .emptyList{
-    background-color:#D5D8DC ;
+    background-color:transparent ;
     width: auto;
     height: 1000%;
+
 }
 .cardContainer{
     position: relative;
     width: auto;
-    padding: 0px;
     margin: 0;
+    border-radius: 25px;
+    border: 0px solid #73AD21;
 }
 .container{
     max-width: 16%;
@@ -27,8 +24,21 @@
 
 }
 .addImage{
+    cursor:pointer;
     display: inline-block;
     width:   16px;
     height:  16px;
     background-image:url("../images/plus (1).png")  ;
+}
+.addCard{
+    background-color:#ABAB8F;
+    border-radius: 25px;
+    border: 2px solid #ABAB8F;
+    position: relative;
+    left: 25px;
+}
+.listName{
+    position: center;
+    font-weight: normal;
+    font-family: 'Orienta', sans-serif;
 }

@@ -137,12 +137,12 @@ class Home extends React.Component{
             <div className="HomeComp">
                 <div className="addList">
                     <button className="addListButton" onClick={()=> {
-                        document.activeElement.addEventListener("click",ev=>ev.stopPropagation());
                         let inputArea =document.createElement("input");
                         inputArea.className="listInput";
                         inputArea.placeholder="Enter a list name";
                         document.getElementsByClassName("addList")[0].append(inputArea);
                         let saveButton=document.createElement("button");
+                        saveButton.className="saveList";
                         saveButton.innerText="Save";
                         document.getElementsByClassName("addList")[0].append(saveButton);
                         saveButton.onclick=()=>{
@@ -155,6 +155,8 @@ class Home extends React.Component{
                                 lists:[...this.state.lists,newList],
                                 listId:this.state.listId+1
                             });
+                            document.activeElement.parentElement.childNodes[1].remove();
+                            document.activeElement.parentElement.childNodes[1].remove();
                         };
                     }}>Add List</button>
                 </div>

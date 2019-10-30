@@ -11,22 +11,25 @@
     border: 2px solid #73AD21;
 }
 .labels .green {
- background-color: green;
+    background-color: green;
     width: 20px;
     height: 20px;
     display:inline-block;
+    border-radius: 25px;
 }
 .labels .blue {
     background-color: blue;
     width: 20px;
     height: 20px;
     display:inline-block;
+    border-radius: 25px;
 }
 .labels .red {
     background-color: red;
     width: 20px;
     height: 20px;
     display:inline-block;
+    border-radius: 25px;
 }
 .card .coverImg{
     background-size: contain;

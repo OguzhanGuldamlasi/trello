@@ -207,10 +207,10 @@ class List extends React.Component{
                     <div className="listName">
                         {this.state.name}
                     </div>
-                    <a onClick={()=>this.appendChild()}>
+                    <a className="addCard" onClick={()=>this.appendChild()}>
                     <span className="addImage"/>
                     <span>
-                        Add a Card
+                       	&nbsp; 	&nbsp; 	&nbsp; Add a Card
                     </span>
                     </a>
                 </div>
@@ -218,7 +218,6 @@ class List extends React.Component{
                     {this.state.children.map(child=> {return child})}
                 </div>
                 <div className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}> (You can drop cards here or drop the cards on a card.)</div>
-
             </div>
         )
     }
