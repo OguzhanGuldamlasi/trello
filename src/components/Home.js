@@ -29,7 +29,6 @@ class Home extends React.Component{
         this.onDrop=this.onDrop.bind(this);
     }
     componentDidMount() {
-        console.log("mounted")
         let dbLists=[];
         let dbCards=[];
         let biggestCardId=-1;

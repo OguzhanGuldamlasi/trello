@@ -54,7 +54,6 @@ class Card extends React.Component{
         this.setTasks(undefined,undefined,undefined,undefined,img,undefined)
     }
     setTasks(ntoDo=this.state.toDo,ndueDate=this.state.dueDate,ndescription=this.state.description,ncomments=this.state.comments,ncoverImg=this.state.coverImg,nlabels=this.state.labels,nchecklist=this.state.checklist){
-        console.log(nchecklist);
         this.setState({
             toDo:ntoDo,
             dueDate:ndueDate,
@@ -111,7 +110,7 @@ class Card extends React.Component{
     render() {
         return (
             <div  onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
-                <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  `${this.state.coverImg}`}} />
+                <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  this.state.coverImg}} />
                 <div className="labels">
                     {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
                 </div>
@@ -138,9 +137,9 @@ class Card extends React.Component{
                     }}>Delete</button>
                 </div>
                 <div>
-                    <span className='Desc' style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} >add image here about descriptions</span>
-                    <span className='Comments' style={{visibility: this.state.comments.length>0 ? 'visible' : 'hidden'}}>{this.state.comments.length} add image here about comments</span>
-                    <span className="Checklist" style={{visibility:this.state.comments.length>0 ? 'visible':'hidden'}}>Add image here about checklist</span>
+                    <span style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} className='Desc'/>
+                    <span className='Comments' style={{visibility: this.state.comments.length > 0 ? 'visible' : 'hidden'}}/>
+                    <span className="Checklist" style={{visibility: this.state.checklist.length > 0 ? 'visible' : 'hidden'}}/>
                 </div>
             </div>
         );

@@ -4,7 +4,6 @@ import '../styles/EditCard.css';
 class EditCard extends React.Component {
     constructor(props){
         super(props);
-
         this.setToDo=this.setToDo.bind(this);
         this.openTextArea=this.openTextArea.bind(this);
         this.saveDesc=this.saveDesc.bind(this);
@@ -361,10 +360,11 @@ class EditCard extends React.Component {
                                 </ul>
                             </div>
                             <div className="coverIMG">
-                                <input className="imgInput" type="file" accept="image/*" onChange={(e)=>{
-                                    let url=URL.createObjectURL(document.activeElement.files[0]);
+                                <input className="imgInput" type="file" accept="image/*" onInput={(e)=>{
+                                    console.log(document.getElementsByClassName("imgInput")[0].files);
+                                    let url=URL.createObjectURL(document.getElementsByClassName("imgInput")[0].files[0]);
                                     this.props.setImg("url(" + url + ") no-repeat");
-                                }}/>
+                                }} />
                             </div>
                             <div className="attachments">
 
