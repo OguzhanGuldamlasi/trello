@@ -132,11 +132,6 @@ class List extends React.Component{
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
-        try{
-            // Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.innerHtml=null)
-        }catch (e) {
-
-        }
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -168,11 +163,6 @@ class List extends React.Component{
 
     };
     onCardDrop=(ev)=>{
-        try{
-            Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.remove())
-        }catch (e) {
-            console.log(e)
-        }
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -205,17 +195,16 @@ class List extends React.Component{
         })
     };
     deleteEmptyCards(){//deleting empty cards to used at card drag
-        // for (let i = 0; i <this.state.children.length ; i++) {
-        //     if(this.state.children[i].key==-1){
-        //         this.setState({children:this.state.children.filter((_, f) => f !== i)},console.log(this.state.children));
-        //         break;
-        //     }
-        // }
+        for (let i = 0; i <this.state.children.length ; i++) {
+            if(this.state.children[i].key==-1){
+                this.setState({children:this.state.children.filter((_, f) => f !== i)},console.log(this.state.children));
+                break;
+            }
+        }
 
     }
     onDragOver(ev){
         ev.preventDefault();
-        Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.innerHtml=null)
     }
     onDragEnter(ev){
         let card=<EmptyCard id={-1} key={-1}/>;
@@ -237,9 +226,7 @@ class List extends React.Component{
         // this.deleteEmptyCards();
     }
     onDragLeave(ev){
-        console.log("here");
         this.deleteEmptyCards();
-        Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.innerHtml=null)
     }
     onDragStart(event){
         let json=JSON.stringify(this.state);
