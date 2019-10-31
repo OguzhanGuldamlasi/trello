@@ -1,8 +1,12 @@
 import React from 'react'
 import EditCard from "./EditCard";
+import EmptyCard from "./EmptyCard";
 import '../styles/Card.css'
 class Card extends React.Component{
     submitCardAPI(state){
+        if(state.cardId==-1){
+            return ;
+        }
         let submission=new Object();
         submission['9']=state.cardId;
         submission['3']=state.toDo;
@@ -16,7 +20,9 @@ class Card extends React.Component{
     }
     constructor(props){
         super(props);
+
         if(this.props.state!=null){
+            if(this.props.state.cardId==-1) return ;
             this.state=this.props.state;
             this.state.listId=this.props.listId;
         }
@@ -40,12 +46,13 @@ class Card extends React.Component{
         this.onDragStart=this.onDragStart.bind(this);
         this.onDrag=this.onDrag.bind(this);
         this.onDragOver=this.onDragOver.bind(this);
-        this.submitCardAPI=this.submitCardAPI.bind(this)
+        this.submitCardAPI=this.submitCardAPI.bind(this);
+        this.getComponent=this.getComponent.bind(this);
+        this.togglePopup=this.togglePopup.bind(this)
     }
     togglePopup() {
-        this.setState({
-            showEditForm: !this.state.showEditForm
-        });
+        let bool=!this.state.showEditForm;
+        this.setState({showEditForm: bool},resp=>this.getComponent());
     }
     setCheckList(checklist=this.state.checklist){
         this.setTasks(undefined,undefined,undefined,undefined,undefined,undefined,checklist)
@@ -103,13 +110,23 @@ class Card extends React.Component{
     onDrag(event){
         this.props.deleteChildren(this.state.cardId);
     }
-    onDragOver(event){
-        event.preventDefault();
+
+    getComponent(){
+        if(this.state.showEditForm){
+            this.props.editCard(<EditCard id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>);
+        }
+        else{
+            this.props.editCard(null);
+
+        }
+
+    }
+    onDragOver(ev){
+        ev.preventDefault();
     }
     render() {
-        let editCard;
         return (
-            <div  onDrop={this.props.onDrop} onDragOver={event => this.onDragOver(event)} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
+            <div  onDragLeave={this.props.onDragLeave} onDragEnter={this.props.onDragEnter} onDrop={this.props.onDrop} onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  this.state.coverImg}} />
                 <div className="labels">
                     {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
@@ -117,18 +134,14 @@ class Card extends React.Component{
                 <div className="toDO">
                     <span>{this.state.toDo}</span>
                 </div>
-                <div>
-                    {this.state.showEditForm ? <EditCard id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup.bind(this)}/> : null}
-                </div>
                 <div className="buttonDiv">
-                    <button onClick={this.togglePopup.bind(this)}>Edit</button>
+                    <button onClick={this.togglePopup}>Edit</button>
                     <button className="deleteCard" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);
                         event.target.parentElement.parentElement.remove();
                         window.JF.getFormSubmissions("92931856730969",response=>{
                             for (let i = 0; i <response.length ; i++) {
                                 if(response[i].answers[9].answer==this.state.cardId){
-                                    console.log("delete");
                                     window.JF.deleteSubmission(response[i].id,response=>console.log());
                                     return ;
                                 }

@@ -1,13 +1,13 @@
 import React from 'react'
 import Card from "./Card";
 import '../styles/List.css';
-
+import EmptyCard from "./EmptyCard";
+let flag=0;
 class List extends React.Component{
     componentDidMount() {
         let child=[];
         for (let i = 0; i <this.props.cardInfos.length ; i++) {
             if(this.props.cardInfos[i].listId==this.state.id){
-                console.log("here");
                 // if(this.props.cardInfos[i].labels.replace)
                 let labels;
                 let comments;
@@ -27,7 +27,6 @@ class List extends React.Component{
                }catch (e) {
                    checklist=[];
                }
-               console.log("here");
                let state={
                   cardId:this.props.cardInfos[i].cardId,
                   toDo:this.props.cardInfos[i].toDo,
@@ -40,7 +39,7 @@ class List extends React.Component{
                   listId:this.props.cardInfos[i].listId
                 };
 
-                (child.push(<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
+                (child.push(<Card onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
             }
         }
         this.setState({
@@ -77,6 +76,11 @@ class List extends React.Component{
         this.onDragStart=this.onDragStart.bind(this);
         this.onCardDrop=this.onCardDrop.bind(this);
         this.onDrag=this.onDrag.bind(this);
+        this.deleteEmptyCards=this.deleteEmptyCards.bind(this);
+        this.onDragEnter=this.onDragEnter.bind(this);
+        this.onDragLeave=this.onDragLeave.bind(this);
+        this.onDragOve=this.onDragOve.bind(this);
+        this.onDragOver=this.onDragOver.bind(this);
     }
     appendChild(draggedCard=null){
         if(draggedCard!=null){
@@ -89,7 +93,7 @@ class List extends React.Component{
             return;
         }
         let cardId=this.props.getCardId();
-        let card =<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
+        let card =<Card onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
         this.setState({
             children:[
                 ...this.state.children,
@@ -128,17 +132,22 @@ class List extends React.Component{
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
+        try{
+            // Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.innerHtml=null)
+        }catch (e) {
+
+        }
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
             ev.dataTransfer.clearData("card");
 
         }catch (e) {
-            ev.dataTransfer.clearData("card");
             return ;
         }
-        let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         this.appendChild(card);
+        this.deleteEmptyCards();
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[9].answer==state.cardId){
@@ -159,6 +168,11 @@ class List extends React.Component{
 
     };
     onCardDrop=(ev)=>{
+        try{
+            Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.remove())
+        }catch (e) {
+            console.log(e)
+        }
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -166,7 +180,7 @@ class List extends React.Component{
         }catch (e) {
             return ;
         }
-        let card=<Card onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         arr.splice(this.getIndex(ev.currentTarget.id),0,card);
         this.setState({
@@ -190,8 +204,42 @@ class List extends React.Component{
             }
         })
     };
+    deleteEmptyCards(){//deleting empty cards to used at card drag
+        // for (let i = 0; i <this.state.children.length ; i++) {
+        //     if(this.state.children[i].key==-1){
+        //         this.setState({children:this.state.children.filter((_, f) => f !== i)},console.log(this.state.children));
+        //         break;
+        //     }
+        // }
+
+    }
     onDragOver(ev){
-        ev.preventDefault()
+        ev.preventDefault();
+        Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.innerHtml=null)
+    }
+    onDragEnter(ev){
+        let card=<EmptyCard id={-1} key={-1}/>;
+        let arr=[...this.state.children];
+        arr.splice(this.getIndex(ev.currentTarget.id),0,card);
+        this.setState({
+            children:arr
+        });
+    }
+    onDragOve(ev){
+        // console.log(ev.currentTarget);
+        // ev.preventDefault();
+        // let card=<Card  editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} id={-1} key={-1}  listId={this.state.id} deleteCard={this.props.deleteCard}/>;
+        // let arr=[...this.state.children];
+        // arr.splice(this.getIndex(ev.currentTarget.id),0,card);
+        // this.setState({
+        //     children:arr
+        // });
+        // this.deleteEmptyCards();
+    }
+    onDragLeave(ev){
+        console.log("here");
+        this.deleteEmptyCards();
+        Array.from(document.getElementsByClassName("emptyDiv")).map(item=>item.innerHtml=null)
     }
     onDragStart(event){
         let json=JSON.stringify(this.state);
@@ -203,7 +251,7 @@ class List extends React.Component{
     render() {
         return(
             <div className="container">
-                <div onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
+                <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
                     <div className="listName">
                         {this.state.name}
                     </div>

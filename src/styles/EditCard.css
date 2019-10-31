@@ -1,4 +1,4 @@
-#popup {
+.popup {
     border: black solid ;
     background-color: transparent;
     width: 400px;
@@ -8,6 +8,7 @@
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    z-index: 9999999;
 }
 
 .toDoName{

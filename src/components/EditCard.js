@@ -19,6 +19,7 @@ class EditCard extends React.Component {
             descButton:false,
             backgroundImage:null
         };
+
     }
     closeComments(){
         this.setState({
@@ -78,7 +79,7 @@ class EditCard extends React.Component {
     render() {
         let i;
         return (
-            <div id='popup'>
+            <div className='popup'>
                         <div className="toDoDiv">
                             <input className="toDoName" placeholder="Enter the card name"
                                    onChange={e => this.setToDo(e)}/>
@@ -286,7 +287,6 @@ class EditCard extends React.Component {
                                                 window.JF.getFormSubmissions("92931856730969",response=>{
                                                     for (let j = 0; j <response.length ; j++) {
                                                         if(response[j].answers[9].answer==this.props.id){
-                                                            console.log("here");
                                                             editedSubmissionId=response[j].id;
                                                             submission['9']=response[j].answers[9].answer;
                                                             submission['3']=response[j].answers[3].answer;
@@ -297,7 +297,6 @@ class EditCard extends React.Component {
                                                             submission['10']=response[j].answers[10].answer;
                                                             submission['12']=response[j].answers[12].answer;
                                                             let checklist=JSON.parse(submission['10'].replace("undefined",""));
-                                                            console.log(checklist);
                                                             for (let k = 0; k <checklist.length ; k++) {
                                                                 if(checklist[k].id==item.id){
                                                                    checklist[k].done=true;
@@ -317,7 +316,6 @@ class EditCard extends React.Component {
                                                 window.JF.getFormSubmissions("92931856730969",response=>{
                                                     for (let j = 0; j <response.length ; j++) {
                                                         if(response[j].answers[9].answer==this.props.id){
-                                                            console.log("here");
                                                             editedSubmissionId=response[j].id;
                                                             submission['9']=response[j].answers[9].answer;
                                                             submission['3']=response[j].answers[3].answer;
@@ -328,7 +326,6 @@ class EditCard extends React.Component {
                                                             submission['10']=response[j].answers[10].answer;
                                                             submission['12']=response[j].answers[12].answer;
                                                             let checklist=JSON.parse(submission['10'].replace("undefined",""));
-                                                            console.log(checklist);
                                                             for (let k = 0; k <checklist.length ; k++) {
                                                                 if(checklist[k].id==item.id){
                                                                     checklist[k].done=false;
@@ -349,7 +346,6 @@ class EditCard extends React.Component {
                             </div>
                             <div className="coverIMG">
                                 <input className="imgInput" type="file" accept="image/*" onInput={(e)=>{
-                                    console.log(document.getElementsByClassName("imgInput")[0].files);
                                     let url=URL.createObjectURL(document.getElementsByClassName("imgInput")[0].files[0]);
                                     this.props.setImg("url(" + url + ") no-repeat");
                                 }} />
