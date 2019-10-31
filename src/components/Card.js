@@ -94,8 +94,6 @@ class Card extends React.Component{
         })
     }
     onDragStart(ev){
-        Array.from(document.getElementsByClassName("emptyDiv")).map(div=>div.remove());
-
         let json=JSON.stringify(this.state);
         ev.dataTransfer.setData("card",json);
         let cards=document.getElementsByClassName("card");
@@ -128,7 +126,7 @@ class Card extends React.Component{
     }
     render() {
         return (
-            <div  onDragLeave={this.props.onDragLeave} onDragEnter={this.props.onDragEnter} onDrop={this.props.onDrop} onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
+            <div   onDragEnter={this.props.onDragEnter} onDrop={this.props.onDrop} onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  this.state.coverImg}} />
                 <div className="labels">
                     {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}

@@ -6,10 +6,16 @@ class EmptyCard extends React.Component{
         this.state={
             id:this.props.id
         };
+        this.onDragLeave=this.onDragLeave.bind(this);
     }
+    onDragLeave=(ev)=>{
+        this.props.onDragLeave();
+    };
     render() {
         return(
-            <div onDragOver={ev=>ev.preventDefault()} onDragEnter={ev=>ev.preventDefault()} onDragLeave={ev=>ev.preventDefault()}   onDrop={ev=>console.log("")} className="emptyDiv"></div>
+            <div onDragOver={e => e.preventDefault()} onDragLeave={this.onDragLeave} onDrop={this.props.onDrop} className="emptyDiv">
+
+            </div>
         )
     }
 }

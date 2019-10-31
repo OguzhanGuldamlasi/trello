@@ -1,13 +1,13 @@
 .emptyDiv{
     box-sizing: border-box;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-    text-align: center;
-    background-color: #f1f1f1;
-    height: auto;
+    height: 300px;
     width: 100%;
-    display:inline-block;
     border-radius: 25px;
     border: 2px solid #73AD21;
     margin-top: 5px;
     margin-bottom: 2px ;
+
 }
+
+
