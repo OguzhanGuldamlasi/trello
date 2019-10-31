@@ -94,6 +94,8 @@ class Card extends React.Component{
         })
     }
     onDragStart(ev){
+        Array.from(document.getElementsByClassName("emptyDiv")).map(div=>div.remove());
+
         let json=JSON.stringify(this.state);
         ev.dataTransfer.setData("card",json);
         let cards=document.getElementsByClassName("card");

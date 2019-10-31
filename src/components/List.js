@@ -163,6 +163,7 @@ class List extends React.Component{
 
     };
     onCardDrop=(ev)=>{
+        Array.from(document.getElementsByClassName("emptyDiv")).map(div=>div.remove());
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -173,9 +174,13 @@ class List extends React.Component{
         let card=<Card onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         arr.splice(this.getIndex(ev.currentTarget.id),0,card);
+        console.log(this.state.children);
+        console.log(arr);
         this.setState({
             children:arr
         });
+        console.log(this.state.children);
+        console.log(arr)
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[9].answer==state.cardId){
@@ -192,12 +197,12 @@ class List extends React.Component{
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                 }
             }
-        })
+        });
     };
     deleteEmptyCards(){//deleting empty cards to used at card drag
         for (let i = 0; i <this.state.children.length ; i++) {
             if(this.state.children[i].key==-1){
-                this.setState({children:this.state.children.filter((_, f) => f !== i)},console.log(this.state.children));
+                this.setState({children:this.state.children.filter((_, f) => f !== i)},console.log(""));
                 break;
             }
         }
@@ -207,14 +212,16 @@ class List extends React.Component{
         ev.preventDefault();
     }
     onDragEnter(ev){
+        if(Array.from(document.getElementsByClassName("emptyDiv"))!=null||Array.from(document.getElementsByClassName("emptyDiv"))!=undefined){
         let card=<EmptyCard id={-1} key={-1}/>;
         let arr=[...this.state.children];
         arr.splice(this.getIndex(ev.currentTarget.id),0,card);
         this.setState({
             children:arr
         });
-    }
+    }}
     onDragOve(ev){
+        ev.preventDefault();
         // console.log(ev.currentTarget);
         // ev.preventDefault();
         // let card=<Card  editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} id={-1} key={-1}  listId={this.state.id} deleteCard={this.props.deleteCard}/>;
