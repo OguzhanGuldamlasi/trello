@@ -153,7 +153,9 @@ class Home extends React.Component{
                         document.getElementsByClassName("addList")[0].append(inputArea);
                         let saveButton=document.createElement("button");
                         saveButton.className="saveList";
-                        saveButton.innerText="Save";
+                        let span=document.createElement("span");
+                        span.innerText="Save";
+                        saveButton.appendChild(span);
                         document.getElementsByClassName("addList")[0].append(saveButton);
                         saveButton.onclick=()=>{
                             if(inputArea.value==='' ||inputArea.value===null){

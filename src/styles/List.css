@@ -14,6 +14,7 @@
 .container{
     max-width: 16%;
     margin-right: 0.5rem;
+    display: inline-block;
 }
 
 #root{
@@ -28,16 +29,22 @@
     background-image:url("../images/plus (1).png")  ;
 }
 .addCard{
+    margin:0 auto;
+    /*margin-bottom:30px;*/
     padding:2px 5px;
     background-color:#ABAB8F;
     border-radius: 25px;
     border: 2px solid #ABAB8F;
+    text-align: center;
     position: relative;
-    left: 70px;
 }
 .listName{
+    text-align: center;
+    background: #1abc9c;
+    color: white;
+    font-size: 30px;
+    margin-bottom: 10px;
     position: relative;
-    left: 90px;
     font-weight: normal;
     font-family: 'Orienta', sans-serif;
 }

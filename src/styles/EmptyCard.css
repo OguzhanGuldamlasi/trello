@@ -1,13 +1,36 @@
-.emptyDiv{
+/*.emptyDiv{*/
+/*    box-sizing: border-box;*/
+/*    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); !* this adds the "card" effect *!*/
+/*    height: 200px;*/
+/*    width: 100%;*/
+/*    border-radius: 25px;*/
+/*    border: 2px solid #73AD21;*/
+/*    margin-top: 5px;*/
+/*    margin-bottom: 2px ;*/
+
+/*}*/
+.emptyDiv {
     box-sizing: border-box;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
-    height: 300px;
-    width: 100%;
+    height: 150px;
+    width: auto;
     border-radius: 25px;
     border: 2px solid #73AD21;
     margin-top: 5px;
     margin-bottom: 2px ;
-
+    animation-name: preloader;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
 }
 
-
+@keyframes preloader{
+    100% {
+        background-color: limegreen;
+    }
+    200% {
+        transform: scale(1.5);
+        background-color: white;
+    }
+}

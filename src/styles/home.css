@@ -6,39 +6,83 @@
 }
 
 .addListButton {
-    display: inline-block;
-    padding: 15px 25px;
-    font-size: 24px;
-    cursor: pointer;
+    background-color: transparent; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
     text-align: center;
     text-decoration: none;
-    outline: none;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 15px;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+.addListButton:hover{
+    background-color: white;
+    color: black;
+    border: 0px solid #4CAF50;
 }
 .listInput {
+    border-style: hidden;
+    left: 50px;
     position: relative;
-    left: 20px;
-    padding: 4px;
-    font-size: 15px;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 0px;
-    box-shadow: 0px 0px 5px rgba(66,66,66,.75);
-    text-shadow: 0px 0px 5px rgba(66,66,66,.75);
+    width: 100px;
+    height: 40px;
+    background-color:#ABAB8F;
+    transition: width 2s;
+    -webkit-transition: width 2s; /* Safari 3.1 to 6.0 */
+}
+.listInput:focus {
+    width: 300px;
+}
+.listInput {
+    /*position: relative;*/
+    /*left: 20px;*/
+    /*padding: 4px;*/
+    /*font-size: 15px;*/
+    /*border-width: 1px;*/
+    /*border-style: solid;*/
+    /*border-radius: 0px;*/
+    /*box-shadow: 0px 0px 5px rgba(66,66,66,.75);*/
+    /*text-shadow: 0px 0px 5px rgba(66,66,66,.75);*/
 }
 .saveList{
     position: relative;
     left:50px;
-    display: inline-block;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
     padding: 10px 20px;
     font: normal 16px/normal "Times New Roman", Times, serif;
-    -o-text-overflow: clip;
-    text-overflow: clip;
-
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    width: 150px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+.saveList span{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+.saveList span:after{
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.saveList:hover span{
+    padding-right: 25px;
+}
+.saveList:hover span:after{
+    opacity: 1;
+    right: 0;
 }
 .addListButton:active {
     background-color: #3e8e41;

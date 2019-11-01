@@ -13,30 +13,30 @@ class List extends React.Component{
                 let comments;
                 let checklist;
                 try{
-                labels=JSON.parse(this.props.cardInfos[i].labels.replace("undefined", ""));}
+                    labels=JSON.parse(this.props.cardInfos[i].labels.replace("undefined", ""));}
                 catch (e) {
-                labels=[];
+                    labels=[];
                 }
                 try{
-               comments=JSON.parse(this.props.cardInfos[i].comments.replace("undefined",""));}
-               catch (e) {
-               comments=[];
-               }
-               try {
+                    comments=JSON.parse(this.props.cardInfos[i].comments.replace("undefined",""));}
+                catch (e) {
+                    comments=[];
+                }
+                try {
                     checklist = JSON.parse(this.props.cardInfos[i].checklist.replace("undefined", ""));
-               }catch (e) {
-                   checklist=[];
-               }
-               let state={
-                  cardId:this.props.cardInfos[i].cardId,
-                  toDo:this.props.cardInfos[i].toDo,
-                  labels:labels,
-                  checklist:checklist,
-                  showEditForm:false,
-                  description:this.props.cardInfos[i].description,
-                  comments:comments,
-                  coverImg:this.props.cardInfos[i].coverImg,
-                  listId:this.props.cardInfos[i].listId
+                }catch (e) {
+                    checklist=[];
+                }
+                let state={
+                    cardId:this.props.cardInfos[i].cardId,
+                    toDo:this.props.cardInfos[i].toDo,
+                    labels:labels,
+                    checklist:checklist,
+                    showEditForm:false,
+                    description:this.props.cardInfos[i].description,
+                    comments:comments,
+                    coverImg:this.props.cardInfos[i].coverImg,
+                    listId:this.props.cardInfos[i].listId
                 };
 
                 (child.push(<Card onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
@@ -160,7 +160,6 @@ class List extends React.Component{
         });
     };
     onCardDrop=(ev)=>{
-
         ev.preventDefault();
         ev.stopPropagation();
         let state;
@@ -173,32 +172,30 @@ class List extends React.Component{
         let card=<Card onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         let element=document.getElementsByClassName("emptyDiv")[0].nextSibling;
-        console.log(element.id);
+
         arr.splice(this.getIndex(element.id),0,card);
         this.setState({
             children:arr
-        });
-        for(let item of document.getElementsByClassName("emptyDiv")){
-            item.remove();
-        }
+        },this.deleteEmptyCards);
         window.JF.getFormSubmissions("92931856730969",response=>{
-            for (let i = 0; i <response.length ; i++) {
-                if(response[i].answers[9].answer==state.cardId){
-                    let submissionId=response[i].id;
-                    let submission=new Object();
-                    submission['9']=state.cardId;
-                    submission['3']=state.toDo;
-                    submission['4']=state.description;
-                    submission['5']=JSON.stringify(state.comments);
-                    submission['11']=JSON.stringify(state.labels);
-                    submission['7']=state.coverImg;
-                    submission['10']=JSON.stringify(state.checklist);
-                    submission['12']=this.state.id;
-                    window.JF.editSubmission(submissionId,submission,rep=>console.log());
+                for (let i = 0; i <response.length ; i++) {
+                    if(response[i].answers[9].answer==state.cardId){
+                        let submissionId=response[i].id;
+                        let submission=new Object();
+                        submission['9']=state.cardId;
+                        submission['3']=state.toDo;
+                        submission['4']=state.description;
+                        submission['5']=JSON.stringify(state.comments);
+                        submission['11']=JSON.stringify(state.labels);
+                        submission['7']=state.coverImg;
+                        submission['10']=JSON.stringify(state.checklist);
+                        submission['12']=this.state.id;
+                        window.JF.editSubmission(submissionId,submission,rep=>console.log());
+                    }
                 }
             }
-        }
-    );
+        );
+
     };
     deleteEmptyCards(){//deleting empty cards to used at card drag
         let cards=[...this.state.children];
@@ -208,7 +205,7 @@ class List extends React.Component{
                 break;
             }
         }
-        this.setState({children:cards})
+        this.setState({children:cards},()=>console.log(this.state.children,""));
     }
     onDragOver(ev){
         ev.preventDefault();
@@ -241,8 +238,8 @@ class List extends React.Component{
                         {this.state.name}
                     </div>
                     <a className="addCard" onClick={()=>this.appendChild()}>
-                    <span className="addImage"/>
-                    <span>
+                        <span className="addImage"/>
+                        <span>
                        	&nbsp; 	&nbsp;Add a Card
                     </span>
                     </a>
