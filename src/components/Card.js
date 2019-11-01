@@ -94,6 +94,7 @@ class Card extends React.Component{
         })
     }
     onDragStart(ev){
+        this.props.onDragLeave();
         let json=JSON.stringify(this.state);
         ev.dataTransfer.setData("card",json);
         let cards=document.getElementsByClassName("card");

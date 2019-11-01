@@ -98,7 +98,7 @@ class List extends React.Component{
                 ...this.state.children,
                 card,
             ],
-        });
+        },()=>console.log(this.state.children,""));
         this.props.incrementCardId();
         this.props.appendCard(card);
         let id=this.state.id;
@@ -154,7 +154,7 @@ class List extends React.Component{
                     submission['7']=state.coverImg;
                     submission['10']=JSON.stringify(state.checklist);
                     submission['12']=this.state.id;
-                    window.JF.editSubmission(submissionId,submission,rep=>console.log());
+                    window.JF.editSubmission(submissionId,submission,rep=>()=>console.log(this.state.children,""));
                 }
             }
         });
@@ -209,9 +209,11 @@ class List extends React.Component{
     }
     onDragOver(ev){
         ev.preventDefault();
+        this.deleteEmptyCards();
     }
     onDragEnter(ev){
         ev.preventDefault();
+        this.deleteEmptyCards();
         let card=<EmptyCard onDrop={this.onCardDrop} onDragLeave={this.onDragLeave} id={-1} key={-1}/>;
         let arr=[...this.state.children];
         arr.splice(this.getIndex(ev.currentTarget.id),0,card);
@@ -231,6 +233,7 @@ class List extends React.Component{
         this.props.deleteList(this.state.id);
     }
     render() {
+        console.log(this.state.children);
         return(
             <div className="container">
                 <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
