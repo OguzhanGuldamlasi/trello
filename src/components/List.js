@@ -80,6 +80,8 @@ class List extends React.Component{
         this.onDragEnter=this.onDragEnter.bind(this);
         this.onDragLeave=this.onDragLeave.bind(this);
         this.onDragOver=this.onDragOver.bind(this);
+        this.onEmptyList=this.onEmptyList.bind(this);
+        this.onEmptyLeave=this.onEmptyLeave.bind(this);
     }
     appendChild(draggedCard=null){
         if(draggedCard!=null){
@@ -158,6 +160,7 @@ class List extends React.Component{
                 }
             }
         });
+        this.deleteEmptyCards();
     };
     onCardDrop=(ev)=>{
         ev.preventDefault();
@@ -232,6 +235,17 @@ class List extends React.Component{
     onDrag(){
         this.props.deleteList(this.state.id);
     }
+    onEmptyList(){
+        let card=<EmptyCard onDrop={this.onDrop} onDragLeave={this.onDragLeave} id={-1} key={-1}/>;
+        let arr=[...this.state.children];
+        arr.push(card);
+        this.setState({
+            children:arr
+        },()=>console.log(this.state.children));
+    }
+    onEmptyLeave(){
+        // this.deleteEmptyCards();
+    }
     render() {
         console.log(this.state.children);
         return(
@@ -250,7 +264,7 @@ class List extends React.Component{
                 <div className="cardContainer">
                     {this.state.children.map(child=> {return child})}
                 </div>
-                <div className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}> (You can drop cards here or drop the cards on a card.)</div>
+                <div onDragEnter={this.onEmptyList} onDragLeave={this.onEmptyLeave} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}> (You can drop cards here or drop the cards on a card.)</div>
             </div>
         )
     }
