@@ -229,6 +229,17 @@ class List extends React.Component{
     onDragStart(event){
         let json=JSON.stringify(this.state);
         event.dataTransfer.setData("list",json);
+        let lists=document.getElementsByClassName("cardList");
+        let card;
+        for (let i = 0; i <lists.length ; i++) {
+            if(lists[i].id==this.state.id){
+                console.log("founded");
+                card=lists[i];
+                break;
+            }
+        }
+        card.style.backgroundColor="yellow";
+        card.style.border="dashed";
     }
     onDrag(){
         this.props.deleteList(this.state.id);
@@ -250,13 +261,15 @@ class List extends React.Component{
                 <div className="cardContainer">
                     {this.state.children.map(child=> {return child})}
                 </div>
-                <div onDragEnter={(ev)=> {
-                    let div=document.createElement("div");
-                    div.className="emptyDiv";
-                    div.ondrop=this.onDrop;
-                    ev.currentTarget.appendChild(div);
-                    }
-                } onDragLeave={(ev)=>{ev.currentTarget.lastChild.remove();}} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event =>this.onDrop(event)}> (You can drop cards here or drop the cards on a card.)</div>
+                <div onDragEnter={(ev) => {
+    let div = document.createElement("div");
+    div.className = "emptyDiv";
+    div.ondrop = this.onDrop;
+    ev.currentTarget.appendChild(div);
+}
+} onDragLeave={(ev) => {
+    ev.currentTarget.lastChild.remove();
+}} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event => this.onDrop(event)}/>
             </div>
         )
     }

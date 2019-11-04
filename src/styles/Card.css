@@ -1,4 +1,5 @@
 .card{
+    position: relative;
     /*cursor:pointer;*/
     box-sizing: border-box;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
@@ -8,10 +9,26 @@
     width: 100%;
     display:inline-block;
     border-radius: 25px;
-    border: 2px solid #73AD21;
-    /*margin-top: 5px;*/
-    /*margin-bottom: 2px ;*/
+    border:  solid #73AD21;
+    margin-top: 5px;
+    margin-bottom: 2px ;
 }
+.card:before{
+
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 0;
+    height: 0;
+    background: transparent;
+    border: 2px solid transparent;
+    transition: 2s;
+}
+.card:hover{
+    box-shadow: 5px 5px 5px  rgba(0,0,0,0.4);
+}
+
 .labels .green {
     background-color: green;
     width: 20px;

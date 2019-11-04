@@ -4,7 +4,9 @@
 .addList{
     background-color: #3e8e41;
 }
-
+body{
+    background-color: green;
+}
 .addListButton {
     background-color: transparent; /* Green */
     border: none;
@@ -25,44 +27,36 @@
     border: 0px solid #4CAF50;
 }
 .listInput::-webkit-input-placeholder{
-    color:black;
+    color:white;
 }
 
 .listInput {
     font-size: 1.0em;
     border: none;
-    border-top: 3px solid #4EA5D9;
-    border-bottom: 3px solid #4EA5D9;
+    border-top: 3px solid white;
+    border-bottom: 3px solid white;
     padding-left: 10px;
     position: relative;
-    width: 100px;
+    width: 150px;
     height: 40px;
     background-color: transparent;
     transition: width 2s;
-    -webkit-transition: width 2s; /* Safari 3.1 to 6.0 */
 }
 .listInput:focus {
     background-color: white;
     width: 300px;
+
 }
-.listInput {
-    /*position: relative;*/
-    /*left: 20px;*/
-    /*padding: 4px;*/
-    /*font-size: 15px;*/
-    /*border-width: 1px;*/
-    /*border-style: solid;*/
-    /*border-radius: 0px;*/
-    /*box-shadow: 0px 0px 5px rgba(66,66,66,.75);*/
-    /*text-shadow: 0px 0px 5px rgba(66,66,66,.75);*/
+.listInput:focus::-webkit-input-placeholder{
+    color:black;
 }
 .saveList{
     position: relative;
-    left:50px;
+    left:30px;
     padding: 10px 20px;
     font: normal 16px/normal "Times New Roman", Times, serif;
     border-radius: 4px;
-    background-color: #f4511e;
+    background-color: transparent;
     border: none;
     color: #FFFFFF;
     text-align: center;
@@ -85,10 +79,15 @@
     right: -20px;
     transition: 0.5s;
 }
+.saveList:hover{
+    background-color: white;
+}
 .saveList:hover span{
+    color: black;
     padding-right: 25px;
 }
 .saveList:hover span:after{
+    color: black;
     opacity: 1;
     right: 0;
 }
