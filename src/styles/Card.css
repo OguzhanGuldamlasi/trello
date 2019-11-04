@@ -31,6 +31,7 @@
 
 }
 .card{
+    cursor:grab;
     position: relative;
     /*cursor:pointer;*/
     box-sizing: border-box;
@@ -81,9 +82,7 @@
     display:inline-block;
     border-radius: 25px;
 }
-.card.coverImg{
-    background-size: contain;
-}
+
 .Desc{
     cursor:pointer;
     height: 20px;

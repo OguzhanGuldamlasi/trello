@@ -53,8 +53,17 @@ class Card extends React.Component{
     togglePopup() {
         let bool=!this.state.showEditForm;
         this.setState({showEditForm: bool},resp=>this.getComponent());
-        document.getElementsByClassName("addList")[0].style.display='inline-block';
-        document.getElementsByClassName("listContainer")[0].style.display='inline-block';
+        try{
+        document.getElementsByClassName("saveList")[0].style.display='inline';
+      }
+        catch (e) {
+
+        }finally {
+            document.getElementsByClassName("addListButton")[0].style.display='inline';
+            document.getElementsByClassName("addList")[0].style.visibility='visible';
+            document.getElementsByClassName("listContainer")[0].style.display='flex';
+        }
+
     }
     setCheckList(checklist=this.state.checklist){
         this.setTasks(undefined,undefined,undefined,undefined,undefined,undefined,checklist)

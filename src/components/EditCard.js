@@ -19,8 +19,15 @@ class EditCard extends React.Component {
             descButton:false,
             backgroundImage:null
         };
-        document.getElementsByClassName("addList")[0].style.display='none';
-        document.getElementsByClassName("listContainer")[0].style.display='none';
+        try{
+        document.getElementsByClassName("saveList")[0].style.display='none';
+        }catch (e) {
+            
+        }finally {
+            document.getElementsByClassName("addListButton")[0].style.display='none';
+            document.getElementsByClassName("addList")[0].style.visibility='hidden';
+            document.getElementsByClassName("listContainer")[0].style.display='none';
+        }
     }
     closeComments(){
         this.setState({
@@ -124,7 +131,7 @@ class EditCard extends React.Component {
                             <div className="labelSection">
                                 <button className="greenLabel">
                                     <input id="green" type="checkbox" onClick={() => {
-                                        let labels =this.props.params.labels
+                                        let labels =this.props.params.labels;
                                         if (document.activeElement.checked === true) {
 
                                             let label = {
