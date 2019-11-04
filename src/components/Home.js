@@ -9,7 +9,6 @@ window.JF.login(
         window.alert("Could not authorize user");
     }
 );
-
 class Home extends React.Component{
 
     constructor(props){
@@ -143,7 +142,7 @@ class Home extends React.Component{
     }
     render(){
         return (
-            <div className="HomeComp">
+                <div className="HomeComp">
                 {this.state.editCard}
                 <div className="addList">
                     <button className="addListButton" onClick={()=> {

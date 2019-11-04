@@ -248,7 +248,7 @@ class List extends React.Component{
         return(
             <div className="container">
                 <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
-                    <div className="listName">
+                    <div id="quote" className="listName">
                         {this.state.name}
                     </div>
                     <button className="addCard" onClick={()=>this.appendChild()}>

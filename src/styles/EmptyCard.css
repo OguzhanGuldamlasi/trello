@@ -27,7 +27,7 @@
 
 @keyframes preloader{
     100% {
-        background-color: limegreen;
+        background-color:forestgreen;
     }
     200% {
         transform: scale(1.5);

@@ -53,6 +53,8 @@ class Card extends React.Component{
     togglePopup() {
         let bool=!this.state.showEditForm;
         this.setState({showEditForm: bool},resp=>this.getComponent());
+        document.getElementsByClassName("addList")[0].style.display='inline-block';
+        document.getElementsByClassName("listContainer")[0].style.display='inline-block';
     }
     setCheckList(checklist=this.state.checklist){
         this.setTasks(undefined,undefined,undefined,undefined,undefined,undefined,checklist)
@@ -105,7 +107,7 @@ class Card extends React.Component{
                 break;
             }
         }
-        card.style.backgroundColor="yellow";
+        card.style.backgroundColor="green";
         card.style.border="dashed";
     }
     onDrag(event){
@@ -136,7 +138,7 @@ class Card extends React.Component{
                     <span>{this.state.toDo}</span>
                 </div>
                 <div className="buttonDiv">
-                    <button onClick={this.togglePopup}>Edit</button>
+                    <button className="editCard" onClick={this.togglePopup}>Edit</button>
                     <button className="deleteCard" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);
                         event.target.parentElement.parentElement.remove();

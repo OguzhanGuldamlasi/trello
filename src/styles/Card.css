@@ -1,3 +1,35 @@
+.editCard{
+    cursor: pointer;
+    border:1px solid;
+    color: #fff;
+    background-color: darkseagreen;
+    box-shadow: 2px 2px 5px #AFE9FF;
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+}
+.editCard:hover{
+    color: slategray;
+    /*border: 1px solid #006398;*/
+    box-shadow: 2px 2px 20px #AFE9FF;
+}
+.deleteCard{
+    cursor: pointer;
+    color: #fff;
+    background-color: darkseagreen;
+    font-weight: 100;
+    border: 1px solid #fff;
+    box-shadow: 2px 2px 5px #AFE9FF;
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+}
+.deleteCard:hover{
+    color: slategray;
+    /*border: 1px solid #006398;*/
+    box-shadow: 2px 2px 20px #AFE9FF;
+
+}
 .card{
     position: relative;
     /*cursor:pointer;*/
@@ -14,7 +46,6 @@
     margin-bottom: 2px ;
 }
 .card:before{
-
     content: '';
     position: absolute;
     top: -2px;

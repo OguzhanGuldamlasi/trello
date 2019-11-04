@@ -1,5 +1,6 @@
 .listContainer {
     display: flex;
+    position: relative;
 }
 .addList{
     background-color: #3e8e41;
@@ -8,6 +9,7 @@ body{
     background-color: green;
 }
 .addListButton {
+    position: relative;
     background-color: transparent; /* Green */
     border: none;
     color: white;

@@ -19,7 +19,8 @@ class EditCard extends React.Component {
             descButton:false,
             backgroundImage:null
         };
-
+        document.getElementsByClassName("addList")[0].style.display='none';
+        document.getElementsByClassName("listContainer")[0].style.display='none';
     }
     closeComments(){
         this.setState({
