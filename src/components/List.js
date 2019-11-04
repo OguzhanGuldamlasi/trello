@@ -251,12 +251,11 @@ class List extends React.Component{
                     <div className="listName">
                         {this.state.name}
                     </div>
-                    <a className="addCard" onClick={()=>this.appendChild()}>
-                        <span className="addImage"/>
+                    <button className="addCard" onClick={()=>this.appendChild()}>
                         <span>
-                       	&nbsp; 	&nbsp;Add a Card
-                    </span>
-                    </a>
+                            Add a Card
+                        </span>
+                    </button>
                 </div>
                 <div className="cardContainer">
                     {this.state.children.map(child=> {return child})}

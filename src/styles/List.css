@@ -15,7 +15,6 @@
     border-radius: 20px;
 }
 .container{
-
     max-width: 16%;
     margin-right: 0.5rem;
     display: inline-block;
@@ -33,22 +32,34 @@
     background-image:url("../images/plus (1).png")  ;
 }
 .addCard{
-    margin:0 auto;
-    /*margin-bottom:30px;*/
-    padding:2px 5px;
-    background-color:#ABAB8F;
-    border-radius: 25px;
-    border: 2px solid #ABAB8F;
-    text-align: center;
     position: relative;
+    left:35%;
+    display: inline-block;
+    border:0.1em solid #000000;
+    border-radius: 0.12em;
+    box-sizing: border-box;
+    color:#000000;
+    text-shadow:0 0.04em 0.04em rgba(0,0,0,0.35);
+    background-color: forestgreen;
+    transition: all 0.5s;
+    font-family:'Roboto',sans-serif;
+    color: white;
+}
+.addCard:hover{
+    text-shadow: 0 0 2em rgba(255,255,255,1);
+    color:#FFFFFF;
+    border-color: #FFFFFF;
 }
 .listName{
     text-align: center;
-    background: #1abc9c;
+    background: transparent;
     color: white;
     font-size: 30px;
     margin-bottom: 10px;
     position: relative;
     font-weight: normal;
-    font-family: 'Orienta', sans-serif;
+    transition: color;
+}
+.listName:hover{
+    color:#008800;
 }
