@@ -24,17 +24,25 @@
     color: black;
     border: 0px solid #4CAF50;
 }
+.listInput::-webkit-input-placeholder{
+    color:black;
+}
+
 .listInput {
-    border-style: hidden;
-    left: 50px;
+    font-size: 1.0em;
+    border: none;
+    border-top: 3px solid #4EA5D9;
+    border-bottom: 3px solid #4EA5D9;
+    padding-left: 10px;
     position: relative;
     width: 100px;
     height: 40px;
-    background-color:#ABAB8F;
+    background-color: transparent;
     transition: width 2s;
     -webkit-transition: width 2s; /* Safari 3.1 to 6.0 */
 }
 .listInput:focus {
+    background-color: white;
     width: 300px;
 }
 .listInput {

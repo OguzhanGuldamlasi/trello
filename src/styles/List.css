@@ -5,13 +5,14 @@
 
 }
 .cardContainer{
+    top: 10px;
+    border-style:solid;
+    border-color: lightslategrey;
     position: relative;
     width: auto;
-    margin: 0;
-    border-radius: 25px;
-    border: 0px solid #73AD21;
 }
 .container{
+
     max-width: 16%;
     margin-right: 0.5rem;
     display: inline-block;
