@@ -80,7 +80,7 @@ class Card extends React.Component{
             comments:ncomments,
             coverImg:ncoverImg,
             checklist:nchecklist,
-        });
+        },()=>console.log(this.state));
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[9].answer==this.state.cardId){

@@ -1,28 +1,99 @@
+.saveComment{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+.descName{
+    margin: 1em 0 0.5em 0;
+    color: #343434;
+    font-size: 15px;
+    line-height: 10px;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-family: 'Orienta', sans-serif;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+.name{
+    margin: 1em 0 0.5em 0;
+    color: #343434;
+    font-size: 15px;
+    line-height: 10px;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-family: 'Orienta', sans-serif;
+    letter-spacing: 1px;
+    font-style: italic;
+}
 .popup {
-    border: black solid ;
-    background-color: transparent;
+
     width: 400px;
     height: 600px;
-    position: fixed;
-    top: 50%;
+    position: absolute;
+    top: 40%;
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     z-index: 9999999;
 }
-
+.popup textarea{
+    background-position:5px 7px;
+    width:90%;
+    height:35px;
+    resize:none;
+    border:1px solid #ccc;
+}
+li{
+    background: #cce5ff;
+    margin: 5px;
+}
+.saveDesc{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+.items{
+    position: relative;
+}
 .toDoName{
-    cursor:auto;
+    width:82%;
+    border:1px solid #ccc;
+    font-family:raleway
 }
 .greenLabel{
+    border:none;
     background-color: green;
 
 }
+#redInput{
+    border:0px;
+}
+#redInput:focus{
+
+}
+#red{
+
+}
+#redSave{
+ border: 0px;
+    background: red;
+}
 .blueLabel{
+    border:none;
     background-color: blue;
 
 }
-.redLabel{
+.label label-danger{
+    border:none;
     background-color: red;
 
 }

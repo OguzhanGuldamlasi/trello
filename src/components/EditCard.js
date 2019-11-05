@@ -2,6 +2,24 @@ import React from 'react';
 import '../styles/EditCard.css';
 
 class EditCard extends React.Component {
+    componentDidMount() {
+
+        for (let i = 0; i <this.props.params.labels.length ; i++) {
+            if(this.props.params.labels[i].colour=="green"){
+                document.getElementById("green").checked=true;
+            }
+            if(this.props.params.labels[i].colour=="red"){
+                document.getElementById("red").checked=true;
+            }
+            if(this.props.params.labels[i].colour=="blue"){
+                document.getElementById("blue").checked=true;
+            }
+        }
+        this.setState({checklistItems:this.props.params.checklist},()=>console.log(this.state.checklistItems))
+
+    }
+
+
     constructor(props){
         super(props);
         this.setToDo=this.setToDo.bind(this);
@@ -12,13 +30,16 @@ class EditCard extends React.Component {
         this.showDescButton=this.showDescButton.bind(this);
         this.closeDescButton=this.closeDescButton.bind(this);
         this.closeComments=this.closeComments.bind(this);
+        this.calculateProgress=this.calculateProgress.bind(this);
         this.state={
+            checklistItems:[],
             showTextArea:false,
             showCommentSave:false,
             inputField:false,
             descButton:false,
             backgroundImage:null
         };
+
         try{
         document.getElementsByClassName("saveList")[0].style.display='none';
         }catch (e) {
@@ -60,6 +81,7 @@ class EditCard extends React.Component {
         comments.push(comment);
         this.props.setTasks(undefined,undefined,undefined,comments);
         commentArea.value='';
+        document.getElementsByClassName("commentInput")[0].click();
     }
     setToDo(e){
         e.preventDefault();
@@ -73,35 +95,50 @@ class EditCard extends React.Component {
     }
     saveDesc(e){
         e.preventDefault();
-        let textArea=document.getElementsByClassName("textArea")[0];
+        let textArea=document.getElementsByClassName("form-control")[0];
         let text=textArea.value;
         this.setState({
             showTextArea:false
         });
+        console.log(text)
+        document.getElementsByClassName("printDesc")[0].innerText=textArea.value;
         this.props.setTasks(undefined,undefined,text);
         textArea.value="";
         this.setState({
             descButton:false
         })
     }
+    calculateProgress(){
+
+       let totalJob= this.state.checklistItems.length-1;
+       let finishedJob=0;
+        for (let i = 1; i <this.state.checklistItems.length ; i++) {
+            if(this.state.checklistItems[i].done===true){
+                finishedJob+=1;
+            }
+        }
+        return finishedJob/totalJob*100;
+    }
     render() {
-        let i;
         return (
             <div className='popup'>
                         <div className="toDoDiv">
+                            <h3 className="name">Enter Card Name</h3>
+                            <div>
                             <input className="toDoName" placeholder="Enter the card name"
                                    onChange={e => this.setToDo(e)}/>
+                            </div>
                         </div>
                         <div className="descDiv">
-                            Description
+                            <h3 className="descName"> Description</h3>
                             <div>
                                 <textarea onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
-                                          className="textArea"/>
-                                <button style={{visibility: this.state.descButton ? 'visible' : 'hidden'}}
+                                          className="form-control" rows="5" id="comment"/>
+                                <button style={{display: this.state.descButton ? 'flex' : 'none'}}
                                         className="saveDesc" onClick={e => this.saveDesc(e)}>Save
                                 </button>
+                                <div className="printDesc">{this.props.params.description}</div>
                             </div>
-                            <span>{this.props.params.description}</span>
                         </div>
                         <div className="comments">
                             <div className="writeComment">
@@ -126,42 +163,22 @@ class EditCard extends React.Component {
                             </ul>
                         </div>
                         <div className="addSection">
-                            <span> Add to Card</span>
                             <div> Choose Label</div>
                             <div className="labelSection">
-                                <button className="greenLabel">
-                                    <input id="green" type="checkbox" onClick={() => {
+                                <div className="greenLabel" style={{}}>
+                                    <input id="green" type="checkbox"  onClick={() => {
                                         let labels =this.props.params.labels;
                                         if (document.activeElement.checked === true) {
-
                                             let label = {
                                                 colour: "green",
                                                 id: ""
                                             };
-                                            let inputArea = document.createElement("input");
-                                            let saveButton = document.createElement("button");
-                                            document.activeElement.parentElement.append(inputArea);
-                                            document.activeElement.parentElement.append(saveButton);
-                                            inputArea.placeholder = "Name (optional)";
-                                            saveButton.innerText = "Save";
-                                            saveButton.onclick = () => {
-                                                if (inputArea.value !== '' || inputArea.value !== null) {
-                                                    label.id = inputArea.value;
-                                                }
                                                 labels.push(label);
                                                 this.props.setTasks(undefined, undefined, undefined, undefined, undefined,  labels);
-                                                document.activeElement.parentElement.childNodes[1].remove();
-                                                document.activeElement.parentElement.childNodes[1].remove();
-                                            }
-                                        } else {
-                                            if (document.activeElement.parentElement.childNodes[2] === undefined)
-                                                return;
-                                            document.activeElement.parentElement.childNodes[2].remove();
-                                            document.activeElement.parentElement.childNodes[1].remove()
                                         }
                                     }
-                                    }/></button>
-                                <button className="blueLabel">
+                                    }/></div>
+                                <div className="blueLabel">
                                     <input id="blue" type="checkbox" onClick={() => {
                                         let labels = this.props.params.labels;
                                         if (document.activeElement.checked === true) {
@@ -169,30 +186,13 @@ class EditCard extends React.Component {
                                                 colour: "blue",
                                                 id: ""
                                             };
-                                            let inputArea = document.createElement("input");
-                                            let saveButton = document.createElement("button");
-                                            document.activeElement.parentElement.append(inputArea);
-                                            document.activeElement.parentElement.append(saveButton);
-                                            inputArea.placeholder = "Name (optional)";
-                                            saveButton.innerText = "Save";
-                                            saveButton.onclick = () => {
-                                                if (inputArea.value !== '' || inputArea.value !== null) {
-                                                    label.id = inputArea.value;
-                                                }
                                                 labels.push(label);
                                                 this.props.setTasks(undefined, undefined, undefined, undefined, undefined, labels);
-                                                document.activeElement.parentElement.childNodes[1].remove();
-                                                document.activeElement.parentElement.childNodes[1].remove();
                                             }
-                                        } else {
-                                            if (document.activeElement.parentElement.childNodes[2] === undefined)
-                                                return;
-                                            document.activeElement.parentElement.childNodes[2].remove();
-                                            document.activeElement.parentElement.childNodes[1].remove()
                                         }
                                     }
-                                    }/></button>
-                                <button className="redLabel">
+                                    /></div>
+                                <div className="label label-danger">
                                     <input id="red" type="checkbox" onClick={() => {
                                         let labels = this.props.params.labels;
                                         if (document.activeElement.checked === true) {
@@ -200,40 +200,24 @@ class EditCard extends React.Component {
                                                 colour: "red",
                                                 id: ""
                                             };
-                                            let inputArea = document.createElement("input");
-                                            let saveButton = document.createElement("button");
-                                            document.activeElement.parentElement.append(inputArea);
-                                            document.activeElement.parentElement.append(saveButton);
-                                            inputArea.placeholder = "Name (optional)";
-                                            saveButton.innerText = "Save";
-                                            saveButton.onclick = () => {
-                                                if (inputArea.value !== '' || inputArea.value !== null) {
-                                                    label.id = inputArea.value;
-                                                }
                                                 labels.push(label);
                                                 this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
-                                                document.activeElement.parentElement.childNodes[1].remove();
-                                                document.activeElement.parentElement.childNodes[1].remove();
-                                            }
-                                        } else {
-                                            if (document.activeElement.parentElement.childNodes[2] === undefined)
-                                                return;
-                                            document.activeElement.parentElement.childNodes[2].remove();
-                                            document.activeElement.parentElement.childNodes[1].remove()
+
+
                                         }
                                     }
-                                    }/></button>
+                                    }/>High Priority</div>
                             </div>
                             <div className="checkListSection">
-                                <button style={{visibility: this.props.params.checklist.length>0 ? 'hidden' : 'visible'}}  className="checkListButton" onClick={(e)=>{
+                                <button style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="checkListButton" onClick={(e)=>{
                                     document.activeElement.addEventListener("click",(ev)=>ev.stopPropagation());
                                     let inputArea=document.createElement("input");
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
-                                    document.activeElement.append(inputArea);
+                                    document.activeElement.parentElement.append(inputArea);
                                     let saveButton=document.createElement("button");
                                     saveButton.innerText="Save";
                                     saveButton.addEventListener("click",(ev)=>ev.stopPropagation());
-                                    document.activeElement.append(saveButton);
+                                    document.activeElement.parentElement.append(saveButton);
                                     inputArea.placeholder="Give a title from here";
                                     saveButton.onclick=()=>{
                                         if(inputArea.value===null||inputArea.value==='') {inputArea.placeholder="Fill this area "; return;}
@@ -241,12 +225,15 @@ class EditCard extends React.Component {
                                         let checkList=[];
                                         checkList.push(title);
                                         this.props.setCheckList(checkList);
+                                        this.setState({checklistItems:checkList},()=>console.log(this.state.checklistItems));
+                                        inputArea.remove();
+                                        saveButton.remove();
                                     };
 
                                 }}>
-                                    Add to Checklist
+                                    Add  Checklist
                                 </button>
-                                <button ref="but2" style={{visibility: this.props.params.checklist.length>0 ? 'visible' : 'hidden'}} className="addItem" onClick={(e)=>{
+                                <button ref="but2" style={{display: this.state.checklistItems.length>0 ? 'flex' : 'none'}} className="addItem" onClick={(e)=>{
                                     let inputArea=document.createElement("input");
                                     inputArea.placeholder="Add an item";
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
@@ -267,6 +254,13 @@ class EditCard extends React.Component {
                                         };
                                         checkList.push(item);
                                         this.props.setCheckList(checkList);
+                                        this.setState({checklistItems:checkList});
+                                        console.log(this.state.checklistItems);
+                                        let nodes=  document.activeElement.parentElement.childNodes;
+                                        nodes.item(3).remove();
+                                        nodes.item(2).remove();
+                                        nodes.item(1).remove();
+                                        this.forceUpdate()
                                     };
                                     let cancelButton=document.createElement("button");
                                     cancelButton.innerText="Cancel";
@@ -279,19 +273,23 @@ class EditCard extends React.Component {
                                     }
                                 }
                                 }>
-                                    Add Item
+                                    Add Item to Checklist
                                 </button>
                             </div>
-                            <div className="items" style={{visibility: this.props.params.checklist.length>0 ? 'visible' : 'hidden'}}>
-                                {this.props.params.checklist[0]}
-                                <ul>
-                                    {this.props.params.checklist.slice(1).map((item,index)=>{
-                                        return <li><div><span style={{backgroundColor : item.done  ?  'blue' :  'transparent'}} id={item.id+index}>{item.id}</span><input onClick={()=>{
+                            <div className="items" style={{visibility: this.state.checklistItems.length>0 ? 'visible' : 'hidden'}}>
+                               Checklist :  {this.state.checklistItems[0]}
+                                        <div className="progress-bar progress-bar-striped active" role="progressbar"
+                                             aria-valuenow={this.calculateProgress()} aria-valuemin="0" aria-valuemax="100" style={{width:this.calculateProgress()+'%'}}>
+                                            According to the checklist your progress is %{this.calculateProgress()}
+                                        </div>
+
+                               <ul>
+                                    {this.state.checklistItems.slice(1).map((item,index)=>{
+                                        return <li><div id={item.id+index}><span  id={item.id+index}>{item.id}</span><input className="itemCheck" id={item.id+"lol"}  onClick={()=>{
                                             let submission=[];
                                             let editedSubmissionId;
                                             if(document.activeElement.checked===true){
                                                 item.done=true;
-                                                document.getElementById(item.id+index).style.backgroundColor="blue";
                                                 window.JF.getFormSubmissions("92931856730969",response=>{
                                                     for (let j = 0; j <response.length ; j++) {
                                                         if(response[j].answers[9].answer==this.props.id){
@@ -316,11 +314,10 @@ class EditCard extends React.Component {
                                                             break;
                                                         }
                                                     }
-                                                });
+                                                this.forceUpdate()});
                                             }
                                             else{
                                                 item.done=false;
-                                                document.getElementById(item.id+index).style.backgroundColor="transparent";
                                                 window.JF.getFormSubmissions("92931856730969",response=>{
                                                     for (let j = 0; j <response.length ; j++) {
                                                         if(response[j].answers[9].answer==this.props.id){
@@ -345,10 +342,12 @@ class EditCard extends React.Component {
                                                             break;
                                                         }
                                                     }
-                                                });
+                                                this.forceUpdate() });
                                             }
                                         }
-                                        } checked={item.done} type="checkbox"/></div></li>
+                                        }  type="checkbox"/>
+
+                                        </div></li>
                                     })}
                                 </ul>
                             </div>
@@ -357,9 +356,6 @@ class EditCard extends React.Component {
                                     let url=URL.createObjectURL(document.getElementsByClassName("imgInput")[0].files[0]);
                                     this.props.setImg("url(" + url + ") no-repeat");
                                 }} />
-                            </div>
-                            <div className="attachments">
-
                             </div>
                         </div>
                         <button onClick={this.props.closePopup}>close me</button>
