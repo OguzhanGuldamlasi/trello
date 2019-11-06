@@ -3,18 +3,6 @@ import '../styles/EditCard.css';
 
 class EditCard extends React.Component {
     componentDidMount() {
-
-        for (let i = 0; i <this.props.params.labels.length ; i++) {
-            if(this.props.params.labels[i].colour=="green"){
-                document.getElementById("green").checked=true;
-            }
-            if(this.props.params.labels[i].colour=="red"){
-                document.getElementById("red").checked=true;
-            }
-            if(this.props.params.labels[i].colour=="blue"){
-                document.getElementById("blue").checked=true;
-            }
-        }
         this.setState({checklistItems:this.props.params.checklist},()=>console.log(this.state.checklistItems))
 
     }
@@ -71,7 +59,7 @@ class EditCard extends React.Component {
           file:'',
           id:''
       };
-        let commentArea=document.getElementsByClassName("commentInput")[0];
+        let commentArea=document.getElementById("commentInp");
         comment.text=commentArea.value;
         if(comment.text==='') {
             return;
@@ -81,7 +69,7 @@ class EditCard extends React.Component {
         comments.push(comment);
         this.props.setTasks(undefined,undefined,undefined,comments);
         commentArea.value='';
-        document.getElementsByClassName("commentInput")[0].click();
+        document.getElementById("commentInp").click();
     }
     setToDo(e){
         e.preventDefault();
@@ -94,16 +82,12 @@ class EditCard extends React.Component {
         })
     }
     saveDesc(e){
+        console.log("here");
         e.preventDefault();
-        let textArea=document.getElementsByClassName("form-control")[0];
+        let textArea=document.getElementById("descdesc");
         let text=textArea.value;
-        this.setState({
-            showTextArea:false
-        });
-        console.log(text)
-        document.getElementsByClassName("printDesc")[0].innerText=textArea.value;
+        document.getElementsByClassName("list-group-item list-group-item-success")[0].innerText="Description : "+text;
         this.props.setTasks(undefined,undefined,text);
-        textArea.value="";
         this.setState({
             descButton:false
         })
@@ -117,7 +101,8 @@ class EditCard extends React.Component {
                 finishedJob+=1;
             }
         }
-        return finishedJob/totalJob*100;
+
+        return (finishedJob/totalJob*100).toFixed(1);
     }
     render() {
         return (
@@ -125,34 +110,33 @@ class EditCard extends React.Component {
                         <div className="toDoDiv">
                             <h3 className="name">Enter Card Name</h3>
                             <div>
-                            <input className="toDoName" placeholder="Enter the card name"
+                            <input className="form-control" placeholder="Enter the card name"
                                    onChange={e => this.setToDo(e)}/>
                             </div>
                         </div>
                         <div className="descDiv">
                             <h3 className="descName"> Description</h3>
                             <div>
-                                <textarea onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
-                                          className="form-control" rows="5" id="comment"/>
-                                <button style={{display: this.state.descButton ? 'flex' : 'none'}}
-                                        className="saveDesc" onClick={e => this.saveDesc(e)}>Save
+                                <textarea  onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
+                                          className="form-control" rows="5" id="descdesc"/>
+                                <button id="descSave" className="btn btn-success" onClick={e => this.saveDesc(e)}>Save
                                 </button>
-                                <div className="printDesc">{this.props.params.description}</div>
+                                <div id="blockquote" className="list-group-item list-group-item-success">Description : {this.props.params.description}</div>
                             </div>
                         </div>
                         <div className="comments">
                             <div className="writeComment">
-                                <input onClick={this.showSave} type="text" className="commentInput"
+                                <input onClick={this.showSave} type="text" id="commentInp" className="form-control"
                                        placeholder="Write a comment"/>
-                                <button style={{visibility: this.state.showCommentSave ? 'visible' : 'hidden'}}
-                                        className="saveComment" onClick={(e) => this.saveComment(e)}>Save Comment
+                                <button style={{display: this.state.showCommentSave ? 'flex' : 'none'}}
+                                    id="saveComment"    className="btn btn-success" onClick={(e) => this.saveComment(e)}>Save Comment
                                 </button>
                             </div>
                             <div>Comments</div>
-                            <ul>
+                            <ul className="list-group">
                                 {this.props.params.comments.map(comment => {
                                     return <div id={comment.id}>
-                                        <li>
+                                        <li className="list-group-item">
                                             <div>
                                                 <span id={comment.id + "1"}>{comment.text}</span>
                                                 <span>{comment.file}</span>
@@ -165,49 +149,43 @@ class EditCard extends React.Component {
                         <div className="addSection">
                             <div> Choose Label</div>
                             <div className="labelSection">
-                                <div className="greenLabel" style={{}}>
-                                    <input id="green" type="checkbox"  onClick={() => {
-                                        let labels =this.props.params.labels;
-                                        if (document.activeElement.checked === true) {
-                                            let label = {
-                                                colour: "green",
-                                                id: ""
-                                            };
-                                                labels.push(label);
-                                                this.props.setTasks(undefined, undefined, undefined, undefined, undefined,  labels);
-                                        }
-                                    }
-                                    }/></div>
-                                <div className="blueLabel">
-                                    <input id="blue" type="checkbox" onClick={() => {
-                                        let labels = this.props.params.labels;
-                                        if (document.activeElement.checked === true) {
-                                            let label = {
-                                                colour: "blue",
-                                                id: ""
-                                            };
-                                                labels.push(label);
-                                                this.props.setTasks(undefined, undefined, undefined, undefined, undefined, labels);
-                                            }
-                                        }
-                                    }
-                                    /></div>
-                                <div className="label label-danger">
-                                    <input id="red" type="checkbox" onClick={() => {
-                                        let labels = this.props.params.labels;
-                                        if (document.activeElement.checked === true) {
-                                            let label = {
-                                                colour: "red",
-                                                id: ""
-                                            };
-                                                labels.push(label);
-                                                this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
+                                <div>
+                                <div id="blueLabel" className="label label-primary" onClick={() => {
+                                    let labels = this.props.params.labels;
 
+                                    let label = {
+                                        colour: "blue",
+                                        id: ""
+                                    };
+                                    labels.push(label);
+                                    this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
+                                }}>
+                                    Blue Label</div></div>
+                                <div>
+                                <div id="greenLabel" className="label label-success" onClick={() => {
+                                    let labels = this.props.params.labels;
 
-                                        }
-                                    }
-                                    }/>High Priority</div>
-                            </div>
+                                    let label = {
+                                        colour: "green",
+                                        id: ""
+                                    };
+                                    labels.push(label);
+                                    this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
+                                }}>
+                                    Green Label</div></div>
+                                <div>
+                                <div id="redLabel" className="label label-danger" onClick={() => {
+                                    let labels = this.props.params.labels;
+
+                                    let label = {
+                                        colour: "red",
+                                        id: ""
+                                    };
+                                    labels.push(label);
+                                    this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
+                                }}>
+                                   Red Label</div>
+                                </div></div>
                             <div className="checkListSection">
                                 <button style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="checkListButton" onClick={(e)=>{
                                     document.activeElement.addEventListener("click",(ev)=>ev.stopPropagation());
@@ -225,6 +203,7 @@ class EditCard extends React.Component {
                                         let checkList=[];
                                         checkList.push(title);
                                         this.props.setCheckList(checkList);
+                                        console.log(title);
                                         this.setState({checklistItems:checkList},()=>console.log(this.state.checklistItems));
                                         inputArea.remove();
                                         saveButton.remove();
@@ -233,56 +212,53 @@ class EditCard extends React.Component {
                                 }}>
                                     Add  Checklist
                                 </button>
-                                <button ref="but2" style={{display: this.state.checklistItems.length>0 ? 'flex' : 'none'}} className="addItem" onClick={(e)=>{
+                                <button id="checklistItem" ref="but2" style={{display: this.state.checklistItems.length>0 ? 'flex' : 'none'}} className="btn btn-outline-dark" onClick={(e)=>{
                                     let inputArea=document.createElement("input");
+                                    inputArea.type="text";
+                                    inputArea.className="form-control";
                                     inputArea.placeholder="Add an item";
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
                                     let saveButton=document.createElement("button");
                                     saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
+                                    saveButton.className="btn btn-primary";
                                     saveButton.innerText="Save";
-                                    document.activeElement.append(inputArea);
-                                    document.activeElement.append(saveButton);
+                                    document.getElementsByClassName("buttonDiv")[0].append(inputArea);
+                                    document.getElementsByClassName("buttonDiv")[0].append(saveButton);
                                     saveButton.onclick=()=>{
                                         if(inputArea.value===null|| inputArea.value==='') {
                                             inputArea.placeholder="Fill this area " ;
                                             return;
                                         }
-                                        let checkList=this.props.params.checklist;
+                                        let checkList=[...this.state.checklistItems];
                                         let item={
                                           id:inputArea.value,
                                           done:false
                                         };
+                                        console.log(checkList);
                                         checkList.push(item);
                                         this.props.setCheckList(checkList);
                                         this.setState({checklistItems:checkList});
                                         console.log(this.state.checklistItems);
                                         let nodes=  document.activeElement.parentElement.childNodes;
-                                        nodes.item(3).remove();
-                                        nodes.item(2).remove();
-                                        nodes.item(1).remove();
+                                        document.getElementsByClassName("buttonDiv")[0].innerHTML="";
                                         this.forceUpdate()
                                     };
                                     let cancelButton=document.createElement("button");
+                                    cancelButton.className="btn btn-primary";
                                     cancelButton.innerText="Cancel";
-                                    document.activeElement.append(cancelButton);
+                                    document.getElementsByClassName("buttonDiv")[0].append(cancelButton);
                                     cancelButton.onclick=()=>{
-                                        let nodes=  document.activeElement.parentElement.childNodes;
-                                        nodes.item(3).remove();
-                                        nodes.item(2).remove();
-                                        nodes.item(1).remove();
+                                        document.getElementsByClassName("buttonDiv")[0].innerHTML="";
                                     }
                                 }
                                 }>
                                     Add Item to Checklist
                                 </button>
+                                <div className="buttonDiv"/>
                             </div>
                             <div className="items" style={{visibility: this.state.checklistItems.length>0 ? 'visible' : 'hidden'}}>
-                               Checklist :  {this.state.checklistItems[0]}
-                                        <div className="progress-bar progress-bar-striped active" role="progressbar"
-                                             aria-valuenow={this.calculateProgress()} aria-valuemin="0" aria-valuemax="100" style={{width:this.calculateProgress()+'%'}}>
-                                            According to the checklist your progress is %{this.calculateProgress()}
-                                        </div>
 
+                                Checklist :  {this.state.checklistItems[0]}
                                <ul>
                                     {this.state.checklistItems.slice(1).map((item,index)=>{
                                         return <li><div id={item.id+index}><span  id={item.id+index}>{item.id}</span><input className="itemCheck" id={item.id+"lol"}  onClick={()=>{
@@ -350,6 +326,12 @@ class EditCard extends React.Component {
                                         </div></li>
                                     })}
                                 </ul>
+                                <div style={{display:this.state.checklistItems.length>1 ? 'flex' : 'none'}}>
+                                <div  className="progress-bar progress-bar-striped active" role="progressbar"
+                                     aria-valuenow={this.calculateProgress()} aria-valuemin="0" aria-valuemax="100" style={{width:this.calculateProgress()+'%'}}>
+                                    According to the checklist your progress is %{this.calculateProgress()}
+                                </div>
+                                </div>
                             </div>
                             <div className="coverIMG">
                                 <input className="imgInput" type="file" accept="image/*" onInput={(e)=>{
