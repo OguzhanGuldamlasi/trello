@@ -8,6 +8,10 @@
     -webkit-transition-duration: 0.5s;
     -moz-transition-duration: 0.5s;
 }
+.images{
+    position: relative;
+    /*top: 60%;*/
+}
 .editCard:hover{
     color: slategray;
     /*border: 1px solid #006398;*/
@@ -30,6 +34,10 @@
     box-shadow: 2px 2px 20px #AFE9FF;
 
 }
+.buttonDiv{
+    position: relative;
+    top:40%
+}
 .card{
     cursor:grab;
     position: relative;
@@ -38,7 +46,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
     text-align: center;
     background-color: #f1f1f1;
-    height: auto;
+    height: 200px;
     width: 100%;
     display:inline-block;
     border-radius: 25px;
@@ -62,27 +70,29 @@
 }
 
 .labels .green {
-    background-color: green;
-    width: 20px;
-    height: 20px;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: forestgreen;
+    width: 30px;
+    height: 5px;
     display:inline-block;
-    border-radius: 25px;
 }
 .labels .blue {
-    background-color: blue;
-    width: 20px;
-    height: 20px;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: darkblue;
+    width: 30px;
+    height: 5px;
     display:inline-block;
-    border-radius: 25px;
 }
 .labels .red {
-    background-color: red;
-    width: 20px;
-    height: 20px;
+    margin-left: 1px;
+    margin-right: 1px;
+    background-color: indianred;
+    width: 30px;
+    height: 5px;
     display:inline-block;
-    border-radius: 25px;
 }
-
 .Desc{
     cursor:pointer;
     height: 20px;

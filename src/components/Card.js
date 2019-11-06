@@ -61,9 +61,8 @@ class Card extends React.Component{
         }finally {
             document.getElementsByClassName("addListButton")[0].style.display='inline';
             document.getElementsByClassName("addList")[0].style.visibility='visible';
-            document.getElementsByClassName("listContainer")[0].style.display='flex';
+            document.getElementsByClassName("listContainer")[0].style.display='inline-flex';
         }
-
     }
     setCheckList(checklist=this.state.checklist){
         this.setTasks(undefined,undefined,undefined,undefined,undefined,undefined,checklist)
@@ -103,6 +102,8 @@ class Card extends React.Component{
                 }
             }
         })
+        
+        
     }
     onDragStart(ev){
         this.props.onDragLeave();
@@ -139,12 +140,17 @@ class Card extends React.Component{
     render() {
         return (
             <div   onDragEnter={this.props.onDragEnter}  onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
-                <div className="coverImg" style={{background : this.state.coverImg==null  ?  null :  this.state.coverImg}} />
+                <div  className="coverImg" style={{background :this.state.coverImg}} />
                 <div className="labels">
-                    {this.state.labels.map(label=> {return <label className={label.colour}>{label.id}</label>})}
+                    {this.state.labels.map(label=> {return <label className={label.colour}/>})}
                 </div>
                 <div className="toDO">
                     <span>{this.state.toDo}</span>
+                </div>
+                <div className="images">
+                    <span style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} className='Desc'/>
+                    <span className='Comments' style={{visibility: this.state.comments.length > 0 ? 'visible' : 'hidden'}}/>
+                    <span className="Checklist" style={{visibility: this.state.checklist.length > 0 ? 'visible' : 'hidden'}}/>
                 </div>
                 <div className="buttonDiv">
                     <button className="editCard" onClick={this.togglePopup}>Edit</button>
@@ -161,11 +167,7 @@ class Card extends React.Component{
                         })
                     }}>Delete</button>
                 </div>
-                <div>
-                    <span style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} className='Desc'/>
-                    <span className='Comments' style={{visibility: this.state.comments.length > 0 ? 'visible' : 'hidden'}}/>
-                    <span className="Checklist" style={{visibility: this.state.checklist.length > 0 ? 'visible' : 'hidden'}}/>
-                </div>
+
             </div>
         );
     }

@@ -4,6 +4,11 @@
     height: 1000%;
 
 }
+.cardList{
+    align-items: center;
+    height: auto;
+    width: 100%;
+}
 .cardContainer{
     position:relative;
     top: 10px;
@@ -15,7 +20,8 @@
     border-radius: 20px;
 }
 .container{
-    max-width: 16%;
+    width: auto;
+    align-items: center;
     margin-right: 0.5rem;
     display: inline-block;
 }
@@ -32,19 +38,18 @@
     background-image:url("../images/plus (1).png")  ;
 }
 .addCard{
-    cursor:pointer;
     position: relative;
-    left:35%;
-    display: inline-block;
+    left: 33%;
+    cursor:pointer;
     border:0.1em solid #000000;
     border-radius: 0.12em;
     box-sizing: border-box;
-    color:#000000;
     text-shadow:0 0.04em 0.04em rgba(0,0,0,0.35);
     background-color: forestgreen;
     transition: all 0.5s;
     font-family:'Roboto',sans-serif;
     color: white;
+    text-align: center;
 }
 .addCard:hover{
     text-shadow: 0 0 2em rgba(255,255,255,1);
@@ -52,13 +57,11 @@
     border-color: #FFFFFF;
 }
 .listName{
-    cursor:grab;
     text-align: center;
+    cursor:grab;
     background: transparent;
     color: white;
     font-size: 30px;
     margin-bottom: 10px;
-    position: relative;
     font-weight: normal;
-    animation: bp
 }

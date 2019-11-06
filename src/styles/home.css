@@ -1,6 +1,6 @@
 .listContainer {
-    display: flex;
     position: relative;
+    display:inline-flex;
 }
 .addList{
     background-color: #3e8e41;

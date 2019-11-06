@@ -143,6 +143,7 @@ class Home extends React.Component{
     render(){
         return (
                 <div className="HomeComp">
+
                 {this.state.editCard}
                 <div className="addList">
                     <button className="addListButton" onClick={()=> {

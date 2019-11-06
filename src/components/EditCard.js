@@ -31,7 +31,7 @@ class EditCard extends React.Component {
         try{
         document.getElementsByClassName("saveList")[0].style.display='none';
         }catch (e) {
-            
+
         }finally {
             document.getElementsByClassName("addListButton")[0].style.display='none';
             document.getElementsByClassName("addList")[0].style.visibility='hidden';
@@ -70,6 +70,8 @@ class EditCard extends React.Component {
         this.props.setTasks(undefined,undefined,undefined,comments);
         commentArea.value='';
         document.getElementById("commentInp").click();
+        // document.getElementById("saveComment").remove();
+        this.setState({showCommentSave:false})
     }
     setToDo(e){
         e.preventDefault();
@@ -106,8 +108,9 @@ class EditCard extends React.Component {
     }
     render() {
         return (
+
             <div className='popup'>
-                        <div className="toDoDiv">
+                <div className="toDoDiv">
                             <h3 className="name">Enter Card Name</h3>
                             <div>
                             <input className="form-control" placeholder="Enter the card name"
@@ -147,53 +150,99 @@ class EditCard extends React.Component {
                             </ul>
                         </div>
                         <div className="addSection">
+                            <div style={{overflow:'visible'}}>Current Labels
+                            <div style={{display:this.props.params.labels.length===0 ? 'none' : 'flex'}} className="currentLabels">
+                                {this.props.params.labels.map((label)=>{
+                                    console.log(label);
+                                    return <div  className={label.colour}>{label.id}</div>
+                                })}
+                            </div>
+                            </div>
                             <div> Choose Label</div>
                             <div className="labelSection">
-                                <div>
                                 <div id="blueLabel" className="label label-primary" onClick={() => {
                                     let labels = this.props.params.labels;
-
-                                    let label = {
+                                    let inputArea=document.createElement("input");
+                                    inputArea.className='form-control';
+                                    inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
+                                    let saveButton=document.createElement("button");
+                                    saveButton.innerText='Save';
+                                    inputArea.placeholder='Optional';
+                                    saveButton.className="btn btn-info";
+                                    saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
+                                    document.getElementsByClassName("appendDiv")[0].append(inputArea);
+                                    document.getElementsByClassName("appendDiv")[0].append(saveButton);
+                                    saveButton.onclick=()=>{let label = {
                                         colour: "blue",
-                                        id: ""
+                                        id:inputArea.value
                                     };
-                                    labels.push(label);
-                                    this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
+                                        labels.push(label);
+                                        this.forceUpdate();
+                                        document.getElementsByClassName("appendDiv")[0].innerHTML="";
+                                        this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);}
+
                                 }}>
-                                    Blue Label</div></div>
-                                <div>
+                                    Blue Label</div>
                                 <div id="greenLabel" className="label label-success" onClick={() => {
                                     let labels = this.props.params.labels;
-
-                                    let label = {
+                                    let inputArea=document.createElement("input");
+                                    inputArea.className='form-control';
+                                    inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
+                                    let saveButton=document.createElement("button");
+                                    saveButton.innerText='Save';
+                                    saveButton.className='btn btn-success';
+                                    inputArea.placeholder='Optional';
+                                    saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
+                                    document.getElementsByClassName("appendDiv")[0].append(inputArea);
+                                    document.getElementsByClassName("appendDiv")[0].append(saveButton);
+                                    saveButton.onclick=()=>{
+                                        let label = {
                                         colour: "green",
-                                        id: ""
+                                        id:inputArea.value
                                     };
-                                    labels.push(label);
-                                    this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
+                                        labels.push(label);
+                                        this.forceUpdate();
+                                        document.getElementsByClassName("appendDiv")[0].innerHTML="";
+                                        this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);}
+
                                 }}>
-                                    Green Label</div></div>
-                                <div>
+                                    Green Label</div>
                                 <div id="redLabel" className="label label-danger" onClick={() => {
                                     let labels = this.props.params.labels;
-
-                                    let label = {
+                                    let inputArea=document.createElement("input");
+                                    inputArea.className='form-control';
+                                    inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
+                                    let saveButton=document.createElement("button");
+                                    saveButton.innerText='Save';
+                                    saveButton.className='btn btn-danger';
+                                    inputArea.placeholder='Optional';
+                                    saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
+                                    document.getElementsByClassName("appendDiv")[0].append(inputArea);
+                                    document.getElementsByClassName("appendDiv")[0].append(saveButton);
+                                    saveButton.onclick=()=>{let label = {
                                         colour: "red",
-                                        id: ""
+                                        id:inputArea.value
                                     };
-                                    labels.push(label);
-                                    this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);
+                                        labels.push(label);
+                                        this.forceUpdate();
+                                        document.getElementsByClassName("appendDiv")[0].innerHTML="";
+                                        this.props.setTasks(undefined,undefined,undefined,undefined,undefined,labels);}
+
                                 }}>
                                    Red Label</div>
-                                </div></div>
+                            </div><div className="appendDiv"/>
                             <div className="checkListSection">
-                                <button style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="checkListButton" onClick={(e)=>{
+                                <button id="addCheck" style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="btn btn-warning" onClick={(e)=>{
                                     document.activeElement.addEventListener("click",(ev)=>ev.stopPropagation());
                                     let inputArea=document.createElement("input");
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
                                     document.activeElement.parentElement.append(inputArea);
                                     let saveButton=document.createElement("button");
                                     saveButton.innerText="Save";
+                                    saveButton.id="lol";
+                                    inputArea.id="lol2"
+                                    saveButton.className='btn btn-info';
+                                    inputArea.className="form-control";
                                     saveButton.addEventListener("click",(ev)=>ev.stopPropagation());
                                     document.activeElement.parentElement.append(saveButton);
                                     inputArea.placeholder="Give a title from here";
@@ -327,20 +376,34 @@ class EditCard extends React.Component {
                                     })}
                                 </ul>
                                 <div style={{display:this.state.checklistItems.length>1 ? 'flex' : 'none'}}>
-                                <div  className="progress-bar progress-bar-striped active" role="progressbar"
+                                <div   className="progress-bar progress-bar-striped active" role="progressbar"
                                      aria-valuenow={this.calculateProgress()} aria-valuemin="0" aria-valuemax="100" style={{width:this.calculateProgress()+'%'}}>
                                     According to the checklist your progress is %{this.calculateProgress()}
                                 </div>
                                 </div>
                             </div>
                             <div className="coverIMG">
-                                <input className="imgInput" type="file" accept="image/*" onInput={(e)=>{
-                                    let url=URL.createObjectURL(document.getElementsByClassName("imgInput")[0].files[0]);
-                                    this.props.setImg("url(" + url + ") no-repeat");
+                                <input id="blah" className="imgInput" type="file" accept="image/*" onChange={(e)=>{
+                                    let file = document.getElementById("blah").files[0];
+                                    console.log(file);
+                                    let reader = new FileReader();
+                                    reader.readAsBinaryString(file);
+                                    let encodedFile;
+                                    reader.onload = function() {
+
+                                        console.log(encodedFile=btoa(reader.result));
+                                        console.log(encodedFile)
+                                        console.log(atob(encodedFile))
+                                        this.props.setImg(encodedFile)
+                                    };
+                                    reader.onerror = function() {
+                                        console.log('there are some problems');
+                                    };
+
                                 }} />
                             </div>
                         </div>
-                        <button onClick={this.props.closePopup}>close me</button>
+                        <button  onClick={this.props.closePopup}>Exit editing Card</button>
             </div>
         );
     }
