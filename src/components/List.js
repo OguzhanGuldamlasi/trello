@@ -257,9 +257,9 @@ class List extends React.Component{
                         </span>
                     </button>
                 </div>
-                <div className="cardContainer">
-                    {this.state.children.map(child=> {return child})}
-                </div>
+                    <div style={{height:this.state.children.length>3 ? '800px': 'auto'}} className="cardContainer">
+                     {this.state.children.map(child=> {return child})}
+                    </div>
                 <div onDragEnter={(ev) => {
     let div = document.createElement("div");
     div.className = "emptyDiv";

@@ -117,7 +117,7 @@ class Card extends React.Component{
                 break;
             }
         }
-        card.style.backgroundColor="green";
+        card.style.backgroundColor="black";
         card.style.border="dashed";
     }
     onDrag(event){
@@ -138,9 +138,11 @@ class Card extends React.Component{
         ev.preventDefault();
     }
     render() {
+        let img=new Image();
+        img.src=this.state.coverImg ? "data:image/png;base64,"+this.state.coverImg : "";
         return (
             <div   onDragEnter={this.props.onDragEnter}  onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
-                <div  className="coverImg" style={{background :this.state.coverImg}} />
+                <img className="img" src={img.src} height="70%" width="80%" alt=""/>
                 <div className="labels">
                     {this.state.labels.map(label=> {return <label className={label.colour}/>})}
                 </div>

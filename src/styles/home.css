@@ -1,13 +1,32 @@
 .listContainer {
-    position: relative;
-    display:inline-flex;
+    /*position: relative;*/
+    /*position: fixed;*/
+    /*display: inline;*/
+    width: 1900px;
+    /*overflow-y: hidden;*/
+    /*height: auto;*/
+    /*width: auto;*/
 }
 .addList{
-    background-color: #3e8e41;
+    background-color: #fa8900;
 }
+.HomeComp{
+    position:relative;
+
+}
+
 body{
-    display: flex;
-    background-color: green;
+    overflow-scrolling: auto;
+
+    /*overflow: auto;*/
+    /*display: flex;*/
+    /*background-color: green;*/
+    background: #434343;
+    /*-webkit-background-size: cover;*/
+    /*-moz-background-size: cover;*/
+    /*-o-background-size: cover;*/
+    /*background-size: cover;*/
+
 }
 .addListButton {
     position: relative;
@@ -25,9 +44,10 @@ body{
     cursor: pointer;
 }
 .addListButton:hover{
+    border:0px;
     background-color: white;
     color: black;
-    border: 0px solid #4CAF50;
+    /*border: 0px solid #4CAF50;*/
 }
 .listInput::-webkit-input-placeholder{
     color:white;
@@ -46,6 +66,8 @@ body{
     transition: width 2s;
 }
 .listInput:focus {
+    border-left: 0;
+    border-right: 0;
     background-color: white;
     width: 300px;
 
@@ -95,14 +117,10 @@ body{
     right: 0;
 }
 .addListButton:active {
-    background-color: #3e8e41;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
-/*.HomeComp{*/
-/*    height: 100vh;*/
-/*    display: grid;*/
-/*}*/
+
 #root{
     position:fixed;
     padding:0;

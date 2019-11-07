@@ -143,9 +143,9 @@ class Home extends React.Component{
     render(){
         return (
                 <div className="HomeComp">
-
-                {this.state.editCard}
-                <div className="addList">
+                    {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
+                    {this.state.editCard}
+                    <div className="addList">
                     <button className="addListButton" onClick={()=> {
                         let inputArea =document.createElement("input");
                         inputArea.className="listInput";
@@ -171,8 +171,10 @@ class Home extends React.Component{
                             document.activeElement.parentElement.childNodes[1].remove();
                         };
                     }}>Add List</button>
+                    {/*<div ></div>*/}
                 </div>
-                <div className="listContainer">
+
+                <div    className="listContainer">
                     {this.state.lists.map(list=>{return list})}
                 </div>
             </div>

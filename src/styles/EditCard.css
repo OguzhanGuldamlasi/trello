@@ -12,6 +12,68 @@
 #lol2{
     margin-top: 5px;
 }
+[type="file"] {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    white-space: nowrap;
+    width: 1px;
+}
+#exitEdit{
+    position: relative;
+    left: 35%;
+}
+#for{
+    position: relative;
+    left: 40%;
+}
+@keyframes bgcolor {
+    0% {
+        background-color: #45a3e5
+    }
+
+    30% {
+        background-color: #66bf39
+    }
+
+    60% {
+        background-color: #eb670f
+    }
+
+    90% {
+        background-color: #f35
+    }
+
+    100% {
+        background-color: #864cbf
+    }
+}
+
+[type="file"] + label {
+    -webkit-animation: bgcolor 20s infinite;
+    animation: bgcolor 10s infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+}
+[type="file"] + label {
+    border-radius: 4rem;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    padding-left: 2rem 4rem;
+}
+
+[type="file"]:focus + label,
+[type="file"] + label:hover {
+    background-color: #f15d22;
+}
+
+[type="file"]:focus + label {
+    outline: 1px dotted #000;
+}
 #lol{
     position: relative;
     right: 50%;
@@ -141,15 +203,15 @@ li{
     margin-top:25px ;
 }
 #greenLabel{
-    margin: 20%;
+    margin-left: 40px;
+    margin-right: 40px;
     cursor:pointer;
 }
 #redLabel{
-    margin: 10px;
+
     cursor:pointer;
 }
 #blueLabel{
-    margin: 10px 10px 10px 0px;
     cursor:pointer;
 }
 #checklistItem{
@@ -161,6 +223,3 @@ li{
 #checklistItem:hover{
     color:white;
 }
-
-
-

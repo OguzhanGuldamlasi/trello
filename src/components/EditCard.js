@@ -122,7 +122,7 @@ class EditCard extends React.Component {
                             <div>
                                 <textarea  onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
                                           className="form-control" rows="5" id="descdesc"/>
-                                <button id="descSave" className="btn btn-success" onClick={e => this.saveDesc(e)}>Save
+                                <button id="descSave" className="btn btn-warningx" onClick={e => this.saveDesc(e)}>Save
                                 </button>
                                 <div id="blockquote" className="list-group-item list-group-item-success">Description : {this.props.params.description}</div>
                             </div>
@@ -383,27 +383,24 @@ class EditCard extends React.Component {
                                 </div>
                             </div>
                             <div className="coverIMG">
-                                <input id="blah" className="imgInput" type="file" accept="image/*" onChange={(e)=>{
-                                    let file = document.getElementById("blah").files[0];
+                                <input id="file" type="file" accept="image/*" name="file" className="inputfile" onChange={(e)=>{
+                                    let file = document.getElementById("file").files[0];
                                     console.log(file);
                                     let reader = new FileReader();
                                     reader.readAsBinaryString(file);
                                     let encodedFile;
-                                    reader.onload = function() {
-
-                                        console.log(encodedFile=btoa(reader.result));
-                                        console.log(encodedFile)
-                                        console.log(atob(encodedFile))
+                                     reader.onload = ()=> {
+                                       encodedFile=btoa(reader.result);
                                         this.props.setImg(encodedFile)
                                     };
                                     reader.onerror = function() {
                                         console.log('there are some problems');
                                     };
 
-                                }} />
+                                }} /><label id="for" htmlFor="file">Choose a file</label>
                             </div>
                         </div>
-                        <button  onClick={this.props.closePopup}>Exit editing Card</button>
+                        <button id="exitEdit" className="btn btn-outline-danger"  onClick={this.props.closePopup}>Exit editing Card</button>
             </div>
         );
     }
