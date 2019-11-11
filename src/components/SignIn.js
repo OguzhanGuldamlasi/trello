@@ -15,7 +15,6 @@ class SignIn extends React.Component{
         let password=document.getElementById("password").value;
         let bool=this.validateUsername(userName);
         if(!bool){
-            console.log("here1")
             document.getElementsByClassName("error")[0].style.visibility="inherit";
             document.getElementsByClassName("error")[0].innerText="Wrong UserName";
             event.preventDefault();
@@ -23,7 +22,6 @@ class SignIn extends React.Component{
         }
         bool=this.validatePassword(password);
         if(bool){
-            console.log("here2")
             document.getElementsByClassName("error")[0].style.visibility="inherit";
             document.getElementsByClassName("error")[0].innerText="Wrong Password";
             event.preventDefault();
@@ -43,6 +41,7 @@ class SignIn extends React.Component{
         let submission = new Object();
         submission['3'] = userName;
         submission['4'] = password;
+        submission['5'] = [];
         window.JF.createFormSubmission("93141352586963", submission,response=>{
             console.log(response)
         });
@@ -56,8 +55,8 @@ class SignIn extends React.Component{
 
     }
     validateUsername(fld) {
-        var error = "";
-        var illegalChars = /\W/; // allow letters, numbers, and underscores
+        let error = "";
+        let illegalChars = /\W/; // allow letters, numbers, and underscores
         if (fld.value == "") {
             error = "You didn't enter a username.\n";
             // document.getElementsByClassName("");
@@ -80,7 +79,7 @@ class SignIn extends React.Component{
                 <form className="SignIn">
                     <h2 className="signInText">Sign in</h2>
                     <input  type="text" id="login" className="fadeIn second" name="login" placeholder="UserName"/>
-                    <input  type="text" id="password" className="fadeIn third" name="login" placeholder="password"/>
+                    <input  type="password" id="password" className="fadeIn third" name="login" placeholder="password"/>
                     <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>SignIn</button>
                     <div className="saved"  style={{visibility:'hidden'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
                     <div className="error" style={{visibility:'hidden'}}><img alt="" src="http://cdn.jotfor.ms/images/exclamation-octagon.png"/></div>

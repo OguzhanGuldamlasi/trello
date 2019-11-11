@@ -9,13 +9,33 @@ window.JF.login(
     }
 );
 class LandingPage extends React.Component{
+
     constructor(props){
         super(props);
+        this.state={
+            homeId:0,
+        };
+        this.getHomeId=this.getHomeId.bind(this);
+        this.setHomeId=this.setState.bind(this);
+    }
+    componentDidMount() {
+        let biggestHomeId=0;
+        window.JF.getFormSubmissions("93143614742960", function(response){
+            for(let i=0; i<response.length; i++){
+              if(response[i].answers[3].answer>biggestHomeId)response[i].answers[3].answer=biggestHomeId;
+            }
+        },()=>this.setState({homeId:biggestHomeId}),console.log(this.state.homeId));
+    }
+    getHomeId(){
+        return this.state.homeId;
+    }
+    setHomeId(){
+        this.setState({homeId:this.state.homeId+1})
     }
     render() {
         return(
                 <div className="landingPage">
-                    <Login/>
+                    <Login getHomeId={this.getHomeId} setHomeId={this.setHomeId}/>
                     <SignIn/>
                 </div>
         )

@@ -1,34 +1,43 @@
 import React from 'react'
+import ReactDOM from 'react-dom';
 import '../styles/Login.css'
 import Board from "./Board"
 class Login extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
+        this.addHome=this.addHome.bind(this);
         this.login=this.login.bind(this);
     }
-    login(){
-        let userName=document.getElementById("login").value;
-        let password=document.getElementById("password").value;
+    addHome(home){
+        let arr=[...this.state.homes];
+        arr.push(home);
+        this.setState({homes:arr})
+    }
+    login(ev){
+        ev.preventDefault();
+        let userName=document.getElementById("login1").value;
+        let password=document.getElementById("password1").value;
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
-                console.log(response[i]);
                 if(response[i].answers[3].answer==userName){
-                                if(response[i].answer[4]==password){
-
+                                if(response[i].answers[4].answer==password){
+                                    ReactDOM.render(<Board getHomeId={this.props.getHomeId} setHomeId={this.props.setHomeId}  boards={response[i].answers[5].answer} addHome={this.addHome} homes={this.state.homes}/>, document.getElementById('root'));
                                 }
                 }
             }
         },response=>{console.log(response)});
-
-        // return <Board homes={}/>;
+        let errorMSG=document.createElement("span");
+        errorMSG.innerText="No such user";
+        document.getElementById("login1").append(errorMSG)
     }
     render() {
         return(
             <div className="logIn">
+                <h2>Log in</h2>
                 <form>
                     <input  type="text" id="login1" className="fadeIn second" name="login" placeholder="login"/>
-                        <input  type="text" id="password1" className="fadeIn third" name="login" placeholder="password"/>
-                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Log in" onClick={this.login}>Log in</button>
+                        <input  type="password" id="password1" className="fadeIn third" name="login" placeholder="password"/>
+                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
                 </form>
             </div>
         )

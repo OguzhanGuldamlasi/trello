@@ -1,7 +1,8 @@
 .emptyList{
     background-color:transparent ;
-    width: auto;
-    height: 100%;
+    width: 250px;
+    height:1000px
+    /*height: 100%;*/
 }
 .cardList{
     /*align-items: center;*/

@@ -8,8 +8,8 @@ class Home extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            name:"",
-            homeId:0,
+            name:this.props.name,
+            homeId:this.props.id,
             cardId:0,
             listId:0,
             cards:[],
@@ -145,6 +145,7 @@ class Home extends React.Component{
                     {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
                     {this.state.editCard}
                     <div className="addList">
+                        <div>Add name and position it</div>
                     <button className="addListButton" onClick={()=> {
                         let inputArea =document.createElement("input");
                         inputArea.className="listInput";
