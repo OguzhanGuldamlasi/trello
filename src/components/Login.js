@@ -21,7 +21,7 @@ class Login extends React.Component{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[3].answer==userName){
                                 if(response[i].answers[4].answer==password){
-                                    ReactDOM.render(<Board getHomeId={this.props.getHomeId} setHomeId={this.props.setHomeId}  boards={response[i].answers[5].answer} addHome={this.addHome} homes={this.state.homes}/>, document.getElementById('root'));
+                                    ReactDOM.render(<Board homes={response[i].answers[5].answer} addHome={this.addHome}/>, document.getElementById('root'));
                                 }
                 }
             }
