@@ -16,6 +16,7 @@ class Card extends React.Component{
         submission['7']=state.coverImg;
         submission['10']=state.checklist;
         submission['12']=state.listId;
+        submission['14']=this.props.homeid;
         window.JF.createFormSubmission("92931856730969",submission,function (response) {});
     }
     constructor(props){
