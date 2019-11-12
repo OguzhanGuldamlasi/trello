@@ -13,38 +13,56 @@ class SignIn extends React.Component{
         event.preventDefault();
         let userName=document.getElementById("login").value;
         let password=document.getElementById("password").value;
+
         let bool=this.validateUsername(userName);
         if(!bool){
+            document.getElementsByClassName("saved")[0].style.display='none';
             document.getElementsByClassName("error")[0].style.visibility="inherit";
-            document.getElementsByClassName("error")[0].innerText="Wrong UserName";
+            document.getElementsByClassName("error")[0].innerText="Enter a valid UserName";
             event.preventDefault();
             return false;
         }
         bool=this.validatePassword(password);
         if(bool){
+            document.getElementsByClassName("saved")[0].style.display='none';
             document.getElementsByClassName("error")[0].style.visibility="inherit";
-            document.getElementsByClassName("error")[0].innerText="Wrong Password";
+            document.getElementsByClassName("error")[0].innerText="Enter a valid Password";
             event.preventDefault();
             return false;
         }
         window.JF.getFormSubmissions("93141352586963",response=>{
-            for (let i = 0; i <response.length ; i++) {
-                console.log(response[i]);
-               if(response[i].answers[3].answer==userName){
-                   document.getElementsByClassName("error")[0].style.visibility="inherit";
-                   document.getElementsByClassName("error")[0].innerText="This username already taken";
-                   event.preventDefault();
-                   return false;
-               }
+            if(response.length===0){
+                let submission = new Object();
+                submission['3'] = userName;
+                submission['4'] = password;
+                submission['5'] = null;
+                window.JF.createFormSubmission("93141352586963", submission,response=>{
+                    console.log(response)
+                });
             }
+            else{for (let i = 0; i <response.length ; i++) {
+                console.log(response[i].answers[3].answer);
+                if(response[i].answers[3].answer===userName){
+                    document.getElementsByClassName("saved")[0].style.display='none';
+                    document.getElementsByClassName("error")[0].style.visibility="inherit";
+                    document.getElementsByClassName("error")[0].innerText="This username already taken";
+                    document.getElementsByClassName("saved")[0].style.display="none";
+                }
+                else{
+                    document.getElementsByClassName("error")[0].style.visbility="hidden";
+                    document.getElementsByClassName("saved")[0].style.display="block";
+                    let submission = new Object();
+                    submission['3'] = userName;
+                    submission['4'] = password;
+                    submission['5'] = null;
+                    window.JF.createFormSubmission("93141352586963", submission,response=>{
+                        console.log(response)
+                    });
+                }
+            }}
+
         },response=>{console.log(response)});
-        let submission = new Object();
-        submission['3'] = userName;
-        submission['4'] = password;
-        submission['5'] = undefined;
-        window.JF.createFormSubmission("93141352586963", submission,response=>{
-            console.log(response)
-        });
+
     }
     validatePassword(pw) {
         return /[A-Z]/       .test(pw) &&
@@ -71,7 +89,6 @@ class SignIn extends React.Component{
             return false;
 
         }
-        document.getElementsByClassName("saved")[0].style.visibility='inherit';
         return true;
     }
     render() {
@@ -81,7 +98,7 @@ class SignIn extends React.Component{
                     <input  type="text" id="login" className="fadeIn second" name="login" placeholder="UserName"/>
                     <input  type="password" id="password" className="fadeIn third" name="login" placeholder="password"/>
                     <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>SignIn</button>
-                    <div className="saved"  style={{visibility:'hidden'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
+                    <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
                     <div className="error" style={{visibility:'hidden'}}><img alt="" src="http://cdn.jotfor.ms/images/exclamation-octagon.png"/></div>
                 </form>
         )

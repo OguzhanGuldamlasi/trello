@@ -1,0 +1,21 @@
+.AddHomeDiv{
+    background:  #fa8900;
+    display: flex;
+}
+.header{
+    border: solid 3px black;
+    position:absolute;
+    left: 48%;
+    margin-top: 7px;
+}
+.headerItems{
+    display:inline-flex;
+}
+#inputss{
+    margin-bottom: 5px;
+    margin-top: 5px;
+    position: relative;
+    /*top: 3px;*/
+    margin-left: 20px;
+    margin-right: 20px;
+}

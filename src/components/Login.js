@@ -32,11 +32,11 @@ class Login extends React.Component{
     }
     render() {
         return(
-            <div className="logIn">
+            <div style={{position:'relative'}} className="logIn">
                 <h2>Log in</h2>
                 <form>
-                    <input  type="text" id="login1" className="fadeIn second" name="login" placeholder="login"/>
-                        <input  type="password" id="password1" className="fadeIn third" name="login" placeholder="password"/>
+                    <input   type="text" id="login1" className="fadeIn second" name="login" placeholder="UserName"/>
+                    <input  type="password" id="password1" className="fadeIn third" name="login" placeholder="password"/>
                     <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
                 </form>
             </div>

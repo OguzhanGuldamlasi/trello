@@ -1,5 +1,6 @@
 import React from 'react'
 import BoardComps from "./BoardComps"
+import '../styles/Board.css'
 import Home from "./Home";
 class Board extends React.Component{
     constructor(props){
@@ -12,17 +13,20 @@ class Board extends React.Component{
         return (
             <div className="homeContainer ">
                 <div className="AddHomeDiv">
-                    <button className="addHome" onClick={()=>{
+                    <button className="btn btn-outline-warning" onClick={()=>{
                         let inputArea=document.createElement("input");
-                        inputArea.classNameName="addHome";
-                        document.getElementsByClassName("addHome")[0].append(inputArea);
+                        inputArea.className="form-control";
+                        inputArea.id="inputss"
+                        document.getElementsByClassName("headerItems")[0].append(inputArea);
                         let saveButton=document.createElement("button");
                         saveButton.innerText="Add Board";
+                        saveButton.id="saveButss";
+                        saveButton.className="btn btn-outline-warning";
                         saveButton.addEventListener("click",ev=>ev.stopPropagation());
                         inputArea.addEventListener("click",ev=>ev.stopPropagation());
-                        document.getElementsByClassName("addHome")[0].append(saveButton);
+                        document.getElementsByClassName("headerItems")[0].append(saveButton);
                         saveButton.onclick=()=>{
-                            if(inputArea.value == null){
+                            if(inputArea.value == null||inputArea.value===""){
                                  inputArea.placeholder="Fill this area"
                             }
                             else{
@@ -55,6 +59,7 @@ class Board extends React.Component{
                                                 window.JF.editSubmission(sid, userSubmission, (response)=>{
                                                 });
                                                 this.setState({homeIds:boards},()=>this.forceUpdate());
+                                                document.getElementsByClassName("headerItems")[0].innerHTML="";
                                                 break;
                                             }
                                         }
@@ -64,9 +69,11 @@ class Board extends React.Component{
                         }
                     }
                 }>Create new board</button>
+                    <div className="headerItems"></div>
+                <div className="header">My Trello</div>
                 </div>
-                <div className="Homes">
-                    {this.state.homeIds.split(",").map(id=>{return <BoardComps findName={this.findName} id={id}/>})}
+                <div style={{display:'inline-flex'}} className="Homes">
+                    {this.state.homeIds.split(",").slice(1).map(id=>{return <BoardComps findName={this.findName} id={id}/>})}
                 </div>
             </div>
         );

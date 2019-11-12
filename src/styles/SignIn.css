@@ -1,7 +1,7 @@
 
 
 .SignIn{
-    display: grid;
+    display: inline;
 }
 #buttonSign{
     width: 248px;
@@ -29,9 +29,9 @@
     color: white;
 }
 .SignIn{
+    top: calc(50% - 275px);
     position: absolute;
-    top: calc(50% - 75px);
-    left: calc(50% - 50px);
+    right:750px;
     height: 150px;
     width: 350px;
     padding: 10px;
@@ -84,7 +84,10 @@
     padding: 6px;
     margin-top: 10px;
 }
-
+#SignIn{
+    position: relative;
+    right:50px,
+}
 .SignIn input[type=button]:hover{
     opacity: 0.8;
 }

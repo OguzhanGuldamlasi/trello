@@ -28,12 +28,11 @@ class BoardComps extends React.Component{
         // ReactDOM.render(<Home name={name1} id={id1}/>, document.getElementById('root'))
     }
     render() {
+        console.log(this.state)
         return(
-            <div className="card-columns">
-                <div style={{cursor:'default'}} className="card bg-dark text-white">
+                <div onClick={(ev)=>this.onClick()} style={{marginLeft:'40px',cursor:'default',width:"150px",height:"150px"}} className="card bg-dark text-white">
                      <div className="card-body">{this.state.name}</div>
                 </div>
-            </div>
                 )
     }
 }
