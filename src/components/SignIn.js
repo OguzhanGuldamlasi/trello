@@ -41,7 +41,7 @@ class SignIn extends React.Component{
         let submission = new Object();
         submission['3'] = userName;
         submission['4'] = password;
-        submission['5'] = [];
+        submission['5'] = undefined;
         window.JF.createFormSubmission("93141352586963", submission,response=>{
             console.log(response)
         });

@@ -1,27 +1,12 @@
 import React from 'react'
+import BoardComps from "./BoardComps"
 import Home from "./Home";
-import ReactDOM from 'react-dom';
 class Board extends React.Component{
     constructor(props){
         super(props);
         this.state={
             homeIds:this.props.homes,//
-            homes:[]
-        }
-    }
-    onClick(id1,name1){
-        ReactDOM.render(<Home name={name1} id={id1}/>, document.getElementById('root'))
-    }
-    componentDidMount() {
-        let arr=[];
-        window.JF.getFormSubmissions("93143614742960", function(response){
-            for(let i=0; i<response.length; i++){
-                  let obj={
-                     id: response[i].answers[3].answer,
-                     name:response[i].answers[4].answer,
-                  }
-            }
-        },()=>this.setState({homes:arr}));
+        };
     }
     render() {
         return (
@@ -41,22 +26,47 @@ class Board extends React.Component{
                                  inputArea.placeholder="Fill this area"
                             }
                             else{
-                                let submission = new Object();
-                                submission['3'] =
-                                submission['4'] =inputArea.value;
-                                let arr=[...this.state.homes];
-                                let home=<Home name={inputArea.value} id={}/>;
-                                arr.push(home);
-                                this.setState({homes:arr});
-                                window.JF.createFormSubmission("93143614742960", submission, function(response){
-                                },()=>console.log(this.state));
+                                window.JF.getFormSubmissions("93144069017960", response=>{
+                                    let currentId=response[0].answers[3].answer;
+                                   window.JF.getFormSubmissions("93144069017960",(response)=>{
+                                       let subId= response[0].id;
+                                       let incrementedId=currentId-1+2;
+                                      let submission=new Object();
+                                       submission['3']=incrementedId;
+                                       window.JF.editSubmission(subId, submission, (response)=>{
+                                       })
+                                    });
+                                    let submission = new Object();
+                                    submission['3'] =currentId-1+1;
+                                    submission['4'] =inputArea.value;
+                                    window.JF.createFormSubmission("93143614742960", submission,(response)=>{
+                                    },()=>console.log(this.state));
+                                    window.JF.getFormSubmissions("93141352586963", response=>{
+                                        for(let i=0; i<response.length; i++){
+                                            if(response[i].answers[3].answer==this.props.user&&response[i].answers[4].answer==this.props.pass){
+                                                console.log(response[i].answers[5].answer);
+                                                let boards;
+                                                boards=(response[i].answers[5].answer==="undefined")? ""+currentId : response[i].answers[5].answer+","+currentId;
+                                                let sid=response[i].id;
+                                                let userSubmission=new Object();
+                                                userSubmission['3']=response[i].answers[3].answer;
+                                                userSubmission['4']=response[i].answers[4].answer;
+                                                userSubmission['5']=boards;
+                                                window.JF.editSubmission(sid, userSubmission, (response)=>{
+                                                });
+                                                this.setState({homeIds:boards},()=>this.forceUpdate());
+                                                break;
+                                            }
+                                        }
+
+                                    });});
                             }
                         }
                     }
                 }>Create new board</button>
                 </div>
                 <div className="Homes">
-                    {this.state.homes.map(home=>{return <div onClick={this.onClick(home.id,home.name)} id={home.id}><h3>{home.name}</h3></div>})}
+                    {this.state.homeIds.split(",").map(id=>{return <BoardComps findName={this.findName} id={id}/>})}
                 </div>
             </div>
         );

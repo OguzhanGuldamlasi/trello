@@ -12,7 +12,6 @@ class LandingPage extends React.Component{
 
     constructor(props){
         super(props);
-        window.JF.
     }
     render() {
         return(
