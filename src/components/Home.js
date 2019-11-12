@@ -174,7 +174,7 @@ class Home extends React.Component{
                     }}>Add List</button>
                     {/*<div ></div>*/}
                 </div>
-                    <button className="btn btn-secondary">Back to my Boards</button>
+                    <button style={{marginTop:"5px"}} className="btn btn-secondary">Back to my Boards</button>
                     <h1>{this.state.name}</h1>
                 <div    className="listContainer">
                     {this.state.lists.map(list=>{return list})}
