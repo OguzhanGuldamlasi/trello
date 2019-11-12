@@ -24,13 +24,14 @@ class BoardComps extends React.Component{
             }
         });
     }
-    onClick(id1,name1){
-        // ReactDOM.render(<Home name={name1} id={id1}/>, document.getElementById('root'))
+    onClick(ev,id1,name1){
+        ev.preventDefault();
+        ReactDOM.render(<Home name={name1} id={id1}/>, document.getElementById('root'))
     }
     render() {
-        console.log(this.state)
+        console.log(this.state);
         return(
-                <div onClick={(ev)=>this.onClick()} style={{marginLeft:'40px',cursor:'default',width:"150px",height:"150px"}} className="card bg-dark text-white">
+                <div onClick={(ev)=>this.onClick(ev,this.state.id,this.state.name)} style={{marginLeft:'40px',cursor:'pointer',width:"150px",height:"150px"}} className="card bg-dark text-white">
                      <div className="card-body">{this.state.name}</div>
                 </div>
                 )

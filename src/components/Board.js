@@ -16,7 +16,7 @@ class Board extends React.Component{
                     <button className="btn btn-outline-warning" onClick={()=>{
                         let inputArea=document.createElement("input");
                         inputArea.className="form-control";
-                        inputArea.id="inputss"
+                        inputArea.id="inputss";
                         document.getElementsByClassName("headerItems")[0].append(inputArea);
                         let saveButton=document.createElement("button");
                         saveButton.innerText="Add Board";
@@ -70,8 +70,10 @@ class Board extends React.Component{
                     }
                 }>Create new board</button>
                     <div className="headerItems"></div>
+                <div className="headerImg"/>
                 <div className="header">My Trello</div>
                 </div>
+                <h1>Your Boards</h1>
                 <div style={{display:'inline-flex'}} className="Homes">
                     {this.state.homeIds.split(",").slice(1).map(id=>{return <BoardComps findName={this.findName} id={id}/>})}
                 </div>

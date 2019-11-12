@@ -1,8 +1,10 @@
 .AddHomeDiv{
     background:  #fa8900;
     display: flex;
+    position: relative;
 }
 .header{
+
     border: solid 3px black;
     position:absolute;
     left: 48%;
@@ -10,8 +12,18 @@
 }
 .headerItems{
     display:inline-flex;
+    position: relative;
+}
+.headerImg{
+    width: 60px;
+    height: 20px;
+    position: absolute;
+    left: 850px;
+    top:8px;
+    background: url("../images/Webp.net-resizeimage (5).png") no-repeat;
 }
 #inputss{
+    color:black;
     margin-bottom: 5px;
     margin-top: 5px;
     position: relative;

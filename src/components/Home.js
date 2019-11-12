@@ -61,8 +61,9 @@ class Home extends React.Component{
                     listId:response[i].answers[12].answer,
                     showEditForm:false
                 };
+                console.log(obj);
                 dbCards.push(obj);
-                this.setState({cardInfos:dbCards,cardId:biggestCardId-1+2});
+                this.setState({cardInfos:dbCards,cardId:biggestCardId-1+2},()=>console.log(this.state));
             }}
         });
         window.JF.getFormSubmissions("92931845207966",(response)=> {
@@ -145,7 +146,7 @@ class Home extends React.Component{
                     {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
                     {this.state.editCard}
                     <div className="addList">
-                        <div>Add name and position it</div>
+                        {/*<div>Add name and position it</div>*/}
                     <button className="addListButton" onClick={()=> {
                         let inputArea =document.createElement("input");
                         inputArea.className="listInput";
@@ -173,7 +174,8 @@ class Home extends React.Component{
                     }}>Add List</button>
                     {/*<div ></div>*/}
                 </div>
-
+                    <button className="btn btn-secondary">Back to my Boards</button>
+                    <h1>{this.state.name}</h1>
                 <div    className="listContainer">
                     {this.state.lists.map(list=>{return list})}
                 </div>

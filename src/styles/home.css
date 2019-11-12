@@ -1,11 +1,11 @@
 .listContainer {
-    /*position: relative;*/
+    position: relative;
     /*position: fixed;*/
-    /*display: inline-flex;*/
-    width: 2000px;
+    display: inline-flex;
+    /*width: 2000px;*/
     /*overflow-y: hidden;*/
-    /*height: auto;*/
-    /*width: auto;*/
+    height: auto;
+    width: auto;
 }
 .addList{
     background-color: #fa8900;
@@ -14,20 +14,19 @@
     position:relative;
 
 }
+/*body{*/
+/*    overflow-scrolling: auto;*/
 
-body{
-    overflow-scrolling: auto;
+/*    !*overflow: auto;*!*/
+/*    !*display: flex;*!*/
+/*    !*background-color: green;*!*/
+/*    background: #434343;*/
+/*    !*-webkit-background-size: cover;*!*/
+/*    !*-moz-background-size: cover;*!*/
+/*    !*-o-background-size: cover;*!*/
+/*    !*background-size: cover;*!*/
 
-    /*overflow: auto;*/
-    /*display: flex;*/
-    /*background-color: green;*/
-    background: #434343;
-    /*-webkit-background-size: cover;*/
-    /*-moz-background-size: cover;*/
-    /*-o-background-size: cover;*/
-    /*background-size: cover;*/
-
-}
+/*}*/
 .addListButton {
     position: relative;
     background-color: transparent; /* Green */
