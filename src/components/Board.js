@@ -2,6 +2,7 @@ import React from 'react'
 import BoardComps from "./BoardComps"
 import '../styles/Board.css'
 import Home from "./Home";
+import ReactDOM from "react-dom";
 class Board extends React.Component{
     constructor(props){
         super(props);
@@ -9,6 +10,19 @@ class Board extends React.Component{
             homeIds:this.props.homes,//
         };
     }
+    componentDidMount() {
+        window.JF.getFormSubmissions("93141352586963",response=>{
+            for (let i = 0; i <response.length ; i++) {
+                if(response[i].answers[3].answer==this.props.user){
+                    if(response[i].answers[4].answer==this.props.pass){
+                        // ReactDOM.render(<Board user={userName} pass={password}  homes={response[i].answers[5].answer} addHome={this.addHome}/>, document.getElementById('root'));
+                        this.setState({homeIds:response[i].answers[5].answer})
+                    }
+                }
+            }
+        },response=>{console.log(response)});
+    }
+
     render() {
         return (
             <div className="homeContainer ">
@@ -25,7 +39,7 @@ class Board extends React.Component{
                         saveButton.addEventListener("click",ev=>ev.stopPropagation());
                         inputArea.addEventListener("click",ev=>ev.stopPropagation());
                         document.getElementsByClassName("headerItems")[0].append(saveButton);
-                        saveButton.onclick=()=>{
+                       saveButton.onclick=()=>{
                             if(inputArea.value == null||inputArea.value===""){
                                  inputArea.placeholder="Fill this area"
                             }
@@ -45,10 +59,9 @@ class Board extends React.Component{
                                     submission['4'] =inputArea.value;
                                     window.JF.createFormSubmission("93143614742960", submission,(response)=>{
                                     },()=>console.log(this.state));
-                                    window.JF.getFormSubmissions("93141352586963", response=>{
+                                    window.JF.getFormSubmissions("93141352586963",  async response=>{
                                         for(let i=0; i<response.length; i++){
                                             if(response[i].answers[3].answer==this.props.user&&response[i].answers[4].answer==this.props.pass){
-                                                console.log(response[i].answers[5].answer);
                                                 let boards;
                                                 boards=(response[i].answers[5].answer==="undefined")? ""+currentId : response[i].answers[5].answer+","+currentId;
                                                 let sid=response[i].id;
@@ -58,7 +71,7 @@ class Board extends React.Component{
                                                 userSubmission['5']=boards;
                                                 window.JF.editSubmission(sid, userSubmission, (response)=>{
                                                 });
-                                                this.setState({homeIds:boards},()=>this.forceUpdate());
+                                               await this.setState({homeIds:boards},()=>this.forceUpdate());
                                                 document.getElementsByClassName("headerItems")[0].innerHTML="";
                                                 break;
                                             }

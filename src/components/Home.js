@@ -49,43 +49,46 @@ class Home extends React.Component{
         let deleteList= this.deleteList;
         let onDrop= this.onDrop;
         let mainId=0;
-        window.JF.getFormSubmissions("92931856730969",(response)=>{
+         window.JF.getFormSubmissions("92931856730969", async (response)=>{
+            console.log("here1")
             for (let i = 0; i <response.length ; i++) {
                 if(this.state.homeId==response[i].answers[14].answer){
-                if(biggestCardId<response[i].answers[9].answer){
-                    biggestCardId=response[i].answers[9].answer;
-                }
-                let obj={
-                    cardId:response[i].answers[9].answer-1+1,
-                    toDo:response[i].answers[3].answer,
-                    description:response[i].answers[4].answer,
-                    comments:response[i].answers[5].answer,
-                    labels:response[i].answers[11].answer,
-                    coverImg:response[i].answers[7].answer,
-                    checklist:response[i].answers[10].answer,
-                    listId:response[i].answers[12].answer,
-                    showEditForm:false
-                };
-                console.log(obj);
-                dbCards.push(obj);
-                this.setState({cardInfos:dbCards,cardId:biggestCardId-1+2},()=>console.log(this.state));
-            }}
+                    if(biggestCardId<response[i].answers[9].answer){
+                        biggestCardId=response[i].answers[9].answer;
+                    }
+                    let obj={
+                        cardId:response[i].answers[9].answer-1+1,
+                        toDo:response[i].answers[3].answer,
+                        description:response[i].answers[4].answer,
+                        comments:response[i].answers[5].answer,
+                        labels:response[i].answers[11].answer,
+                        coverImg:response[i].answers[7].answer,
+                        checklist:response[i].answers[10].answer,
+                        listId:response[i].answers[12].answer,
+                        showEditForm:false
+                    };
+                    dbCards.push(obj);
+                }}
+            this.setState({cardInfos:dbCards,cardId:biggestCardId-1+2});
+             window.JF.getFormSubmissions("92931845207966",(response)=> {
+                 console.log("here2")
+                 for (let i = 0; i <response.length ; i++) {
+                     if(response[i].answers[6].answer==this.state.homeId){
+                         let id=response[response.length-i-1].answers[3].answer;
+                         let name=response[response.length-i-1].answers[4].answer;
+                         let children=response[response.length-i-1].answers[5].answer;
+                         let state1={id,name,children};
+                         console.log(this.state.cardInfos)
+                         let list=<List homeid={this.state.homeId} editCard={this.editCard} onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
+                         dbLists.push(list);
+                         id=id-1+2;
+                         mainId=id;
+                         this.setState({lists:dbLists,listId:mainId});
+                     }
+                 }
+             });
         });
-        window.JF.getFormSubmissions("92931845207966",(response)=> {
-            for (let i = 0; i <response.length ; i++) {
-                if(response[i].answers[6].answer==this.state.homeId){
-                let id=response[response.length-i-1].answers[3].answer;
-                let name=response[response.length-i-1].answers[4].answer;
-                let children=response[response.length-i-1].answers[5].answer;
-                let state1={id,name,children};
-                let list=<List homeid={this.state.homeId} editCard={this.editCard} onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
-                dbLists.push(list);
-                id=id-1+2;
-                mainId=id;
-                this.setState({lists:dbLists,listId:mainId});
-                }
-            }
-        });
+
 
     }
     getIndex(id){
@@ -192,11 +195,11 @@ class Home extends React.Component{
     }
     render(){
         return (
-                <div className="HomeComp">
-                    {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
-                    {this.state.editCard}
-                    <div className="addList">
-                        {/*<div>Add name and position it</div>*/}
+            <div className="HomeComp">
+                {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
+                {this.state.editCard}
+                <div className="addList">
+                    {/*<div>Add name and position it</div>*/}
                     <button className="addListButton" onClick={()=> {
                         let inputArea =document.createElement("input");
                         inputArea.className="listInput";
@@ -213,6 +216,7 @@ class Home extends React.Component{
                                 inputArea.placeholder="Enter a name";
                                 return ;
                             }
+                            console.log(this.state.cardInfos)
                             let newList=<List homeid={this.state.homeId} editCard={this.editCard} onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
@@ -224,32 +228,32 @@ class Home extends React.Component{
                     }}>Add List</button>
                     {/*<div ></div>*/}
                 </div>
-                    <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
-                    <button style={{marginTop:"5px",marginLeft:"5px"}} onClick={(ev)=>
-                                                {
-                                                ev.preventDefault();
-                                                // let inputArea=document.createElement("input");
-                                                //     inputArea.className="";
-                                                //     inputArea.placeholder="Enter an UserName";
-                                                //     document.getElementsByClassName("appendButton")[0].append(inputArea);
-                                                 document.getElementsByClassName("input-group mb-3")[0].style.display="inline";
-                                                }
-                    } className="btn btn-secondary">Add Another User</button>
-                    <div style={{display:'none'}} className="input-group mb-3">
-                        <input id="takeIt" placeholder="Enter An User name" type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-                            <div className="input-group-append">
-                                <button onClick={(ev)=>{
-                                    ev.preventDefault();
-                                    this.addUser(document.getElementById("takeIt").value);
-                                }
-                                } className="btn btn-outline-secondary" type="button">Add User</button>
-                            </div>
+                <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
+                <button style={{marginTop:"5px",marginLeft:"5px"}} onClick={(ev)=>
+                {
+                    ev.preventDefault();
+                    // let inputArea=document.createElement("input");
+                    //     inputArea.className="";
+                    //     inputArea.placeholder="Enter an UserName";
+                    //     document.getElementsByClassName("appendButton")[0].append(inputArea);
+                    document.getElementsByClassName("input-group mb-3")[0].style.display="inline";
+                }
+                } className="btn btn-secondary">Add Another User</button>
+                <div style={{display:'none'}} className="input-group mb-3">
+                    <input id="takeIt" placeholder="Enter An User name" type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                    <div className="input-group-append">
+                        <button onClick={(ev)=>{
+                            ev.preventDefault();
+                            this.addUser(document.getElementById("takeIt").value);
+                        }
+                        } className="btn btn-outline-secondary" type="button">Add User</button>
                     </div>
-                    <h1>{this.state.name}</h1>
-                <div style={{display:'inline-flex'}} >
-                <div     className="listContainer">
-                    {this.state.lists.map(list=>{return list})}
                 </div>
+                <h1>{this.state.name}</h1>
+                <div style={{display:'inline-flex'}} >
+                    <div     className="listContainer">
+                        {this.state.lists.map(list=>{return list})}
+                    </div>
                     <div style={{height: '2000px', width: '1000px'}} onDragEnter={()=>console.log("dragged")} onDragOver={ev=>ev.preventDefault()} onDrop={(ev)=>this.onListDrop(ev)} className="forListDrop"/>
                 </div>
             </div>

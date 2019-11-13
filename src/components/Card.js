@@ -55,8 +55,8 @@ class Card extends React.Component{
         let bool=!this.state.showEditForm;
         this.setState({showEditForm: bool},resp=>this.getComponent());
         try{
-        document.getElementsByClassName("saveList")[0].style.display='inline';
-      }
+            document.getElementsByClassName("saveList")[0].style.display='inline';
+        }
         catch (e) {
 
         }finally {
@@ -103,8 +103,8 @@ class Card extends React.Component{
                 }
             }
         })
-        
-        
+
+
     }
     onDragStart(ev){
         this.props.onDragLeave();

@@ -8,6 +8,7 @@ class List extends React.Component{
         let child=[];
         for (let i = 0; i <this.props.cardInfos.length ; i++) {
             if(this.props.cardInfos[i].listId==this.state.id){
+                console.log("didmountinlist");
                 let labels;
                 let comments;
                 let checklist;
@@ -40,10 +41,11 @@ class List extends React.Component{
 
                 (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
             }
+            this.setState({
+                children:child
+            });
         }
-        this.setState({
-            children:child
-        });
+
     }
     submitListAPI(state){
         let submission=new Object();
@@ -127,7 +129,8 @@ class List extends React.Component{
         let index=this.getIndex(id);
         this.setState({
             children:this.state.children.filter((_, i) => i !== index)
-        });
+        },()=> console.log(this.state.children));
+        console.log(this.state.children);
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
@@ -257,9 +260,9 @@ class List extends React.Component{
                         </span>
                     </button>
                 </div>
-                    <div className="cardContainer">
-                     {this.state.children.map(child=> {return child})}
-                    </div>
+                <div className="cardContainer">
+                    {this.state.children.map(child=> {return child})}
+                </div>
                 <div onDragEnter={(ev) => {
                     try{
                         ev.dataTransfer.getData("card")
@@ -270,10 +273,10 @@ class List extends React.Component{
                     div.className = "emptyDiv";
                     div.ondrop = this.onDrop;
                     ev.currentTarget.appendChild(div);
-                    }
-                    } onDragLeave={(ev) => {
+                }
+                } onDragLeave={(ev) => {
                     ev.currentTarget.lastChild.remove();
-                    }} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event => this.onDrop(event)}/>
+                }} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event => this.onDrop(event)}/>
             </div>
         )
     }

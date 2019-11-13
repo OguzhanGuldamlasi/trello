@@ -29,7 +29,6 @@ class BoardComps extends React.Component{
         ReactDOM.render(<Home user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} name={name1} id={id1}/>, document.getElementById('root'))
     }
     render() {
-        console.log(this.state);
         return(
                 <div onClick={(ev)=>this.onClick(ev,this.state.id,this.state.name)} style={{marginLeft:'40px',cursor:'pointer',width:"150px",height:"150px"}} className="card bg-dark text-white">
                      <div className="card-body">{this.state.name}</div>
