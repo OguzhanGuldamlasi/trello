@@ -25,14 +25,14 @@
     color: white;
 }
 .logIn{
+
     position: absolute;
-    top: calc(50% - 75px);
-    left: calc(50% - 50px);
+    left: 820px;
+    /*top: calc(50% - 75px);*/
+    /*left: calc(50% - 50px);*/
     height: 150px;
     width: 350px;
     padding: 10px;
-    z-index: 2;
-    right:700px;
 }
 
 .logIn input[type=text]{

@@ -238,8 +238,8 @@ class List extends React.Component{
                 break;
             }
         }
-        card.style.backgroundColor="yellow";
-        card.style.border="dashed";
+        card.style.backgroundColor="transparent";
+        card.style.border="solid";
     }
     onDrag(){
         this.props.deleteList(this.state.id);
@@ -261,14 +261,19 @@ class List extends React.Component{
                      {this.state.children.map(child=> {return child})}
                     </div>
                 <div onDragEnter={(ev) => {
-    let div = document.createElement("div");
-    div.className = "emptyDiv";
-    div.ondrop = this.onDrop;
-    ev.currentTarget.appendChild(div);
-}
-} onDragLeave={(ev) => {
-    ev.currentTarget.lastChild.remove();
-}} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event => this.onDrop(event)}/>
+                    try{
+                        ev.dataTransfer.getData("card")
+                    }catch (e) {
+                        return ;
+                    }
+                    let div = document.createElement("div");
+                    div.className = "emptyDiv";
+                    div.ondrop = this.onDrop;
+                    ev.currentTarget.appendChild(div);
+                    }
+                    } onDragLeave={(ev) => {
+                    ev.currentTarget.lastChild.remove();
+                    }} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event => this.onDrop(event)}/>
             </div>
         )
     }

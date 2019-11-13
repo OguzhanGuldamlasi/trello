@@ -69,7 +69,7 @@ class Board extends React.Component{
                         }
                     }
                 }>Create new board</button>
-                    <div className="headerItems"></div>
+                    <div className="headerItems"/>
                 <div className="headerImg"/>
                 <div className="header">My Trello</div>
                 </div>

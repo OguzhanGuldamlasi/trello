@@ -19,6 +19,7 @@ class Home extends React.Component{
             cardInfos:[],
             editCard:null
         };
+        this.onListDrop=this.onListDrop.bind(this);
         this.getIndex=this.getIndex.bind(this);
         this.getCardId=this.getCardId.bind(this);
         this.deleteCard=this.deleteCard.bind(this);
@@ -30,6 +31,7 @@ class Home extends React.Component{
         this.showEditCard=this.showEditCard.bind(this);
         this.editCard=this.editCard.bind(this);
         this.backToBoards=this.backToBoards.bind(this);
+        this.addUser=this.addUser.bind(this);
     }
     showEditCard(){
         return this.state.editCard;
@@ -140,8 +142,50 @@ class Home extends React.Component{
             lists:arr,
         });
     }
+    onListDrop(ev){
+        ev.preventDefault();
+        let state;
+        try{
+            state=JSON.parse(ev.dataTransfer.getData("list"));
+            ev.dataTransfer.clearData("list");
+        }catch (e) {
+            return ;
+        }
+        let list=<List homeid={this.state.homeId} editCard={this.editCard} cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let arr=this.state.lists;
+        arr.push(list);
+        this.setState({
+            lists:arr,
+        },()=>console.log("lol"));
+    }
     editCard(card){
         this.setState({editCard:card},resp=>this.forceUpdate());
+    }
+    addUser(userName){
+        console.log(userName);
+        let user= new Object();
+        let bool=false;
+        window.JF.getFormSubmissions("93141352586963", (response)=>{
+            for(let i=0; i<response.length; i++){
+                console.log(response[i]);
+                if(response[i].answers['3'].answer===userName){
+                    //check the users board!!!
+                    if(response[i].answers['5'].answer.split(",").slice(1).includes(this.props.id+"")){
+                        console.log("This user already on board");
+                        return ;
+                    }
+                    //
+                    bool=true;
+                    let id=response[i].id;
+                    user['3']=response[i].answers['3'].answer;
+                    user['4']=response[i].answers['4'].answer;
+                    user['5']=response[i].answers['5'].answer+','+this.props.id;
+                    window.JF.editSubmission(id, user, (response)=>{
+                        console.log(response)
+                    },()=>console.log(response))
+                }
+            }
+        });
     }
     backToBoards(){
         ReactDOM.render(<Board user={this.props.user} pass={this.props.pass}  homes={this.props.homes} addHome={this.addHome}/>, document.getElementById('root'));
@@ -181,9 +225,32 @@ class Home extends React.Component{
                     {/*<div ></div>*/}
                 </div>
                     <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
+                    <button style={{marginTop:"5px",marginLeft:"5px"}} onClick={(ev)=>
+                                                {
+                                                ev.preventDefault();
+                                                // let inputArea=document.createElement("input");
+                                                //     inputArea.className="";
+                                                //     inputArea.placeholder="Enter an UserName";
+                                                //     document.getElementsByClassName("appendButton")[0].append(inputArea);
+                                                 document.getElementsByClassName("input-group mb-3")[0].style.display="inline";
+                                                }
+                    } className="btn btn-secondary">Add Another User</button>
+                    <div style={{display:'none'}} className="input-group mb-3">
+                        <input id="takeIt" placeholder="Enter An User name" type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                            <div className="input-group-append">
+                                <button onClick={(ev)=>{
+                                    ev.preventDefault();
+                                    this.addUser(document.getElementById("takeIt").value);
+                                }
+                                } className="btn btn-outline-secondary" type="button">Add User</button>
+                            </div>
+                    </div>
                     <h1>{this.state.name}</h1>
-                <div    className="listContainer">
+                <div style={{display:'inline-flex'}} >
+                <div     className="listContainer">
                     {this.state.lists.map(list=>{return list})}
+                </div>
+                    <div style={{height: '2000px', width: '1000px'}} onDragEnter={()=>console.log("dragged")} onDragOver={ev=>ev.preventDefault()} onDrop={(ev)=>this.onListDrop(ev)} className="forListDrop"/>
                 </div>
             </div>
         )

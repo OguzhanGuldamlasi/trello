@@ -32,7 +32,7 @@ class Login extends React.Component{
     }
     render() {
         return(
-            <div style={{position:'relative'}} className="logIn">
+            <div  className="logIn">
                 <h2>Log in</h2>
                 <form>
                     <input   type="text" id="login1" className="fadeIn second" name="login" placeholder="UserName"/>
