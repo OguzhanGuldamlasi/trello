@@ -2,6 +2,8 @@ import React from 'react'
 import List from "./List"
 import EditCard from "./EditCard";
 import '../styles/home.css'
+import ReactDOM from "react-dom";
+import Board from "./Board";
 
 class Home extends React.Component{
 
@@ -27,6 +29,7 @@ class Home extends React.Component{
         this.onDrop=this.onDrop.bind(this);
         this.showEditCard=this.showEditCard.bind(this);
         this.editCard=this.editCard.bind(this);
+        this.backToBoards=this.backToBoards.bind(this);
     }
     showEditCard(){
         return this.state.editCard;
@@ -140,6 +143,9 @@ class Home extends React.Component{
     editCard(card){
         this.setState({editCard:card},resp=>this.forceUpdate());
     }
+    backToBoards(){
+        ReactDOM.render(<Board user={this.props.user} pass={this.props.pass}  homes={this.props.homes} addHome={this.addHome}/>, document.getElementById('root'));
+    }
     render(){
         return (
                 <div className="HomeComp">
@@ -174,7 +180,7 @@ class Home extends React.Component{
                     }}>Add List</button>
                     {/*<div ></div>*/}
                 </div>
-                    <button style={{marginTop:"5px"}} className="btn btn-secondary">Back to my Boards</button>
+                    <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
                     <h1>{this.state.name}</h1>
                 <div    className="listContainer">
                     {this.state.lists.map(list=>{return list})}

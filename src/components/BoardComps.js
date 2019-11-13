@@ -26,7 +26,7 @@ class BoardComps extends React.Component{
     }
     onClick(ev,id1,name1){
         ev.preventDefault();
-        ReactDOM.render(<Home name={name1} id={id1}/>, document.getElementById('root'))
+        ReactDOM.render(<Home user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} name={name1} id={id1}/>, document.getElementById('root'))
     }
     render() {
         console.log(this.state);

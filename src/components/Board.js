@@ -75,7 +75,7 @@ class Board extends React.Component{
                 </div>
                 <h1>Your Boards</h1>
                 <div style={{display:'inline-flex'}} className="Homes">
-                    {this.state.homeIds.split(",").slice(1).map(id=>{return <BoardComps findName={this.findName} id={id}/>})}
+                    {this.state.homeIds.split(",").slice(1).map(id=>{return <BoardComps user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>})}
                 </div>
             </div>
         );
