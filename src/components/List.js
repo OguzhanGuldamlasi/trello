@@ -61,10 +61,8 @@ class List extends React.Component{
                         listId:response[i].answers[12].answer,
                         showEditForm:false
                     };
-                    console.log(obj);
                     cardInfos.push(obj);
                 }
-                console.log(cardInfos);
                 this.getCards(cardInfos)
            }
         });

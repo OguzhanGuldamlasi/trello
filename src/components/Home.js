@@ -4,7 +4,14 @@ import EditCard from "./EditCard";
 import '../styles/home.css'
 import ReactDOM from "react-dom";
 import Board from "./Board";
+import { BrowserRouter } from 'react-router-dom'
 
+import {
+    Switch,
+    Route,
+    Link,
+    useParams
+} from "react-router-dom";
 class Home extends React.Component{
 
     constructor(props){
@@ -55,7 +62,6 @@ class Home extends React.Component{
                     };
                     infos.push(obj);
                 }}
-            console.log(infos);
                 return infos;
         });
     }
@@ -185,12 +191,10 @@ class Home extends React.Component{
         this.setState({editCard:card},resp=>this.forceUpdate());
     }
     addUser(userName){
-        console.log(userName);
         let user= new Object();
         let bool=false;
         window.JF.getFormSubmissions("93141352586963", (response)=>{
             for(let i=0; i<response.length; i++){
-                console.log(response[i]);
                 if(response[i].answers['3'].answer===userName){
                     //check the users board!!!
                     if(response[i].answers['5'].answer.split(",").slice(1).includes(this.props.id+"")){
@@ -211,9 +215,11 @@ class Home extends React.Component{
         });
     }
     backToBoards(){
-        ReactDOM.render(<Board user={this.props.user} pass={this.props.pass}  homes={this.props.homes} addHome={this.addHome}/>, document.getElementById('root'));
+        // ReactDOM.render(<Board user={this.props.user} pass={this.props.pass}  homes={this.props.homes} addHome={this.addHome}/>, document.getElementById('root'));
     }
     render(){
+        document.cookie=`homeName=${this.state.name}`;
+        document.cookie=`homeId=${this.state.homeId}`;
         return (
             <div className="HomeComp">
                 {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
@@ -224,6 +230,11 @@ class Home extends React.Component{
                         let inputArea =document.createElement("input");
                         inputArea.className="listInput";
                         inputArea.placeholder="Enter a list name";
+                        inputArea.addEventListener("keyup",function (event) {
+                            if(event.key==="Enter"){
+                                saveButton.click();
+                            }
+                        })
                         document.getElementsByClassName("addList")[0].append(inputArea);
                         let saveButton=document.createElement("button");
                         saveButton.className="saveList";
@@ -236,7 +247,6 @@ class Home extends React.Component{
                                 inputArea.placeholder="Enter a name";
                                 return ;
                             }
-                            console.log(this.state.cardInfos)
                             let newList=<List  homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} editCard={this.editCard} onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
@@ -248,7 +258,9 @@ class Home extends React.Component{
                     }}>Add List</button>
                     {/*<div ></div>*/}
                 </div>
+                <Link to="/board">
                 <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
+                </Link>
                 <button style={{marginTop:"5px",marginLeft:"5px"}} onClick={(ev)=>
                 {
                     ev.preventDefault();
