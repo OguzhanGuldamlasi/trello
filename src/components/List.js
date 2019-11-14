@@ -4,48 +4,72 @@ import '../styles/List.css';
 import EmptyCard from "./EmptyCard";
 let flag=0;
 class List extends React.Component{
-    componentDidMount() {
+    getCards(cardInfos=[]){
         let child=[];
-        for (let i = 0; i <this.props.cardInfos.length ; i++) {
-            if(this.props.cardInfos[i].listId==this.state.id){
-                console.log("didmountinlist");
-                let labels;
-                let comments;
-                let checklist;
-                try{
-                    labels=JSON.parse(this.props.cardInfos[i].labels.replace("undefined", ""));}
-                catch (e) {
-                    labels=[];
-                }
-                try{
-                    comments=JSON.parse(this.props.cardInfos[i].comments.replace("undefined",""));}
-                catch (e) {
-                    comments=[];
-                }
-                try {
-                    checklist = JSON.parse(this.props.cardInfos[i].checklist.replace("undefined", ""));
-                }catch (e) {
-                    checklist=[];
-                }
-                let state={
-                    cardId:this.props.cardInfos[i].cardId,
-                    toDo:this.props.cardInfos[i].toDo,
-                    labels:labels,
-                    checklist:checklist,
-                    showEditForm:false,
-                    description:this.props.cardInfos[i].description,
-                    comments:comments,
-                    coverImg:this.props.cardInfos[i].coverImg,
-                    listId:this.props.cardInfos[i].listId
-                };
 
-                (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={this.props.cardInfos[i].cardId} key={this.props.cardInfos[i].cardId} state={state}/>));
+        for (let i = 0; i <cardInfos.length ; i++) {
+            let labels;
+            let comments;
+            let checklist;
+            try{
+                labels=JSON.parse(cardInfos[i].labels.replace("undefined", ""));}
+            catch (e) {
+                labels=[];
             }
+            try{
+                comments=JSON.parse(cardInfos[i].comments.replace("undefined",""));}
+            catch (e) {
+                comments=[];
+            }
+            try {
+                checklist = JSON.parse(cardInfos[i].checklist.replace("undefined", ""));
+            }catch (e) {
+                checklist=[];
+            }
+            let state={
+                cardId:cardInfos[i].cardId,
+                toDo:cardInfos[i].toDo,
+                labels:labels,
+                checklist:checklist,
+                showEditForm:false,
+                description:cardInfos[i].description,
+                comments:comments,
+                coverImg:cardInfos[i].coverImg,
+                listId:cardInfos[i].listId
+            };
+
+            (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
+
             this.setState({
                 children:child
             });
         }
-
+    }
+    componentDidMount() {
+           let cardInfos=[];
+           window.JF.getFormSubmissions("92931856730969", (response)=>{
+           for (let i = 0; i <response.length ; i++) {
+                if(this.props.homeId==response[i].answers[14].answer&&response[i].answers[12].answer==this.state.id){
+                    let obj={
+                        cardId:response[i].answers[9].answer-1+1,
+                        toDo:response[i].answers[3].answer,
+                        description:response[i].answers[4].answer,
+                        comments:response[i].answers[5].answer,
+                        labels:response[i].answers[11].answer,
+                        coverImg:response[i].answers[7].answer,
+                        checklist:response[i].answers[10].answer,
+                        listId:response[i].answers[12].answer,
+                        showEditForm:false
+                    };
+                    console.log(obj);
+                    cardInfos.push(obj);
+                }
+                console.log(cardInfos);
+                this.getCards(cardInfos)
+           }
+        });
+        // let cardInfos=this.props.takeInfos(this.state.id).then(value => console.log(value));
+        // console.log(cardInfos);
     }
     submitListAPI(state){
         let submission=new Object();
@@ -82,19 +106,21 @@ class List extends React.Component{
         this.onDragEnter=this.onDragEnter.bind(this);
         this.onDragLeave=this.onDragLeave.bind(this);
         this.onDragOver=this.onDragOver.bind(this);
+        this.getCards=this.getCards.bind(this);
     }
-    appendChild(draggedCard=null){
+    appendChild(draggedCard=null,name){
         if(draggedCard!=null){
             this.setState({
                 children:[
                     ...this.state.children,
                     draggedCard,
                 ],
-            });
+            },()=>this.state.children);
+            console.log(this.state.children);
             return;
         }
         let cardId=this.props.getCardId();
-        let card =<Card homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
+        let card =<Card name={name} homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
         this.setState({
             children:[
                 ...this.state.children,
@@ -130,7 +156,6 @@ class List extends React.Component{
         this.setState({
             children:this.state.children.filter((_, i) => i !== index)
         },()=> console.log(this.state.children));
-        console.log(this.state.children);
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
@@ -162,6 +187,7 @@ class List extends React.Component{
                 }
             }
         });
+        console.log(this.state.children)
     };
     onCardDrop=(ev)=>{
         ev.preventDefault();
@@ -236,7 +262,6 @@ class List extends React.Component{
         let card;
         for (let i = 0; i <lists.length ; i++) {
             if(lists[i].id==this.state.id){
-                console.log("founded");
                 card=lists[i];
                 break;
             }
@@ -251,14 +276,43 @@ class List extends React.Component{
         return(
             <div className="container">
                 <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
-                    <div id="quote" className="listName">
+                    <h2  className="listName">
                         {this.state.name}
-                    </div>
-                    <button className="addCard" onClick={()=>this.appendChild()}>
-                        <span>
+                    </h2>
+                    <button className="addCard" onClick={()=>{
+                        let inputArea=document.createElement("input");
+                        inputArea.className="form-control";
+                        let saveButton=document.createElement("button");
+                        document.getElementById(this.state.id).append(inputArea);
+                        document.getElementById(this.state.id).append(saveButton);
+                        saveButton.innerText="Save";
+                        saveButton.id=this.state.id+"lol1";
+                        inputArea.id=this.state.id+"lol2";
+                        saveButton.className="btn btn-success";
+                        saveButton.style.marginTop="5px";
+                        inputArea.style.marginTop="5px";
+                        saveButton.style.position="relative";
+                        saveButton.style.left="105px";
+                        saveButton.addEventListener("click",ev=>ev.stopPropagation());
+                        inputArea.addEventListener("click",ev=>ev.stopPropagation());
+                        saveButton.onclick=()=>{
+                          if(inputArea.value===""||inputArea.value===undefined){
+                              inputArea.placeholder="Enter a valid name";
+                              return ;
+                          }
+                          else{
+                              this.appendChild(null,inputArea.value)
+                              document.getElementById(this.state.id+"lol1").remove()
+                              document.getElementById(this.state.id+"lol2").remove()
+                          }
+                        };
+                        }}>
+                        <span >
                             Add a Card
                         </span>
+
                     </button>
+                    <div id={this.state.id}/>
                 </div>
                 <div className="cardContainer">
                     {this.state.children.map(child=> {return child})}

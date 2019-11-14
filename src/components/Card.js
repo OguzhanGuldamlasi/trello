@@ -2,6 +2,7 @@ import React from 'react'
 import EditCard from "./EditCard";
 import EmptyCard from "./EmptyCard";
 import '../styles/Card.css'
+// import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 class Card extends React.Component{
     submitCardAPI(state){
         if(state.cardId==-1){
@@ -30,7 +31,7 @@ class Card extends React.Component{
         else{
             this.state={
                 cardId:this.props.id,
-                toDo:'',
+                toDo:this.props.name,
                 labels:[],
                 checklist:[],
                 showEditForm:false,
@@ -170,7 +171,6 @@ class Card extends React.Component{
                         })
                     }}>Delete</button>
                 </div>
-
             </div>
         );
     }

@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
+// import 'bootstrap/dist/css/bootstrap.css';
+
 import List from "./components/List";
 import Home from "./components/Home";
 import Login from "./components/Login";

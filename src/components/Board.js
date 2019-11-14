@@ -83,8 +83,8 @@ class Board extends React.Component{
                     }
                 }>Create new board</button>
                     <div className="headerItems"/>
-                <div className="headerImg"/>
-                <div className="header">My Trello</div>
+                {/*<div className="headerImg"/>*/}
+                {/*<div className="header">My Trello</div>*/}
                 </div>
                 <h1>Your Boards</h1>
                 <div style={{display:'inline-flex'}} className="Homes">
