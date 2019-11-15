@@ -89,7 +89,7 @@
 .labels .blue {
     margin-left: 1px;
     margin-right: 1px;
-    background-color: darkblue;
+    background-color: cornflowerblue;
     width: 30px;
     height: 5px;
     display:inline-block;
@@ -97,7 +97,7 @@
 .labels .red {
     margin-left: 1px;
     margin-right: 1px;
-    background-color: indianred;
+    background-color: darkred;
     width: 30px;
     height: 5px;
     display:inline-block;

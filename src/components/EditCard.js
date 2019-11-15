@@ -1,6 +1,9 @@
 import React from 'react';
 import '../styles/EditCard.css';
-
+function getCookieValue(a) {
+    let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}
 class EditCard extends React.Component {
     componentDidMount() {
         this.setState({checklistItems:this.props.params.checklist},()=>console.log(this.state.checklistItems))
@@ -57,7 +60,8 @@ class EditCard extends React.Component {
       let  comment={
           text:'',
           file:'',
-          id:''
+          id:'',
+          user:getCookieValue("user"),
       };
         let commentArea=document.getElementById("commentInp");
         comment.text=commentArea.value;
@@ -107,6 +111,7 @@ class EditCard extends React.Component {
         return (finishedJob/totalJob*100).toFixed(1);
     }
     render() {
+        // console.log(this.props)
         return (
 
             <div className='popup'>
@@ -142,6 +147,7 @@ class EditCard extends React.Component {
                                     return <div id={comment.id}>
                                         <li className="list-group-item">
                                             <div>
+                                                <span>{comment.user} commented :</span>
                                                 <span id={comment.id + "1"}>{comment.text}</span>
                                                 <span>{comment.file}</span>
                                             </div>
@@ -387,7 +393,7 @@ class EditCard extends React.Component {
                                 </ul>
                                 <div style={{display:this.state.checklistItems.length>1 ? 'flex' : 'none'}}>
                                 <div   className="progress-bar progress-bar-striped active" role="progressbar"
-                                     aria-valuenow={this.calculateProgress()} aria-valuemin="20" aria-valuemax="80" style={{width:this.calculateProgress()+'%'}}>
+                                     aria-valuenow={this.calculateProgress()} aria-valuemin="0" aria-valuemax="100" style={{width:this.calculateProgress()+'%'}}>
                                     According to the checklist your progress is %{this.calculateProgress()}
                                 </div>
                                 </div>
