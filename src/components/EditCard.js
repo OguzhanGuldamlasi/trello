@@ -110,18 +110,18 @@ class EditCard extends React.Component {
         return (
 
             <div className='popup'>
-                <div className="wrapperEditCard">
+                <div  className="wrapperEditCard">
                 <div className="toDoDiv">
-                            <h3 className="name">Enter Card Name</h3>
+                            <h4>Enter Card Name</h4>
                             <div>
-                            <input className="form-control" placeholder="Enter the card name"
+                            <input style={{width:'50%'}} className="form-control" placeholder="Enter the card name"
                                    onChange={e => this.setToDo(e)}/>
                             </div>
                         </div>
                         <div className="descDiv">
-                            <h3 className="descName"> Description</h3>
+                            <h4 > Description</h4>
                             <div>
-                                <textarea  onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
+                                <textarea  style={{width:'%50'}} onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
                                           className="form-control" rows="5" id="descdesc"/>
                                 <button id="descSave" className="btn btn-info"  onClick={e => this.saveDesc(e)}>Save
                                 </button>
@@ -136,7 +136,7 @@ class EditCard extends React.Component {
                                     id="saveComment"    className="btn btn-success" onClick={(e) => this.saveComment(e)}>Save Comment
                                 </button>
                             </div>
-                            <div>Comments</div>
+                            <h4>Comments</h4>
                             <ul className="list-group">
                                 {this.props.params.comments.map(comment => {
                                     return <div id={comment.id}>
@@ -151,7 +151,7 @@ class EditCard extends React.Component {
                             </ul>
                         </div>
                         <div className="addSection">
-                            <div style={{overflow:'visible'}}>Current Labels
+                            <div style={{overflow:'visible'}}><h4>Current Labels</h4>
                             <div style={{display:this.props.params.labels.length===0 ? 'none' : 'flex'}} className="currentLabels">
                                 {this.props.params.labels.map((label)=>{
                                     console.log(label);
@@ -159,7 +159,7 @@ class EditCard extends React.Component {
                                 })}
                             </div>
                             </div>
-                            <div> Choose Label</div>
+                            <h4> Choose Label</h4>
                             <div className="labelSection">
                                 <div id="blueLabel" className="label label-primary" onClick={() => {
                                     let labels = this.props.params.labels;
@@ -314,7 +314,7 @@ class EditCard extends React.Component {
                             </div>
                             <div className="items" style={{visibility: this.state.checklistItems.length>0 ? 'visible' : 'hidden'}}>
 
-                                Checklist :  {this.state.checklistItems[0]}
+                                <h5> Checklist :  {this.state.checklistItems[0]}</h5>
                                 {/*<div className="funkyradio">*/}
                                 {/*    <input type="checkbox" name="checkbox" id="checkbox1" />*/}
                                 {/*    <label htmlFor="checkbox1">First Option default</label>*/}
@@ -387,7 +387,7 @@ class EditCard extends React.Component {
                                 </ul>
                                 <div style={{display:this.state.checklistItems.length>1 ? 'flex' : 'none'}}>
                                 <div   className="progress-bar progress-bar-striped active" role="progressbar"
-                                     aria-valuenow={this.calculateProgress()} aria-valuemin="0" aria-valuemax="100" style={{width:this.calculateProgress()+'%'}}>
+                                     aria-valuenow={this.calculateProgress()} aria-valuemin="20" aria-valuemax="80" style={{width:this.calculateProgress()+'%'}}>
                                     According to the checklist your progress is %{this.calculateProgress()}
                                 </div>
                                 </div>

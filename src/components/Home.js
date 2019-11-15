@@ -226,7 +226,9 @@ class Home extends React.Component{
                 {/*{this.state.editCard}*/}
                 <div className="addList">
                     {/*<div>Add name and position it</div>*/}
-                    <button className="addListButton" onClick={()=> {
+                    <button className="addListButton" onClick={(ev)=> {
+                        // ev.preventDefault();
+                        // console.log(ev.defaultPrevented)
                         let inputArea =document.createElement("input");
                         inputArea.className="listInput";
                         inputArea.placeholder="Enter a list name";

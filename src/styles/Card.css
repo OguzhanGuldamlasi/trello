@@ -51,13 +51,13 @@
     position: relative;
     /*cursor:pointer;*/
     box-sizing: border-box;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); !* this adds the "card" effect *!*/
     text-align: center;
-    background-color: #f1f1f1;
+    background-color:#d8d8d8;
     /*height: 200px;*/
     width: 100%;
     display:inline-block;
-    border-radius: 25px;
+    /*border-radius: 25px;*/
     /*border:  solid black;*/
     /*margin-top: 5px;*/
     margin-bottom: 5px ;

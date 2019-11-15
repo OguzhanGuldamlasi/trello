@@ -24,11 +24,12 @@
 }
 #exitEdit{
     position: relative;
-    left: 35%;
+    left: 37%;
+    margin-bottom: 3px;
 }
 #for{
     position: relative;
-    left: 40%;
+    left:205px;
 }
 @keyframes bgcolor {
     0% {
@@ -114,7 +115,7 @@
 }
 #saveComment{
     position: relative;
-    left:35%;
+    left:37%;
     margin-top: 5px;
     margin-bottom:5px;
 }
@@ -138,6 +139,11 @@
 .currentLabels{
 
     display: inline-flex;
+}
+.wrapperEditCard{
+    background: #F4F5F7;
+    width: 500px;
+
 }
 .red{
     text-align:center;
@@ -192,7 +198,7 @@ li{
 }
 #descSave{
     position: relative;
-    left: 36%;
+    left: 40%;
     margin: 10px;
 }
 .toDoName{
@@ -206,8 +212,8 @@ li{
     margin-top:25px ;
 }
 #greenLabel{
-    margin-left: 100px;
-    margin-right: 100px;
+    margin-left: 153px;
+    margin-right: 153px;
     cursor:pointer;
 }
 #redLabel{
@@ -221,7 +227,7 @@ li{
     margin-top:10px ;
     margin-bottom: 10px;
     position: relative;
-    left: 28%;
+    left: 35%;
 }
 #checklistItem:hover{
     color:white;
