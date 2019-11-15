@@ -407,6 +407,7 @@ class EditCard extends React.Component {
                                     let decodedFile;
                                      reader.onload = ()=> {
                                        decodedFile=btoa(reader.result);
+
                                         this.props.setImg(decodedFile)
                                     };
                                     reader.onerror = function() {
