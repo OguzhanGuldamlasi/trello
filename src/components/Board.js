@@ -4,12 +4,17 @@ import '../styles/Board.css'
 import Home from "./Home";
 import ReactDOM from "react-dom";
 import {Link} from "react-router-dom";
+function getCookieValue(a) {
+    let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}
 class Board extends React.Component{
     constructor(props){
         super(props);
         this.state={
             homeIds:this.props.homes,//
         };
+        this.findBoardComp=this.findBoardComp.bind(this);
     }
     componentDidMount() {
         window.JF.getFormSubmissions("93141352586963",response=>{
@@ -23,7 +28,15 @@ class Board extends React.Component{
             }
         },response=>{console.log(response)});
     }
-
+    findBoardComp(id){
+        // console.log(this.state.homeIds)
+        let homes=this.state.homeIds.split(",");
+        for (let i = 0; i <homes.length ; i++) {
+            if(id==homes[i]){
+                return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>;
+            }
+        }
+    }
     render() {
         const {user,pass} = this.props;
         if (user !== undefined){
@@ -101,6 +114,12 @@ class Board extends React.Component{
                         {this.state.homeIds.split(",").slice(1).map(id=>{
                             return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
                         })}
+                    </div>
+                    <div style={{display:getCookieValue("homeId")===''? 'none':'default'}}  className="lastVisited">
+                        <h2>Last visited board</h2>
+                        {
+                            this.findBoardComp(getCookieValue("homeId"))
+                        }
                     </div>
                 </div>
             );

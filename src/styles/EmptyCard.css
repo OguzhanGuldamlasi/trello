@@ -16,7 +16,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
     /*height: 150px;*/
     /*width: auto;*/
-    /*border-radius: 25px;*/
+    border-radius: 25px;
     border: 2px solid white;
     margin-top: 5px;
     margin-bottom: 2px ;
@@ -29,7 +29,7 @@
 
 @keyframes preloader{
     100% {
-        background-color:transparent;
+        background-color:grey;
         box-shadow: 2px 2px 2px  black;
         border-color: black;
     }
