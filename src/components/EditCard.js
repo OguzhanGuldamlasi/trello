@@ -110,6 +110,7 @@ class EditCard extends React.Component {
         return (
 
             <div className='popup'>
+                <div className="wrapperEditCard">
                 <div className="toDoDiv">
                             <h3 className="name">Enter Card Name</h3>
                             <div>
@@ -122,7 +123,7 @@ class EditCard extends React.Component {
                             <div>
                                 <textarea  onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
                                           className="form-control" rows="5" id="descdesc"/>
-                                <button id="descSave" className="btn btn-warningx" onClick={e => this.saveDesc(e)}>Save
+                                <button id="descSave" className="btn btn-info"  onClick={e => this.saveDesc(e)}>Save
                                 </button>
                                 <div id="blockquote" className="list-group-item list-group-item-success">Description : {this.props.params.description}</div>
                             </div>
@@ -154,7 +155,7 @@ class EditCard extends React.Component {
                             <div style={{display:this.props.params.labels.length===0 ? 'none' : 'flex'}} className="currentLabels">
                                 {this.props.params.labels.map((label)=>{
                                     console.log(label);
-                                    return <div  className={label.colour}>{label.id}</div>
+                                    return <div style={{color:"white"}} className={label.colour}>{label.id}</div>
                                 })}
                             </div>
                             </div>
@@ -261,7 +262,7 @@ class EditCard extends React.Component {
                                 }}>
                                     Add  Checklist
                                 </button>
-                                <button id="checklistItem" ref="but2" style={{display: this.state.checklistItems.length>0 ? 'flex' : 'none'}} className="btn btn-outline-dark" onClick={(e)=>{
+                                <button id="checklistItem" ref="but2" style={{display: this.state.checklistItems.length>0 ? 'flex' : 'none'}} className="btn btn-info" onClick={(e)=>{
                                     let inputArea=document.createElement("input");
                                     inputArea.type="text";
                                     inputArea.className="form-control";
@@ -271,8 +272,8 @@ class EditCard extends React.Component {
                                     saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
                                     saveButton.className="btn btn-primary";
                                     saveButton.innerText="Save";
-                                    document.getElementsByClassName("buttonDiv")[0].append(inputArea);
-                                    document.getElementsByClassName("buttonDiv")[0].append(saveButton);
+                                    document.getElementsByClassName("saveDiv")[0].append(inputArea);
+                                    document.getElementsByClassName("saveDiv")[0].append(saveButton);
                                     saveButton.onclick=()=>{
                                         if(inputArea.value===null|| inputArea.value==='') {
                                             inputArea.placeholder="Fill this area " ;
@@ -289,28 +290,38 @@ class EditCard extends React.Component {
                                         this.setState({checklistItems:checkList});
                                         console.log(this.state.checklistItems);
                                         let nodes=  document.activeElement.parentElement.childNodes;
-                                        document.getElementsByClassName("buttonDiv")[0].innerHTML="";
+                                        document.getElementsByClassName("saveDiv")[0].innerHTML="";
                                         this.forceUpdate()
                                     };
                                     let cancelButton=document.createElement("button");
+                                    saveButton.style.margin="5px";
+                                    saveButton.style.left="20%";
+                                    saveButton.style.position="relative";
+                                    cancelButton.style.margin="5px";
+                                    cancelButton.style.left="40%";
+                                    cancelButton.style.position="relative";
                                     cancelButton.className="btn btn-primary";
                                     cancelButton.innerText="Cancel";
-                                    document.getElementsByClassName("buttonDiv")[0].append(cancelButton);
+                                    document.getElementsByClassName("saveDiv")[0].append(cancelButton);
                                     cancelButton.onclick=()=>{
-                                        document.getElementsByClassName("buttonDiv")[0].innerHTML="";
+                                        document.getElementsByClassName("saveDiv")[0].innerHTML="";
                                     }
                                 }
                                 }>
                                     Add Item to Checklist
                                 </button>
-                                <div className="buttonDiv"/>
+                                <div className="saveDiv"/>
                             </div>
                             <div className="items" style={{visibility: this.state.checklistItems.length>0 ? 'visible' : 'hidden'}}>
 
                                 Checklist :  {this.state.checklistItems[0]}
+                                {/*<div className="funkyradio">*/}
+                                {/*    <input type="checkbox" name="checkbox" id="checkbox1" />*/}
+                                {/*    <label htmlFor="checkbox1">First Option default</label>*/}
+                                {/*</div>*/}
                                <ul>
                                     {this.state.checklistItems.slice(1).map((item,index)=>{
-                                        return <li><div id={item.id+index}><span  id={item.id+index}>{item.id}</span><input className="itemCheck" id={item.id+"lol"}  onClick={()=>{
+                                        return <div id={item.id+index}><input type="checkbox" name="checkbox" className="form-check-input"  id={item.id+"lol"} checked={item.done}  onClick={()=>{
                                             let submission=[];
                                             let editedSubmissionId;
                                             if(document.activeElement.checked===true){
@@ -370,9 +381,8 @@ class EditCard extends React.Component {
                                                 this.forceUpdate() });
                                             }
                                         }
-                                        }  type="checkbox"/>
-
-                                        </div></li>
+                                        } /><span  id={item.id+index}> &nbsp; &nbsp; {item.id}</span>
+                                        </div>
                                     })}
                                 </ul>
                                 <div style={{display:this.state.checklistItems.length>1 ? 'flex' : 'none'}}>
@@ -388,10 +398,10 @@ class EditCard extends React.Component {
                                     console.log(file);
                                     let reader = new FileReader();
                                     reader.readAsBinaryString(file);
-                                    let encodedFile;
+                                    let decodedFile;
                                      reader.onload = ()=> {
-                                       encodedFile=btoa(reader.result);
-                                        this.props.setImg(encodedFile)
+                                       decodedFile=btoa(reader.result);
+                                        this.props.setImg(decodedFile)
                                     };
                                     reader.onerror = function() {
                                         console.log('there are some problems');
@@ -400,7 +410,9 @@ class EditCard extends React.Component {
                                 }} /><label id="for" htmlFor="file">Choose a file</label>
                             </div>
                         </div>
-                        <button id="exitEdit" className="btn btn-outline-danger"  onClick={this.props.onClose}>Exit editing Card</button>
+
+                        <button id="exitEdit" className="btn btn-info"  onClick={this.props.onClose}>Exit editing Card</button>
+                </div>
             </div>
         );
     }

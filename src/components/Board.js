@@ -96,7 +96,7 @@ class Board extends React.Component{
                         {/*<div className="headerImg"/>*/}
                         {/*<div className="header">My Trello</div>*/}
                     </div>
-                    <h1>Your Boards</h1>
+                    <h1 style={{textAlign:"center"}}>Your Boards</h1>
                     <div style={{display:'inline-flex'}} className="Homes">
                         {this.state.homeIds.split(",").slice(1).map(id=>{
                             return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>

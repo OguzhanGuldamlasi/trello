@@ -45,6 +45,7 @@
     height: 100%;
 }
 .card{
+
     margin-top: 10px;
     cursor:grab;
     position: relative;
@@ -53,7 +54,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
     text-align: center;
     background-color: #f1f1f1;
-    height: 200px;
+    /*height: 200px;*/
     width: 100%;
     display:inline-block;
     border-radius: 25px;

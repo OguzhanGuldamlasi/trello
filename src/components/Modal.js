@@ -46,8 +46,8 @@ export default function SimpleModal(props) {
 
     return (
         <div>
-            <button type="button" onClick={handleOpen}>
-                Open Modal
+            <button className="editCard" type="button" onClick={handleOpen}>
+                Edit
             </button>
             <Modal
                 aria-labelledby="simple-modal-title"

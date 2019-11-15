@@ -147,7 +147,9 @@ class Card extends React.Component{
                     <span className='Comments' style={{visibility: this.state.comments.length > 0 ? 'visible' : 'hidden'}}/>
                     <span className="Checklist" style={{visibility: this.state.checklist.length > 0 ? 'visible' : 'hidden'}}/>
                 </div>
-                <div className="buttonDiv">
+                {/*position: relative;*/}
+                {/*display: inline-flex;*/}
+                <div style={{position:"relative",display:"inline-flex"}}  className="buttonDiv">
                     <SimpleModal  id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
                     {/*<button className="editCard" onClick={this.togglePopup}>Edit</button>*/}
                     <button className="deleteCard" onClick={(event)=>{

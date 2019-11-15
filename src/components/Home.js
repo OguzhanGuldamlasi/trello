@@ -281,7 +281,7 @@ class Home extends React.Component{
                         } className="btn btn-outline-secondary" type="button">Add User</button>
                     </div>
                 </div>
-                <h1>{this.state.name}</h1>
+                <h1 style={{textAlign:"center"}}>{this.state.name}</h1>
                 <div style={{display:'inline-flex'}} >
                     <div     className="listContainer">
                         {this.state.lists.map(list=>{return list})}
