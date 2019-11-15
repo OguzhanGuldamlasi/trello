@@ -2,6 +2,8 @@ import React from 'react'
 import EditCard from "./EditCard";
 import EmptyCard from "./EmptyCard";
 import '../styles/Card.css'
+import Modal from '@material-ui/core/Modal';
+import SimpleModal from "./Modal";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 class Card extends React.Component{
     submitCardAPI(state){
@@ -49,22 +51,12 @@ class Card extends React.Component{
         this.onDrag=this.onDrag.bind(this);
         this.onDragOver=this.onDragOver.bind(this);
         this.submitCardAPI=this.submitCardAPI.bind(this);
-        this.getComponent=this.getComponent.bind(this);
+        // this.getComponent=this.getComponent.bind(this);
         this.togglePopup=this.togglePopup.bind(this)
     }
     togglePopup() {
         let bool=!this.state.showEditForm;
-        this.setState({showEditForm: bool},resp=>this.getComponent());
-        try{
-            document.getElementsByClassName("saveList")[0].style.display='inline';
-        }
-        catch (e) {
-
-        }finally {
-            document.getElementsByClassName("addListButton")[0].style.display='inline';
-            document.getElementsByClassName("addList")[0].style.visibility='visible';
-            document.getElementsByClassName("listContainer")[0].style.display='inline-flex';
-        }
+        // this.setState({showEditForm: bool},resp=>this.getComponent());
     }
     setCheckList(checklist=this.state.checklist){
         this.setTasks(undefined,undefined,undefined,undefined,undefined,undefined,checklist)
@@ -126,16 +118,15 @@ class Card extends React.Component{
         this.props.deleteChildren(this.state.cardId);
     }
 
-    getComponent(){
-        if(this.state.showEditForm){
-            this.props.editCard(<EditCard id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>);
-        }
-        else{
-            this.props.editCard(null);
-
-        }
-
-    }
+    // getComponent(){
+    //     if(this.state.showEditForm){
+    //         this.props.editCard(<EditCard id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>);
+    //     }
+    //     else{
+    //         this.props.editCard(null);
+    //
+    //     }
+    // }
     onDragOver(ev){
         ev.preventDefault();
     }
@@ -157,7 +148,8 @@ class Card extends React.Component{
                     <span className="Checklist" style={{visibility: this.state.checklist.length > 0 ? 'visible' : 'hidden'}}/>
                 </div>
                 <div className="buttonDiv">
-                    <button className="editCard" onClick={this.togglePopup}>Edit</button>
+                    <SimpleModal  id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
+                    {/*<button className="editCard" onClick={this.togglePopup}>Edit</button>*/}
                     <button className="deleteCard" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);
                         event.target.parentElement.parentElement.remove();
@@ -170,6 +162,7 @@ class Card extends React.Component{
                             }
                         })
                     }}>Delete</button>
+
                 </div>
             </div>
         );

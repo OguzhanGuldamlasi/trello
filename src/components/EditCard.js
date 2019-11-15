@@ -28,15 +28,15 @@ class EditCard extends React.Component {
             backgroundImage:null
         };
 
-        try{
-        document.getElementsByClassName("saveList")[0].style.display='none';
-        }catch (e) {
-
-        }finally {
-            document.getElementsByClassName("addListButton")[0].style.display='none';
-            document.getElementsByClassName("addList")[0].style.visibility='hidden';
-            document.getElementsByClassName("listContainer")[0].style.display='none';
-        }
+        // try{
+        // document.getElementsByClassName("saveList")[0].style.display='none';
+        // }catch (e) {
+        //
+        // }finally {
+        //     document.getElementsByClassName("addListButton")[0].style.display='none';
+        //     document.getElementsByClassName("addList")[0].style.visibility='hidden';
+        //     document.getElementsByClassName("listContainer")[0].style.display='none';
+        // }
     }
     closeComments(){
         this.setState({
@@ -400,7 +400,7 @@ class EditCard extends React.Component {
                                 }} /><label id="for" htmlFor="file">Choose a file</label>
                             </div>
                         </div>
-                        <button id="exitEdit" className="btn btn-outline-danger"  onClick={this.props.closePopup}>Exit editing Card</button>
+                        <button id="exitEdit" className="btn btn-outline-danger"  onClick={this.props.onClose}>Exit editing Card</button>
             </div>
         );
     }

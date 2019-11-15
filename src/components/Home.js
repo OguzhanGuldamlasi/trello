@@ -24,7 +24,7 @@ class Home extends React.Component{
             cards:[],
             lists:[],
             cardInfos:[],
-            editCard:null
+            // editCard:null
         };
         this.onListDrop=this.onListDrop.bind(this);
         this.getIndex=this.getIndex.bind(this);
@@ -35,15 +35,15 @@ class Home extends React.Component{
         this.getListIndex=this.getListIndex.bind(this);
         this.deleteList=this.deleteList.bind(this);
         this.onDrop=this.onDrop.bind(this);
-        this.showEditCard=this.showEditCard.bind(this);
-        this.editCard=this.editCard.bind(this);
+        // this.showEditCard=this.showEditCard.bind(this);
+        // this.editCard=this.editCard.bind(this);
         this.backToBoards=this.backToBoards.bind(this);
         this.addUser=this.addUser.bind(this);
         this.takeInfos=this.takeInfos.bind(this);
     }
-    showEditCard(){
-        return this.state.editCard;
-    }
+    // showEditCard(){
+    //     return this.state.editCard;
+    // }
     async takeInfos(listId){
         let infos=[];
         await window.JF.getFormSubmissions("92931856730969", (response)=>{
@@ -105,7 +105,7 @@ class Home extends React.Component{
                          let name=response[response.length-i-1].answers[4].answer;
                          let children=response[response.length-i-1].answers[5].answer;
                          let state1={id,name,children};
-                         let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} editCard={this.editCard} onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
+                         let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
                          dbLists.push(list);
                          id=id-1+2;
                          mainId=id;
@@ -162,7 +162,7 @@ class Home extends React.Component{
         }catch (e) {
             return ;
         }
-        let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} editCard={this.editCard} cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let targetId=event.currentTarget.id;
         let index=this.getListIndex(targetId);
         let arr=this.state.lists;
@@ -180,16 +180,16 @@ class Home extends React.Component{
         }catch (e) {
             return ;
         }
-        let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} editCard={this.editCard} cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let arr=this.state.lists;
         arr.push(list);
         this.setState({
             lists:arr,
         },()=>console.log("lol"));
     }
-    editCard(card){
-        this.setState({editCard:card},resp=>this.forceUpdate());
-    }
+    // editCard(card){
+    //     this.setState({editCard:card},resp=>this.forceUpdate());
+    // }
     addUser(userName){
         let user= new Object();
         let bool=false;
@@ -223,7 +223,7 @@ class Home extends React.Component{
         return (
             <div className="HomeComp">
                 {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
-                {this.state.editCard}
+                {/*{this.state.editCard}*/}
                 <div className="addList">
                     {/*<div>Add name and position it</div>*/}
                     <button className="addListButton" onClick={()=> {
@@ -247,7 +247,7 @@ class Home extends React.Component{
                                 inputArea.placeholder="Enter a name";
                                 return ;
                             }
-                            let newList=<List  homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} editCard={this.editCard} onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
+                            let newList=<List  homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
                                 listId:this.state.listId+1

@@ -38,7 +38,7 @@ class List extends React.Component{
                 listId:cardInfos[i].listId
             };
 
-            (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
+            (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard} */onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
 
             this.setState({
                 children:child
@@ -118,7 +118,7 @@ class List extends React.Component{
             return;
         }
         let cardId=this.props.getCardId();
-        let card =<Card name={name} homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
+        let card =<Card name={name} homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
         this.setState({
             children:[
                 ...this.state.children,
@@ -166,7 +166,7 @@ class List extends React.Component{
         }catch (e) {
             return ;
         }
-        let card=<Card homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         this.appendChild(card);
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
@@ -197,7 +197,7 @@ class List extends React.Component{
         }catch (e) {
             return ;
         }
-        let card=<Card homeid={this.props.homeid} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} editCard={this.props.editCard} onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card homeid={this.props.homeid} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         let element=document.getElementsByClassName("emptyDiv")[0].nextSibling;
 
