@@ -48,7 +48,7 @@ class LandingPage extends React.Component{
     };
     render() {
         let {user, password, homes} = this.state;
-        if(user===undefined){
+        if(user===undefined ){
             user=getCookieValue("user");
             password=getCookieValue("password");
             homes=getCookieValue("homes")

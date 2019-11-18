@@ -38,7 +38,7 @@ class List extends React.Component{
                 listId:cardInfos[i].listId
             };
 
-            (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard} */onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
+            (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard} */ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
 
             this.setState({
                 children:child
@@ -73,7 +73,7 @@ class List extends React.Component{
         let submission=new Object();
         submission['3']=state.id;
         submission['4']=state.name;
-        submission['5']="0";
+        submission['5']=this.props.index;
         submission['6']=this.props.homeid;
         window.JF.createFormSubmission("92931845207966",submission,function (response) {
         });
@@ -88,12 +88,13 @@ class List extends React.Component{
             this.state={
                 id:this.props.listId,
                 name:this.props.name,
+                state:this.props.index,
                 children:[]
             };
             this.submitListAPI(this.state);
         }
         this.submitListAPI=this.submitListAPI.bind(this);
-        this.submitListAPI=this.submitListAPI.bind(this);
+        // this.submitListAPI=this.submitListAPI.bind(this);
         this.getIndex=this.getIndex.bind(this);
         this.appendChild=this.appendChild.bind(this);
         this.deleteChildren=this.deleteChildren.bind(this);
@@ -114,7 +115,6 @@ class List extends React.Component{
                     draggedCard,
                 ],
             },()=>this.state.children);
-            console.log(this.state.children);
             return;
         }
         let cardId=this.props.getCardId();
@@ -135,7 +135,7 @@ class List extends React.Component{
                     let submission=new Object();
                     submission['3']=response[i].answers[3].answer;
                     submission['4']=response[i].answers[4].answer;
-                    submission['5']=","+response[i].answers[5].answer+cardId+",";
+                    submission['5']=response[i].answers[5].answer;
                     window.JF.editSubmission(submissionId,submission,rep=>console.log());
                     return;
                 }
@@ -153,7 +153,7 @@ class List extends React.Component{
         let index=this.getIndex(id);
         this.setState({
             children:this.state.children.filter((_, i) => i !== index)
-        },()=> console.log(this.state.children));
+        },);
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
@@ -185,26 +185,27 @@ class List extends React.Component{
                 }
             }
         });
-        console.log(this.state.children)
     };
     onCardDrop=(ev)=>{
-        ev.preventDefault();
-        ev.stopPropagation();
+        // ev.preventDefault();
+        // ev.stopPropagation();
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
             ev.dataTransfer.clearData("card");
+            console.log(state)
         }catch (e) {
             return ;
         }
         let card=<Card homeid={this.props.homeid} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         let element=document.getElementsByClassName("emptyDiv")[0].nextSibling;
-
+        console.log(element)
         arr.splice(this.getIndex(element.id),0,card);
         this.setState({
             children:arr
-        },this.deleteEmptyCards);
+        });
+        document.getElementsByClassName("emptyDiv")[0].remove();
         window.JF.getFormSubmissions("92931856730969",response=>{
                 for (let i = 0; i <response.length ; i++) {
                     if(response[i].answers[9].answer==state.cardId){
@@ -229,25 +230,47 @@ class List extends React.Component{
         let cards=[...this.state.children];
         for (let i = 0; i <cards.length ; i++) {
             if(cards[i].key==-1){
+                // console.log("932213213j21ljk3klj231jkl")
                 cards.splice(i,1);
                 break;
             }
         }
-        this.setState({children:cards},()=>console.log(this.state.children,""));
+        this.setState({children:cards},);
     }
     onDragOver(ev){
         ev.preventDefault();
+        // document.getElementsByClassName("emptyDiv")[0]
         // this.deleteEmptyCards();
     }
     onDragEnter(ev){
         ev.preventDefault();
-        this.deleteEmptyCards();
-        let card=<EmptyCard onDrop={this.onCardDrop} onDragLeave={this.onDragLeave} id={-1} key={-1}/>;
-        let arr=[...this.state.children];
-        arr.splice(this.getIndex(ev.currentTarget.id),0,card);
-        this.setState({
-            children:arr
-        });
+        // console.log(ev.currentTarget);
+        console.log(document.getElementsByClassName("emptyDiv") [0]);
+        if(document.getElementsByClassName("emptyDiv") [0] !==undefined){return;}
+        let div = document.createElement("div");
+        div.className = "emptyDiv";
+        div.ondragover=(ev)=>{ev.preventDefault()};
+        div.ondragenter=(ev)=>{ev.preventDefault()};
+        div.ondrop = (ev)=>{ ev.preventDefault();this.onCardDrop(ev)};
+        div.ondragleave=()=>{
+            document.getElementsByClassName("emptyDiv")[0].remove();
+        };
+        ev.currentTarget.appendChild(div);
+        ev.currentTarget.parentNode.insertBefore(div, ev.currentTarget);
+        // for (let i = 0; i <this.state.children ; i++) {
+        //     console.log(this.state.children[i])
+        //     if(this.state.children[i].key==-1){
+        //         console.log("11001010101010")
+        //         return ;
+        //     }
+        // }
+        // this.deleteEmptyCards();
+        // let card=<EmptyCard onDrop={this.onCardDrop} onDragLeave={this.onDragLeave} id={-1} key={-1}/>;
+        // let arr=[...this.state.children];
+        // arr.splice(this.getIndex(ev.currentTarget.id),0,card);
+        // this.setState({
+        //     children:arr
+        // });
     }
 
     onDragLeave(ev){
@@ -316,11 +339,6 @@ class List extends React.Component{
                     {this.state.children.map(child=> {return child})}
                 </div>
                 <div onDragEnter={(ev) => {
-                    try{
-                        ev.dataTransfer.getData("card")
-                    }catch (e) {
-                        return ;
-                    }
                     let div = document.createElement("div");
                     div.className = "emptyDiv";
                     div.ondrop = this.onDrop;

@@ -43,7 +43,9 @@ class Board extends React.Component{
         popup.classList.toggle("show");
     }
     render() {
+
         const {user,pass} = this.props;
+        console.log(user);
         if (user !== undefined){
             // document.cookie=`user=${user} ; domain=http://localhost:3000/board`;
             // document.cookie=`pass=${pass}; domain=http://localhost:3000/board`;
@@ -120,12 +122,12 @@ class Board extends React.Component{
                             return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
                         })}
                     </div>
-                    <div style={{display:this.state.homeIds.includes(getCookieValue("homeId"))? "block":"none"}} className="lastVisited">
-                        <h2>Last visited board</h2>
-                        {
-                            this.findBoardComp(getCookieValue("homeId"))
-                        }
-                    </div>
+                    {/*<div style={{display:this.state.homeIds.includes(getCookieValue("homeId"))? "block":"none"}} className="lastVisited">*/}
+                    {/*    <h2>Last visited board</h2>*/}
+                    {/*    {*/}
+                    {/*        this.findBoardComp(getCookieValue("homeId"))*/}
+                    {/*    }*/}
+                    {/*</div>*/}
                 </div>
             );
         }

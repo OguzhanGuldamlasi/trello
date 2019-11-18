@@ -4,11 +4,13 @@ class EmptyCard extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            id:this.props.id
+            id:this.props.id,
         };
         this.onDragLeave=this.onDragLeave.bind(this);
     }
     onDragLeave=(ev)=>{
+        ev.preventDefault()
+
         this.props.onDragLeave();
         // document.getElementsByClassName("emptyDiv")[0].remove();
     };

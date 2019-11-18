@@ -103,6 +103,7 @@ class Card extends React.Component{
         this.props.onDragLeave();
         let json=JSON.stringify(this.state);
         ev.dataTransfer.setData("card",json);
+        ev.dataTransfer.setData("listId",this.props.listId);
         let cards=document.getElementsByClassName("card");
         let card;
         for (let i = 0; i <cards.length ; i++) {

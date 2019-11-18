@@ -31,10 +31,11 @@
 .SignIn{
     top: calc(50% - 275px);
     position: absolute;
-    right:750px;
+    right:655px;
     height: 150px;
     width: 350px;
     padding: 10px;
+    margin-top: 20px;
     z-index: 2;
 }
 

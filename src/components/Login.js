@@ -49,6 +49,7 @@ class Login extends React.Component{
         let password=document.getElementById("password1").value;
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
+                console.log(response)
                 if(response[i].answers[3].answer==userName){
                     if(response[i].answers[4].answer==password){
                         this.setState({userName:userName});
