@@ -8,7 +8,15 @@
     width: auto;
 }
 .addList{
+    position: relative;
+    /*display: flex;*/
     background-color: #fa8900;
+}
+h1{
+    font-family: "Open Sans", serif;
+}
+h2{
+    font-family: "Open Sans", serif;
 }
 .HomeComp{
     position:relative;

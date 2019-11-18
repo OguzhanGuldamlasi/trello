@@ -35,7 +35,7 @@ class LandingPage extends React.Component{
         }
     }
 
-     setUser = (u) =>{
+    setUser = (u) =>{
         this.setState({user:u});
     };
 
@@ -47,7 +47,6 @@ class LandingPage extends React.Component{
         this.setState({homes:h});
     };
     render() {
-
         let {user, password, homes} = this.state;
         if(user===undefined){
             user=getCookieValue("user");

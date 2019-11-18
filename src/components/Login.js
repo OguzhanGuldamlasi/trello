@@ -9,6 +9,7 @@ import {
     Link,
     useParams
 } from "react-router-dom";
+import LandingPage from "./LandingPage";
 class Login extends React.Component{
     constructor(props){
         super(props);
@@ -16,12 +17,30 @@ class Login extends React.Component{
         this.login=this.login.bind(this);
         this.state={
             userName:undefined,
+            bool:true,
+            bool1:true
         }
+        this.getPass=this.getPass.bind(this);
+        this.getUser=this.getUser.bind(this)
     }
     addHome(home){
         let arr=[...this.state.homes];
         arr.push(home);
         this.setState({homes:arr})
+    }
+    getUser(){
+        if(this.state.bool){
+            this.setState({bool:false});
+            return getCookieValue("user")
+        }
+        return "";
+    }
+    getPass(){
+        if(this.state.bool1){
+            this.setState({bool1:false});
+            getCookieValue("password")
+        }
+        return "";
     }
     login(ev){
         const {setUser, setPassword, setHomes} = this.props;
@@ -31,39 +50,37 @@ class Login extends React.Component{
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[3].answer==userName){
-                                if(response[i].answers[4].answer==password){
-                                    this.setState({userName:userName});
-                                    console.log("here");
-                                    document.cookie=`user=${userName};`;
-                                    document.cookie=`password=${password}`;
-                                    document.cookie=`homes=${response[i].answers[5].answer}`;
-                                    setUser(userName);
-                                    setPassword(password);
-                                    console.log(document.cookie);
-                                    setHomes(response[i].answers[5].answer);
-                                    break;
-                                }
-                                else{
+                    if(response[i].answers[4].answer==password){
+                        this.setState({userName:userName});
+                        console.log("here");
+                        document.cookie=`user=${userName};`;
+                        document.cookie=`password=${password}`;
+                        document.cookie=`homes=${response[i].answers[5].answer}`;
+                        setUser(userName);
+                        setPassword(password);
+                        console.log(document.cookie);
+                        setHomes(response[i].answers[5].answer);
+                        break;
+                    }
+                    else{
 
-                                    setUser("");
-                                    setPassword("");
-                                    setHomes([]);
-                                }
+                        // setUser("");
+                        // setPassword("");
+                        // setHomes([]);
+                    }
                 }
             }
         },response=>{console.log(response)});
-        let errorMSG=document.createElement("span");
-        errorMSG.innerText="No such user";
-        document.getElementById("login1").append(errorMSG)
     }
     render() {
-
+        // document.getElementById("login1").innerText=getCookieValue("user");
+        // document.getElementById("password1").innerText=getCookieValue("pass");
 
         return(
             <div  className="logIn">
                 <h2>Log in</h2>
                 <form>
-                    <input   type="text" id="login1" className="fadeIn second" name="login" placeholder="UserName"/>
+                    <input  type="text" id="login1" className="fadeIn second" name="login" placeholder="UserName"/>
                     <input  type="password" id="password1" className="fadeIn third" name="login" placeholder="password"/>
                     <Link to="/board">
                         <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
@@ -74,3 +91,7 @@ class Login extends React.Component{
     }
 }
 export default Login;
+function getCookieValue(a) {
+    let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}

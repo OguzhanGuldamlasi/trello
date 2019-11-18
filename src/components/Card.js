@@ -2,7 +2,7 @@ import React from 'react'
 import EditCard from "./EditCard";
 import EmptyCard from "./EmptyCard";
 import '../styles/Card.css'
-import Modal from '@material-ui/core/Modal';
+// import Modal from '@material-ui/core/Modal';
 import SimpleModal from "./Modal";
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 class Card extends React.Component{

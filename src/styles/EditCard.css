@@ -77,8 +77,8 @@
 }
 #lol{
     position: relative;
-    right: 50%;
-    left: 43%;
+    /*right: 55%;*/
+    left: 44%;
     margin-top: 5px;
 }
 .appendDiv input{
@@ -102,7 +102,7 @@
     width: 20%;
     max-height: 100%;
     position: relative;
-    left: 40%;
+    left: 34%;
     z-index: 9999999;
 }
 #commentDiv{
@@ -111,7 +111,9 @@
     left:23%;
 }
 #commentInp{
-    margin-top:10px;
+    margin:5px;
+    width: 98%;
+
 }
 #saveComment{
     position: relative;
@@ -130,11 +132,11 @@
     text-align:center;
     border-radius: 5px;
     min-width: 30px;
-    width: 30px;
-    height: 20px;
     background: cornflowerblue;
     margin-right: 4px;
     margin-left: 4px;
+    width: fit-content;
+    height: fit-content;
 }
 .currentLabels{
 
@@ -146,21 +148,21 @@
 
 }
 .red{
+    width: fit-content;
+    height: fit-content;
     text-align:center;
     border-radius: 5px;
     min-width: 30px;
-    width: 30px;
-    height: 20px;
     background: darkred;
     margin-right: 4px;
     margin-left: 4px;
 }
 .green{
+    width: fit-content;
+    height: fit-content;
     text-align:center;
     border-radius: 5px;
     min-width: 30px;
-    width: 30px;
-    height: 20px;
     background:forestgreen;
     margin-right: 4px;
     margin-left: 4px;
@@ -206,10 +208,13 @@ li{
     border:1px solid #ccc;
     font-family:raleway
 }
+#progressBar{
+    color:black;
+}
 #addCheck{
     position: relative;
-    left:37%;
-    margin-top:25px ;
+    left:39%;
+    margin-top:5px ;
 }
 #greenLabel{
     margin-left: 153px;

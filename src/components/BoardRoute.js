@@ -33,8 +33,6 @@ class BoardRoute extends React.Component{
         let homeName=this.state.name===undefined? getCookieValue("homeName") : this.state.name;
         console.log(getCookieValue("homeId"))
         console.log(getCookieValue("homeName"))
-        console.log(this.state.id)
-        console.log(this.state.name)
         return(
     <Switch>
         <Route exact path='/board' component={() => <Board setName={this.setName} setId={this.setId}  user={this.props.user} pass={this.props.pass} homes={this.props.homes} />}/>

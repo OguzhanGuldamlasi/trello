@@ -29,6 +29,7 @@ class Board extends React.Component{
         },response=>{console.log(response)});
     }
     findBoardComp(id){
+        console.log(id);
         // console.log(this.state.homeIds)
         let homes=this.state.homeIds.split(",");
         for (let i = 0; i <homes.length ; i++) {
@@ -36,6 +37,10 @@ class Board extends React.Component{
                 return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>;
             }
         }
+    }
+    myFunction(){
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
     }
     render() {
         const {user,pass} = this.props;
@@ -115,7 +120,7 @@ class Board extends React.Component{
                             return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
                         })}
                     </div>
-                    <div style={{display:getCookieValue("homeId")===''? 'none':'default'}}  className="lastVisited">
+                    <div style={{display:this.state.homeIds.includes(getCookieValue("homeId"))? "block":"none"}} className="lastVisited">
                         <h2>Last visited board</h2>
                         {
                             this.findBoardComp(getCookieValue("homeId"))

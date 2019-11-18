@@ -119,7 +119,7 @@ class EditCard extends React.Component {
                 <div className="toDoDiv">
                             <h4>Enter Card Name</h4>
                             <div>
-                            <input style={{width:'50%'}} className="form-control" placeholder="Enter the card name"
+                            <input style={{width:'50%'}} className="form-control" placeholder="Dynamically"
                                    onChange={e => this.setToDo(e)}/>
                             </div>
                         </div>
@@ -301,7 +301,7 @@ class EditCard extends React.Component {
                                     };
                                     let cancelButton=document.createElement("button");
                                     saveButton.style.margin="5px";
-                                    saveButton.style.left="20%";
+                                    saveButton.style.left="30%";
                                     saveButton.style.position="relative";
                                     cancelButton.style.margin="5px";
                                     cancelButton.style.left="40%";
@@ -318,7 +318,7 @@ class EditCard extends React.Component {
                                 </button>
                                 <div className="saveDiv"/>
                             </div>
-                            <div className="items" style={{visibility: this.state.checklistItems.length>0 ? 'visible' : 'hidden'}}>
+                            <div className="items" style={{display: this.state.checklistItems.length>0 ? 'inherit' : 'none'}}>
 
                                 <h5> Checklist :  {this.state.checklistItems[0]}</h5>
                                 {/*<div className="funkyradio">*/}
@@ -392,7 +392,7 @@ class EditCard extends React.Component {
                                     })}
                                 </ul>
                                 <div style={{display:this.state.checklistItems.length>1 ? 'flex' : 'none'}}>
-                                <div   className="progress-bar progress-bar-striped active" role="progressbar"
+                                <div  id="progressBar"  className="progress-bar progress-bar-striped active" role="progressbar"
                                      aria-valuenow={this.calculateProgress()} aria-valuemin="0" aria-valuemax="100" style={{width:this.calculateProgress()+'%'}}>
                                     According to the checklist your progress is %{this.calculateProgress()}
                                 </div>
