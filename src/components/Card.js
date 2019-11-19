@@ -166,7 +166,7 @@ class Card extends React.Component{
                     }}>Delete</button>
 
                 </div>
-                <img className="img" src={img.src} height="100px" width="100px" alt=""/>
+                <img style={{cursor:"not-allowed"}}  className="img" src={img.src} height="100px" width="164px" alt=""/>
             </div>
         );
     }

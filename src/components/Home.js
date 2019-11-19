@@ -13,20 +13,19 @@ import {
     useParams
 } from "react-router-dom";
 class Home extends React.Component{
-    insertionSort(){
-
-        let arr=[...this.state.lists];
-        arr.sort(function(a,b){
-            if(a.key<b.key){
-                return -1
-            }else{
-                return 1;
-            }
-        });
-        console.log(arr);
-        this.setState({lists:arr});
-        console.log(this.state.lists)
-    }
+    // insertionSort(){
+    //     let arr=[...this.state.lists];
+    //     arr.sort((a,b)=>{
+    //         // console.log(a.props.index);
+    //         if(parseInt(a.props.index)<parseInt(b.props.index)){
+    //             return -1
+    //         }else{
+    //             return 1;
+    //         }
+    //     });
+    //     this.setState({lists:arr});
+    //
+    // }
     constructor(props){
         super(props);
         this.state={
@@ -39,7 +38,7 @@ class Home extends React.Component{
             cardInfos:[],
             // editCard:null
         };
-        this.insertionSort=this.insertionSort.bind(this);
+        // this.insertionSort=this.insertionSort.bind(this);
         this.onListDrop=this.onListDrop.bind(this);
         this.getIndex=this.getIndex.bind(this);
         this.getCardId=this.getCardId.bind(this);
@@ -54,6 +53,7 @@ class Home extends React.Component{
         this.backToBoards=this.backToBoards.bind(this);
         this.addUser=this.addUser.bind(this);
         this.takeInfos=this.takeInfos.bind(this);
+        this.setIndexes=this.setIndexes.bind(this);
     }
     // showEditCard(){
     //     return this.state.editCard;
@@ -115,16 +115,17 @@ class Home extends React.Component{
              window.JF.getFormSubmissions("92931845207966",(response)=> {
                  for (let i = 0; i <response.length ; i++) {
                      if(response[i].answers[6].answer==this.state.homeId){
-                         let id=response[response.length-i-1].answers[3].answer;
-                         let name=response[response.length-i-1].answers[4].answer;
-                         let children=response[response.length-i-1].answers[5].answer;
-                         let state1={id,name,children};
-                         let list=<List index={this.state.lists.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
+                         let id=response[i].answers[3].answer;
+                         let name=response[i].answers[4].answer;
+                         let index=response[i].answers[5].answer;
+                         let homeId=response[i].answers[6].answer;
+                         let state1={id,name,index,homeId};
+                         let list=<List index={index} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
                          dbLists.push(list);
                          id=id-1+2;
                          mainId=id;
                          // this.insertionSort(dbLists);
-                         this.setState({lists:dbLists,listId:mainId},()=>this.insertionSort());
+                         this.setState({lists:dbLists,listId:mainId},);
                      }
                  }
              });
@@ -149,7 +150,7 @@ class Home extends React.Component{
     }
     getListIndex(id){
         for (let i = 0; i <this.state.lists.length ; i++) {
-            if(id+""===this.state.lists[i].key){
+            if(id==this.state.lists[i].key){
                 return i;
             }
         }
@@ -169,7 +170,6 @@ class Home extends React.Component{
         this.setState({cardId:this.state.cardId+1})
     }
     onDrop(event){
-        console.log("here")
         let state;
         try{
             state=JSON.parse(event.dataTransfer.getData("list"));
@@ -177,18 +177,46 @@ class Home extends React.Component{
         }catch (e) {
             return ;
         }
-        let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let list=<List index={0} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let targetId=event.currentTarget.id;
         let index=this.getListIndex(targetId);
         let arr=this.state.lists;
         arr.splice(index,0,list);
+        console.log(this.state.lists);
         this.setState({
             lists:arr,
-        });
+        },()=>this.forceUpdate());
+        this.setIndexes(list.key)
     }
-    // setIndexes(){
-    //
-    // }
+
+    setIndexes(id){
+        let arr=[...this.state.lists];
+        let index=this.getListIndex(id);
+        console.log(id);
+        // console.log(arr);
+        console.log(index);
+        // let arr=[];
+        // for (let i = index; i <this.state.lists.length ; i++) {
+        //     arr.push(this.state.lists[i]);
+        // }
+        // console.log(arr);
+        for (let i = 0; i <arr.length ; i++) {
+           window.JF.getFormSubmissions("92931845207966", (response)=>{
+                for(let j=0; j<response.length; j++){
+                    if(response[j].answers['6'].answer==this.state.homeId&&arr[i].key==response[j].answers['3'].answer){
+                        let submission=new Object();
+                        submission['3']=response[j].answers['3'].answer;
+                        submission['4']=response[j].answers['4'].answer;
+                        submission['5']=this.getListIndex(response[j].answers['3'].answer);
+                        submission['6']=response[j].answers['6'].answer;
+                        window.JF.editSubmission(response[j].id, submission, (response)=>{
+                        });
+                        break;
+                    }
+                }
+            });
+        }
+    }
     onListDrop(ev){
         ev.preventDefault();
         console.log(ev);
@@ -198,19 +226,20 @@ class Home extends React.Component{
             console.log(state);
             ev.dataTransfer.clearData("list");
         }catch (e) {
-            state=JSON.parse(ev.dataTransfer.getData("card"));
-            let listID=ev.dataTransfer.getData("listId");
-            for (let i = 0; i <this.state.lists.length ; i++) {
-                console.log(this.state.lists[i]);
-            }
+            // state=JSON.parse(ev.dataTransfer.getData("card"));
+            // let listID=ev.dataTransfer.getData("listId");
+            // for (let i = 0; i <this.state.lists.length ; i++) {
+            //     console.log(this.state.lists[i]);
+            // }
             return ;
         }
-        let list=<List homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let list=<List index={this.state.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let arr=this.state.lists;
         arr.push(list);
         this.setState({
             lists:arr,
         },()=>console.log("lol"));
+        this.setIndexes(list.key)
     }
     // editCard(card){
     //     this.setState({editCard:card},resp=>this.forceUpdate());
@@ -245,6 +274,16 @@ class Home extends React.Component{
     render(){
         document.cookie=`homeName=${this.state.name}`;
         document.cookie=`homeId=${this.state.homeId}`;
+        let arr=[...this.state.lists];
+            arr.sort((a,b)=>{
+                // console.log(a.props.index);
+                if(parseInt(a.props.index)<parseInt(b.props.index)){
+                    return -1
+                }else{
+                    return 1;
+                }
+            });
+
         return (
             <div className="HomeComp">
                 {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
@@ -275,7 +314,8 @@ class Home extends React.Component{
                                 return ;
                             }
                             // {console.log(this.)}
-                            let newList=<List  index={this.state.lists.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.listId} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
+                            console.log(this.state.lists.length);
+                            let newList=<List  index={this.state.lists.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.lists.length} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
                                 listId:this.state.listId+1
@@ -292,27 +332,23 @@ class Home extends React.Component{
                 <button style={{marginTop:"5px",marginLeft:"5px"}} onClick={(ev)=>
                 {
                     ev.preventDefault();
-                    // let inputArea=document.createElement("input");
-                    //     inputArea.className="";
-                    //     inputArea.placeholder="Enter an UserName";
-                    //     document.getElementsByClassName("appendButton")[0].append(inputArea);
-                    document.getElementsByClassName("input-group mb-3")[0].style.display="inline";
+                    document.getElementsByClassName("lollol")[0].style.display="inline-flex";
                 }
                 } className="btn btn-secondary">Add Another User</button>
-                <div style={{display:'none'}} className="input-group mb-3">
-                    <input id="takeIt" placeholder="Enter An User name" type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                <div style={{display:'none'}}  className="lollol">
+                    <input style={{margin:"10px"}} id="takeIt" placeholder="Enter An User name" type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
                     <div className="input-group-append">
                         <button onClick={(ev)=>{
                             ev.preventDefault();
                             this.addUser(document.getElementById("takeIt").value);
                         }
-                        } className="btn btn-outline-secondary" type="button">Add User</button>
+                        } style={{marginTop:"10px"}} className="btn btn-dark" type="button">Add User</button>
                     </div>
                 </div>
                 <h1 style={{textAlign:"center"}}>{this.state.name}</h1>
                 <div style={{display:'inline-flex'}} >
                     <div     className="listContainer">
-                        {this.state.lists.map(list=>{return list})}
+                        {arr.map(list=>{return list})}
                     </div>
                     <div style={{height: '2000px', width: '1000px'}}  onDragOver={ev=>ev.preventDefault()} onDrop={(ev)=>this.onListDrop(ev)} className="forListDrop"/>
                 </div>

@@ -245,7 +245,6 @@ class List extends React.Component{
     onDragEnter(ev){
         ev.preventDefault();
         // console.log(ev.currentTarget);
-        console.log(document.getElementsByClassName("emptyDiv") [0]);
         if(document.getElementsByClassName("emptyDiv") [0] !==undefined){return;}
         let div = document.createElement("div");
         div.className = "emptyDiv";
