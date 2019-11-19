@@ -17,6 +17,17 @@ class Board extends React.Component{
         this.findBoardComp=this.findBoardComp.bind(this);
     }
     componentDidMount() {
+        window.Email.send({
+            Host : "smtp.elasticemail.com",
+            Username : "oguzhanguldamlasi@gmail.com",
+            Password : "66de0b65-68cc-4fe0-b105-ee42733814c7",
+            To : 'oguzhanguldamlasi@gmail.com',
+            From : "clau0onix@gmail.com",
+            Subject : "You have a new message from react project",
+            Body : "Component mounted"
+        }).then(
+            message => alert(message)
+        );
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[3].answer==this.props.user){
@@ -38,14 +49,10 @@ class Board extends React.Component{
             }
         }
     }
-    myFunction(){
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("show");
-    }
+
     render() {
 
         const {user,pass} = this.props;
-        console.log(user);
         if (user !== undefined){
             // document.cookie=`user=${user} ; domain=http://localhost:3000/board`;
             // document.cookie=`pass=${pass}; domain=http://localhost:3000/board`;

@@ -13,7 +13,7 @@ class SignIn extends React.Component{
         event.preventDefault();
         let userName=document.getElementById("login").value;
         let password=document.getElementById("password").value;
-
+        let email=document.getElementById("email").value;
         let bool=this.validateUsername(userName);
         if(!bool){
             document.getElementsByClassName("saved")[0].style.display='none';
@@ -36,6 +36,7 @@ class SignIn extends React.Component{
                 submission['3'] = userName;
                 submission['4'] = password;
                 submission['5'] = null;
+                submission['6']= email;
                 window.JF.createFormSubmission("93141352586963", submission,response=>{
                     console.log(response)
                 });
@@ -55,6 +56,7 @@ class SignIn extends React.Component{
                     submission['3'] = userName;
                     submission['4'] = password;
                     submission['5'] = null;
+                    submission['6']=email;
                     window.JF.createFormSubmission("93141352586963", submission,response=>{
                         console.log(response)
                     });
@@ -96,6 +98,7 @@ class SignIn extends React.Component{
                 <form className="SignIn">
                     <h2 className="signInText">Sign in</h2>
                     <input  type="text" id="login" className="fadeIn second" name="login" placeholder="UserName"/>
+                    <input  type="email" id="email" className="fadeIn third" name="email" placeholder="email"/>
                     <input  type="password" id="password" className="fadeIn third" name="login" placeholder="password"/>
                     <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>SignIn</button>
                     <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
