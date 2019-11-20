@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 // import 'bootstrap/dist/css/bootstrap.css';
-
 import List from "./components/List";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage";
+import App from "./App";
 ReactDOM.render(<LandingPage />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

@@ -1,9 +1,14 @@
 import React from 'react'
 import BoardComps from "./BoardComps"
 import '../styles/Board.css'
+import mailjet from "node-mailjet"
+import NodeMailer from "nodemailer";
+// import sendmail from "sendmail";
+
 import Home from "./Home";
 import ReactDOM from "react-dom";
 import {Link} from "react-router-dom";
+
 function getCookieValue(a) {
     let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
@@ -18,15 +23,16 @@ class Board extends React.Component{
     }
     componentDidMount() {
         window.Email.send({
-            Host : "smtp.elasticemail.com",
+            port :"2525",
+            SecureToken : "4a6bfe2a-bb8c-4d89-a330-068d7fd1f61c",
             Username : "oguzhanguldamlasi@gmail.com",
             Password : "66de0b65-68cc-4fe0-b105-ee42733814c7",
-            To : 'oguzhanguldamlasi@gmail.com',
-            From : "clau0onix@gmail.com",
-            Subject : "You have a new message from react project",
-            Body : "Component mounted"
+            To : 'clau0onix@gmail.com',
+            From : "oguzhanguldamlasi@gmail.com",
+            Subject : "You are invited to my wedding",
+            Body : "Düðünümüz kastamonuda haftasonu 15:00 da cumhuriyet meydanýnda yapýlacaktýr.lsejfljkdsaflkjömxvxöcnvoqpýwe"
         }).then(
-            message => alert(message)
+            message => console.log(message)
         );
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
@@ -142,3 +148,30 @@ class Board extends React.Component{
 
 }
 export default Board;
+
+/*
+ var transporter = NodeMailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'oguzhanguldamlasi@gmail.com',
+                pass: 'Clau0onix'
+            }
+        });
+
+        var mailOptions = {
+            from: 'oguzhanguldamlasi@gmail.com',
+            to: 'oguzhanguldamlasi@gmail.com',
+            subject: 'Sending Email using Node.js',
+            text: 'That was easy!'
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+
+ */
