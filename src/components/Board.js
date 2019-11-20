@@ -29,8 +29,8 @@ class Board extends React.Component{
             Password : "66de0b65-68cc-4fe0-b105-ee42733814c7",
             To : 'clau0onix@gmail.com',
             From : "oguzhanguldamlasi@gmail.com",
-            Subject : "You are invited to my wedding",
-            Body : "Düðünümüz kastamonuda haftasonu 15:00 da cumhuriyet meydanýnda yapýlacaktýr.lsejfljkdsaflkjömxvxöcnvoqpýwe"
+            Subject : "This mail sent by board component",
+            Body : "aldfkþasldkfþasdkfçwömerçmçzvmçcxmvçmvcþlkwerþksdaf"
         }).then(
             message => console.log(message)
         );
