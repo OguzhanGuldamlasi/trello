@@ -27,7 +27,7 @@ class Board extends React.Component{
             SecureToken : "4a6bfe2a-bb8c-4d89-a330-068d7fd1f61c",
             Username : "oguzhanguldamlasi@gmail.com",
             Password : "66de0b65-68cc-4fe0-b105-ee42733814c7",
-            To : 'clau0onix@gmail.com',
+            To : 'oguzhan_g99@hotmail.com',
             From : "oguzhanguldamlasi@gmail.com",
             Subject : "This mail sent by board component",
             Body : "aldfkþasldkfþasdkfçwömerçmçzvmçcxmvçmvcþlkwerþksdaf"
