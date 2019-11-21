@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/EditCard.css';
+import Card from "./Dropdown";
 function getCookieValue(a) {
     let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
@@ -13,6 +14,7 @@ class EditCard extends React.Component {
 
     constructor(props){
         super(props);
+        // console.log(props)
         this.setToDo=this.setToDo.bind(this);
         this.openTextArea=this.openTextArea.bind(this);
         this.saveDesc=this.saveDesc.bind(this);
@@ -30,7 +32,7 @@ class EditCard extends React.Component {
             descButton:false,
             backgroundImage:null
         };
-
+        console.log(this.props)
         // try{
         // document.getElementsByClassName("saveList")[0].style.display='none';
         // }catch (e) {
@@ -116,6 +118,10 @@ class EditCard extends React.Component {
 
             <div className='popup'>
                 <div  className="wrapperEditCard">
+                    <h3 id={"ownerHeader"}>Owner:{this.props.owner==''? "No one assigned to card" : this.props.owner}</h3>
+                    <div className="DropDown">
+                        <Card id={this.props.id} homeid={this.props.homeid}/>
+                    </div>
                 <div className="toDoDiv">
                             <h4>Enter Card Name</h4>
                             <div>

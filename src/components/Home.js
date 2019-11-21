@@ -1,5 +1,6 @@
 import React from 'react'
 import List from "./List"
+// import axios from 'axios'
 import EditCard from "./EditCard";
 import '../styles/home.css'
 import ReactDOM from "react-dom";
@@ -12,6 +13,7 @@ import {
     Link,
     useParams
 } from "react-router-dom";
+import axios from 'axios';
 class Home extends React.Component{
     // insertionSort(){
     //     let arr=[...this.state.lists];
@@ -80,6 +82,7 @@ class Home extends React.Component{
         });
     }
     componentDidMount() {
+        console.log(this.state.homeId)
         let dbLists=[];
         let dbCards=[];
         let biggestCardId=-1;
@@ -261,8 +264,20 @@ class Home extends React.Component{
                     user['3']=response[i].answers['3'].answer;
                     user['4']=response[i].answers['4'].answer;
                     user['5']=response[i].answers['5'].answer+','+this.props.id;
+                    user['6']=response[i].answers['6'].answer;
                     window.JF.editSubmission(id, user, (response)=>{
-                        console.log(response)
+                        // console.log(user['6'])
+                        const dataToSubmit={
+                            name:userName,
+                            mail:user['6'],
+                            message:`You are added board ${this.state.name}`,
+                        };
+                        try {
+                            // console.log(dataToSubmit);
+                            axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
+                        }catch (e) {
+                            console.log(e)
+                        }
                     },()=>console.log(response))
                 }
             }
@@ -314,7 +329,7 @@ class Home extends React.Component{
                                 return ;
                             }
                             // {console.log(this.)}
-                            console.log(this.state.lists.length);
+                            // console.log(this.state.lists.length);
                             let newList=<List  index={this.state.lists.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.lists.length} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],

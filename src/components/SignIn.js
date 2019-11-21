@@ -1,6 +1,6 @@
 import React from 'react'
 import '../styles/SignIn.css'
-
+import axios from 'axios'
 class SignIn extends React.Component{
     constructor(props){
         super(props);
@@ -15,6 +15,18 @@ class SignIn extends React.Component{
         let password=document.getElementById("password").value;
         let email=document.getElementById("email").value;
         let bool=this.validateUsername(userName);
+        const dataToSubmit={
+            name:userName,
+            mail:email,
+            message:"Welcome to Trello",
+        };
+        try {
+            // console.log(dataToSubmit);
+            axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
+        }catch (e) {
+            console.log(e)
+        }
+
         if(!bool){
             document.getElementsByClassName("saved")[0].style.display='none';
             document.getElementsByClassName("error")[0].style.visibility="inherit";
@@ -38,7 +50,6 @@ class SignIn extends React.Component{
                 submission['5'] = null;
                 submission['6']= email;
                 window.JF.createFormSubmission("93141352586963", submission,response=>{
-                    console.log(response)
                 });
             }
             else{for (let i = 0; i <response.length ; i++) {

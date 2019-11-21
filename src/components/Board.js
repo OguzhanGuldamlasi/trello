@@ -1,13 +1,55 @@
 import React from 'react'
 import BoardComps from "./BoardComps"
 import '../styles/Board.css'
-import mailjet from "node-mailjet"
+// import mailjet from "node-mailjet"
 import NodeMailer from "nodemailer";
 // import sendmail from "sendmail";
 
 import Home from "./Home";
 import ReactDOM from "react-dom";
 import {Link} from "react-router-dom";
+import axios from "axios";
+// async function sendMail(){
+//     "use strict";
+//     const nodemailer = require("nodemailer");
+//
+// // async..await is not allowed in global scope, must use a wrapper
+//     async function main() {
+//         // Generate test SMTP service account from ethereal.email
+//         // Only needed if you don't have a real mail account for testing
+//         let testAccount = await nodemailer.createTestAccount();
+//
+//         // create reusable transporter object using the default SMTP transport
+//         let transporter = nodemailer.createTransport({
+//             host: "smtp.ethereal.email",
+//             port: 587,
+//             secure: false, // true for 465, false for other ports
+//             auth: {
+//                 user: testAccount.user, // generated ethereal user
+//                 pass: testAccount.pass // generated ethereal password
+//             }
+//         });
+//
+//         // send mail with defined transport object
+//         let info = await transporter.sendMail({
+//             from: '"Fred Foo ?" <foo@example.com>', // sender address
+//             to: "oguzhanguldamlasi@gmail.com", // list of receivers
+//             subject: "Hello ?", // Subject line
+//             text: "Hello world?", // plain text body
+//             html: "<b>Hello world?</b>" // html body
+//         });
+//
+//         console.log("Message sent: %s", info.messageId);
+//         // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+//
+//         // Preview only available when sending through an Ethereal account
+//         console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+//         // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+//     }
+//
+//     main().catch(console.error);
+//
+// }
 
 function getCookieValue(a) {
     let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
@@ -19,21 +61,31 @@ class Board extends React.Component{
         this.state={
             homeIds:this.props.homes,//
         };
+        console.log(props);
+        window.JF.getFormSubmissions("93141352586963", function(response){
+            for(let i=0; i<response.length; i++){
+                let userName=response[i].answers[3].answer;
+                let password=response[i].answers[4].answer;
+            }
+        });
+        // sendMail().then(response=>console.log(response));
+        this.getBoardUsers=this.getBoardUsers.bind(this);
         this.findBoardComp=this.findBoardComp.bind(this);
     }
     componentDidMount() {
-        window.Email.send({
-            port :"2525",
-            SecureToken : "4a6bfe2a-bb8c-4d89-a330-068d7fd1f61c",
-            Username : "oguzhanguldamlasi@gmail.com",
-            Password : "66de0b65-68cc-4fe0-b105-ee42733814c7",
-            To : 'oguzhan_g99@hotmail.com',
-            From : "oguzhanguldamlasi@gmail.com",
-            Subject : "This mail sent by board component",
-            Body : "aldfkþasldkfþasdkfçwömerçmçzvmçcxmvçmvcþlkwerþksdaf"
-        }).then(
-            message => console.log(message)
-        );
+        // sendMail()
+        // window.Email.send({
+        //     port :"2525",
+        //     SecureToken : "4a6bfe2a-bb8c-4d89-a330-068d7fd1f61c",
+        //     Username : "oguzhanguldamlasi@gmail.com",
+        //     Password : "66de0b65-68cc-4fe0-b105-ee42733814c7",
+        //     To : 'oguzhan_g99@hotmail.com',
+        //     From : "oguzhanguldamlasi@gmail.com",
+        //     Subject : "This mail sent by board component",
+        //     Body : "aldfkþasldkfþasdkfçwömerçmçzvmçcxmvçmvcþlkwerþksdaf"
+        // }).then(
+        //     message => console.log(message)
+        // );
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[3].answer==this.props.user){
@@ -55,7 +107,9 @@ class Board extends React.Component{
             }
         }
     }
+    getBoardUsers(){
 
+    }
     render() {
 
         const {user,pass} = this.props;
@@ -96,6 +150,25 @@ class Board extends React.Component{
                                             submission['3']=incrementedId;
                                             window.JF.editSubmission(subId, submission, (response)=>{
                                             })
+                                            // let users=[];
+                                            // window.JF.getFormSubmissions(formID, function(response){
+                                            //     for(let i=0; i<response.length; i++){
+                                            //         if(response[i].answers['5'].answer.split(',').splice(1).includes(this.state));
+                                            //
+                                            //     }
+                                            // });
+                                            // const dataToSubmit={
+                                            //     name:userName,
+                                            //     mail:email,
+                                            //     message:"Welcome to Trello",
+                                            // };
+                                            // try {
+                                            //     // console.log(dataToSubmit);
+                                            //     axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
+                                            // }catch (e) {
+                                            //     console.log(e)
+                                            // }
+
                                         });
                                         let submission = new Object();
                                         submission['3'] =currentId-1+1;

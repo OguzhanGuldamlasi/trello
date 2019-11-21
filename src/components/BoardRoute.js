@@ -24,6 +24,7 @@ class BoardRoute extends React.Component{
         this.setState({name:name})
     }
     setId(id){
+        console.log(id)
         this.setState({id:id})
     }
     render(){

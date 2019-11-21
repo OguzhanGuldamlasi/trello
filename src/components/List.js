@@ -34,6 +34,7 @@ class List extends React.Component{
                 showEditForm:false,
                 description:cardInfos[i].description,
                 comments:comments,
+                owner:cardInfos[i].owner,
                 coverImg:cardInfos[i].coverImg,
                 listId:cardInfos[i].listId
             };
@@ -46,6 +47,8 @@ class List extends React.Component{
         }
     }
     componentDidMount() {
+        console.log(this.props.homeId)
+
            let cardInfos=[];
            window.JF.getFormSubmissions("92931856730969", (response)=>{
            for (let i = 0; i <response.length ; i++) {
@@ -57,6 +60,7 @@ class List extends React.Component{
                         comments:response[i].answers[5].answer,
                         labels:response[i].answers[11].answer,
                         coverImg:response[i].answers[7].answer,
+                        owner:response[i].answers[13].answer,
                         checklist:response[i].answers[10].answer,
                         listId:response[i].answers[12].answer,
                         showEditForm:false
@@ -90,6 +94,7 @@ class List extends React.Component{
                 name:this.props.name,
                 state:this.props.index,
                 children:[]
+
             };
             this.submitListAPI(this.state);
         }
@@ -321,6 +326,7 @@ class List extends React.Component{
                               return ;
                           }
                           else{
+
                               this.appendChild(null,inputArea.value)
                               document.getElementById(this.state.id+"lol1").remove()
                               document.getElementById(this.state.id+"lol2").remove()

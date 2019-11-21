@@ -19,12 +19,13 @@ class Card extends React.Component{
         submission['7']=state.coverImg;
         submission['10']=state.checklist;
         submission['12']=state.listId;
+        submission['13']='';
         submission['14']=this.props.homeid;
         window.JF.createFormSubmission("92931856730969",submission,function (response) {});
     }
     constructor(props){
         super(props);
-
+        console.log(props)
         if(this.props.state!=null){
             if(this.props.state.cardId==-1) return ;
             this.state=this.props.state;
@@ -40,6 +41,7 @@ class Card extends React.Component{
                 description:'',
                 comments:[],
                 coverImg:'',
+                owner:'',
                 listId:this.props.listId
             };
             this.submitCardAPI(this.state)
@@ -150,7 +152,7 @@ class Card extends React.Component{
                 {/*position: relative;*/}
                 {/*display: inline-flex;*/}
                 <div style={{position:"relative",display:"inline-flex"}}  className="buttonDiv">
-                    <SimpleModal  id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
+                    <SimpleModal owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
                     {/*<button className="editCard" onClick={this.togglePopup}>Edit</button>*/}
                     <button className="deleteCard" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);

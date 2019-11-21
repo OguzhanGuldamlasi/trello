@@ -33,6 +33,7 @@ class BoardComps extends React.Component{
         });
     }
     onClick(ev,id1,name1){
+        console.log(id1);
         this.props.setName(name1);
         this.props.setId(id1);
         // ev.preventDefault();
