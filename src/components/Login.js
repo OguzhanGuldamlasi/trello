@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import '../styles/Login.css'
 import Board from "./Board"
 import {
+    ConditionalLink,
     BrowserRouter as Router,
     Switch,
     Route,
@@ -81,10 +82,10 @@ class Login extends React.Component{
             <div  className="logIn">
                 <h2>Log in</h2>
                 <form>
-                    <input  type="text" id="login1" className="fadeIn second" name="login" placeholder="UserName"/>
-                    <input  type="password" id="password1" className="fadeIn third" name="login" placeholder="password"/>
+                    <input  type="text" id="login1" className="form-control" name="login" placeholder="UserName"/>
+                    <input  type="password" id="password1" className="form-control" name="login" placeholder="password"/>
                     <Link to="/board">
-                        <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
+                        <button id="buttonSign" type="submit"  className="form-control" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
                     </Link>
                 </form>
             </div>

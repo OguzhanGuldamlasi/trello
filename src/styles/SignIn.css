@@ -1,116 +1,12 @@
-
-
 .SignIn{
-    display: inline;
+    position: relative;
+    top: 80px;
+    left: 43.5%;
+    display: inline-grid;
+}
+.SignIn input{
+    margin-top: 10px;
 }
 #buttonSign{
-    width: 248px;
-    /*background-color: #4CAF50; !* Green *!*/
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
-#buttonSign {
-    background-color: white;
-    color: black;
-    border: 2px solid #555555;
-}
-
-#buttonSign:hover {
-    background-color: #555555;
-    color: white;
-}
-.SignIn{
-    top: calc(50% - 275px);
-    position: absolute;
-    right:750px;
-    height: 150px;
-    width: 350px;
-    padding: 10px;
-    margin-top: 20px;
-    z-index: 2;
-}
-
-.SignIn input[type=text]{
-    width: 250px;
-    height: 30px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 2px;
-    color: #fff;
-    font-family: 'Exo', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 4px;
-}
-.error{
-    width: 249px;
-    height: 35px;
-    color: #D8000C;
-    background: #FFBABA  no-repeat;
-}
-.SignIn input[type=password]{
-    width: 250px;
-    height: 30px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 2px;
-    color: #fff;
-    font-family: 'Exo', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 4px;
     margin-top: 10px;
-}
-
-.SignIn input[type=button]{
-    width: 260px;
-    height: 35px;
-    background: #fff;
-    border: 1px solid #fff;
-    cursor: pointer;
-    border-radius: 2px;
-    color: #a18d6c;
-    font-family: 'Exo', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 6px;
-    margin-top: 10px;
-}
-#SignIn{
-    position: relative;
-    right:50px,
-}
-.SignIn input[type=button]:hover{
-    opacity: 0.8;
-}
-
-.SignIn input[type=button]:active{
-    opacity: 0.6;
-}
-
-.SignIn input[type=text]:focus{
-    outline: none;
-    border: 1px solid rgba(255,255,255,0.9);
-}
-
-.SignIn input[type=password]:focus{
-    outline: none;
-    border: 1px solid rgba(255,255,255,0.9);
-}
-
-.SignIn input[type=button]:focus{
-    outline: none;
-}
-
-::-webkit-input-placeholder{
-    color: rgba(255,255,255,0.6);
 }

@@ -1,5 +1,6 @@
 
 #buttonSign{
+    height: 60px;
     width: 248px;
     /*background-color: #4CAF50; !* Green *!*/
     border: none;
@@ -25,85 +26,13 @@
     color: white;
 }
 .logIn{
-
+    display: table-caption;
     position: relative;
-    left: 820px;
-    /*top: calc(50% - 75px);*/
-    /*left: calc(50% - 50px);*/
-    height: 150px;
-    width: 350px;
-    padding: 10px;
+    /*left: 43.5%;*/
+    top: 50px;
+    left: 330%;
+    /*display: inline-grid;*/
 }
-
-.logIn input[type=text]{
-    width: 250px;
-    height: 30px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 2px;
-    color: #fff;
-    font-family: 'Exo', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 4px;
-}
-.error{
-    width: 249px;
-    height: 35px;
-    color: #D8000C;
-    background: #FFBABA  no-repeat;
-}
-.logIn input[type=password]{
-    width: 250px;
-    height: 30px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.6);
-    border-radius: 2px;
-    color: #fff;
-    font-family: 'Exo', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 4px;
+.logIn input{
     margin-top: 10px;
-}
-
-.logIn input[type=button]{
-    width: 260px;
-    height: 35px;
-    background: #fff;
-    border: 1px solid #fff;
-    cursor: pointer;
-    border-radius: 2px;
-    color: #a18d6c;
-    font-family: 'Exo', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 6px;
-    margin-top: 10px;
-}
-
-.logIn input[type=button]:hover{
-    opacity: 0.8;
-}
-
-.logIn input[type=button]:active{
-    opacity: 0.6;
-}
-
-.logIn input[type=text]:focus{
-    outline: none;
-    border: 1px solid rgba(255,255,255,0.9);
-}
-
-.logIn input[type=password]:focus{
-    outline: none;
-    border: 1px solid rgba(255,255,255,0.9);
-}
-
-.logIn input[type=button]:focus{
-    outline: none;
-}
-
-::-webkit-input-placeholder{
-    color: rgba(255,255,255,0.6);
 }

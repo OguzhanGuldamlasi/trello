@@ -138,12 +138,13 @@ class Card extends React.Component{
         img.src=this.state.coverImg ? "data:image/png;base64,"+this.state.coverImg : "";
         return (
             <div   onDragEnter={this.props.onDragEnter}  onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
-                <div className="labels">
-                    {this.state.labels.map(label=> {return <label className={label.colour}/>})}
-                </div>
                 <div className="toDO">
                     <span>{this.state.toDo}</span>
                 </div>
+                <div className="labels">
+                    {this.state.labels.map(label=> {return <label className={label.colour}/>})}
+                </div>
+
                 <div className="images">
                     <span style={{visibility: this.state.description.length>0 ? 'visible' : 'hidden'}} className='Desc'/>
                     <span className='Comments' style={{visibility: this.state.comments.length > 0 ? 'visible' : 'hidden'}}/>
@@ -152,9 +153,9 @@ class Card extends React.Component{
                 {/*position: relative;*/}
                 {/*display: inline-flex;*/}
                 <div style={{position:"relative",display:"inline-flex"}}  className="buttonDiv">
-                    <SimpleModal owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
+                    <SimpleModal img={this.state.coverImg} owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
                     {/*<button className="editCard" onClick={this.togglePopup}>Edit</button>*/}
-                    <button className="deleteCard" onClick={(event)=>{
+                    <button className="btn btn-info" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);
                         event.target.parentElement.parentElement.remove();
                         window.JF.getFormSubmissions("92931856730969",response=>{
@@ -168,7 +169,7 @@ class Card extends React.Component{
                     }}>Delete</button>
 
                 </div>
-                <img style={{cursor:"not-allowed"}}  className="img" src={img.src} height="100px" width="164px" alt=""/>
+                {/*<img style={{cursor:"not-allowed"}}  className="img" src={img.src} height="60px" width="160px" alt=""/>*/}
             </div>
         );
     }

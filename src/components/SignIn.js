@@ -1,6 +1,13 @@
 import React from 'react'
 import '../styles/SignIn.css'
 import axios from 'axios'
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams
+} from "react-router-dom";
 class SignIn extends React.Component{
     constructor(props){
         super(props);
@@ -108,11 +115,11 @@ class SignIn extends React.Component{
         return(
                 <form className="SignIn">
                     <h2 className="signInText">Sign in</h2>
-                    <input  type="text" id="login" className="fadeIn second" name="login" placeholder="UserName"/>
-                    <input  type="email" id="email" className="fadeIn third" name="email" placeholder="email"/>
-                    <input  type="password" id="password" className="fadeIn third" name="login" placeholder="password"/>
+                    <input  type="text" id="login" className="form-control" name="login" placeholder="UserName"/>
+                    <input  type="email" id="email" className="form-control" name="email" placeholder="email"/>
+                    <input  type="password" id="password" className="form-control" name="login" placeholder="password"/>
                     <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>SignIn</button>
-                    <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
+                     <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
                     <div className="error" style={{visibility:'hidden'}}><img alt="" src="http://cdn.jotfor.ms/images/exclamation-octagon.png"/></div>
                 </form>
         )

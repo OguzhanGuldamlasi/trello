@@ -32,7 +32,7 @@ class EditCard extends React.Component {
             descButton:false,
             backgroundImage:null
         };
-        console.log(this.props)
+        // console.log(this.props)
         // try{
         // document.getElementsByClassName("saveList")[0].style.display='none';
         // }catch (e) {
@@ -113,45 +113,54 @@ class EditCard extends React.Component {
         return (finishedJob/totalJob*100).toFixed(1);
     }
     render() {
-        // console.log(this.props)
+        let img=new Image();
+        img.src=this.props.img ? "data:image/png;base64,"+this.props.img : "";
+        console.log(img);
         return (
 
             <div className='popup'>
                 <div  className="wrapperEditCard">
+                    <div>
+                    {/*<button  onClick={this.props.onClose} type="button" className="close" aria-label="Close">*/}
+                    {/*    <span aria-hidden="true">&times;</span>*/}
+                    {/*</button>*/}
+                        <img style={{display:this.props.img==''? 'none' : 'inherit' ,borderTopLeftRadius:'14.9px',borderTopRightRadius:'17.5px'}} className="img" src={img.src} height="300px" width="752px" alt=""/>
+                    </div>
                     <h3 id={"ownerHeader"}>Owner:{this.props.owner==''? "No one assigned to card" : this.props.owner}</h3>
-                    <div className="DropDown">
+                    <div className="fix"/>
+                    <div style={{display:this.props.owner==''? 'inherit':'none'}} className="DropDown">
                         <Card id={this.props.id} homeid={this.props.homeid}/>
                     </div>
                 <div className="toDoDiv">
-                            <h4>Enter Card Name</h4>
+                            <h4 id="cardName">Enter Card Name</h4>
+                            <div className="fix"/>
                             <div>
-                            <input style={{width:'50%'}} className="form-control" placeholder="Dynamically"
+                            <input id="dynamicName" style={{width:'50%',padding:'5px'}} className="form-control" placeholder="Dynamically"
                                    onChange={e => this.setToDo(e)}/>
                             </div>
                         </div>
                         <div className="descDiv">
-                            <h4 > Description</h4>
+                            <h4 id="forDesc"> Description</h4>
+                            <div className="fix"/>
                             <div>
-                                <textarea  style={{width:'%50'}} onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
+                                <textarea  style={{width:'700px',height:'100px',marginBottom:'10px',position:'relative',left:'25px',resize:'none'}} onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
                                           className="form-control" rows="5" id="descdesc"/>
-                                <button id="descSave" className="btn btn-info"  onClick={e => this.saveDesc(e)}>Save
-                                </button>
-                                <div id="blockquote" className="list-group-item list-group-item-success">Description : {this.props.params.description}</div>
+                                {/*<button id="descSave" className="btn btn-info"  onClick={e => this.saveDesc(e)}>Save*/}
+                                {/*</button>*/}
+                                <div id="qweqwe" className="list-group-item list-group-item-success">Description : {this.props.params.description}</div>
                             </div>
                         </div>
                         <div className="comments">
-                            <div className="writeComment">
-                                <input onClick={this.showSave} type="text" id="commentInp" className="form-control"
-                                       placeholder="Write a comment"/>
-                                <button style={{display: this.state.showCommentSave ? 'flex' : 'none'}}
-                                    id="saveComment"    className="btn btn-success" onClick={(e) => this.saveComment(e)}>Save Comment
-                                </button>
-                            </div>
-                            <h4>Comments</h4>
+                            <h4 className="line">Comments</h4>
+                            <div className="fix"/>
+                            {/*<div className="line"/>*/}
                             <ul className="list-group">
                                 {this.props.params.comments.map(comment => {
                                     return <div id={comment.id}>
-                                        <li className="list-group-item">
+                                        {/*margin: 10px;*/}
+                                        {/*width: 95%;*/}
+                                        {/*left: 10px;*/}
+                                        <li style={{margin:'10px',width:'95%',left:'10px'}} className="list-group-item">
                                             <div>
                                                 <span>{comment.user} commented :</span>
                                                 <span id={comment.id + "1"}>{comment.text}</span>
@@ -161,25 +170,30 @@ class EditCard extends React.Component {
                                     </div>
                                 })}
                             </ul>
+                            <div className="writeComment">
+                                <input onClick={this.showSave} type="text" id="commentInp" className="form-control"
+                                       placeholder="Write a comment"/>
+                                <button style={{display: this.state.showCommentSave ? 'flex' : 'none'}}
+                                        id="saveComment"    className="btn btn-success" onClick={(e) => this.saveComment(e)}>Save Comment
+                                </button>
+                            </div>
                         </div>
                         <div className="addSection">
-                            <div style={{overflow:'visible'}}><h4>Current Labels</h4>
-                            <div style={{display:this.props.params.labels.length===0 ? 'none' : 'flex'}} className="currentLabels">
-                                {this.props.params.labels.map((label)=>{
-                                    console.log(label);
-                                    return <div style={{color:"white"}} className={label.colour}>{label.id}</div>
-                                })}
-                            </div>
-                            </div>
-                            <h4> Choose Label</h4>
+
+                            <h4 style={{padding:'5px'}}> Choose Label</h4>
+                            <div className="fix"/>
+                            {/*<div style={{borderBottom:'2px solid black'}}/>*/}
                             <div className="labelSection">
+                                <div style={{position:'relative',left:'33%'}} className="labelDiv">
                                 <div id="blueLabel" className="label label-primary" onClick={() => {
                                     let labels = this.props.params.labels;
                                     let inputArea=document.createElement("input");
                                     inputArea.className='form-control';
+                                    inputArea.id="myInputArea";
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
                                     let saveButton=document.createElement("button");
                                     saveButton.innerText='Save';
+                                    saveButton.id='mySaveButton';
                                     inputArea.placeholder='Optional';
                                     saveButton.className="btn btn-info";
                                     saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
@@ -200,9 +214,11 @@ class EditCard extends React.Component {
                                     let labels = this.props.params.labels;
                                     let inputArea=document.createElement("input");
                                     inputArea.className='form-control';
+                                    inputArea.id="myInputArea";
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
                                     let saveButton=document.createElement("button");
                                     saveButton.innerText='Save';
+                                    saveButton.id='mySaveButton';
                                     saveButton.className='btn btn-success';
                                     inputArea.placeholder='Optional';
                                     saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
@@ -227,8 +243,10 @@ class EditCard extends React.Component {
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
                                     let saveButton=document.createElement("button");
                                     saveButton.innerText='Save';
+                                    saveButton.id='mySaveButton';
                                     saveButton.className='btn btn-danger';
                                     inputArea.placeholder='Optional';
+                                    inputArea.id="myInputArea";
                                     saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
                                     document.getElementsByClassName("appendDiv")[0].append(inputArea);
                                     document.getElementsByClassName("appendDiv")[0].append(saveButton);
@@ -243,7 +261,18 @@ class EditCard extends React.Component {
 
                                 }}>
                                    Red Label</div>
-                            </div><div className="appendDiv"/>
+                                </div>
+                                <div  style={{overflow:'visible',display:this.props.params.labels.length===0 ? 'none' : 'block'}}>
+                                    <h4 style={{padding:'5px'}}>Current Labels</h4>
+                                    <div className="fix"/>
+                                    <div style={{display:this.props.params.labels.length===0 ? 'none' : 'flex'}} className="currentLabels">
+                                        {this.props.params.labels.map((label)=>{
+                                            console.log(label);
+                                            return <div style={{color:"white"}} className={label.colour}>{label.id}</div>
+                                        })}
+                                    </div>
+                                </div>
+                            </div><div style={{marginTop:'10px'}} className="appendDiv"/>
                             <div className="checkListSection">
                                 <button id="addCheck" style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="btn btn-warning" onClick={(e)=>{
                                     document.activeElement.addEventListener("click",(ev)=>ev.stopPropagation());
@@ -258,7 +287,7 @@ class EditCard extends React.Component {
                                     inputArea.className="form-control";
                                     saveButton.addEventListener("click",(ev)=>ev.stopPropagation());
                                     document.activeElement.parentElement.append(saveButton);
-                                    inputArea.placeholder="Give a title from here";
+                                    inputArea.placeholder="Give  title to checklist from here";
                                     saveButton.onclick=()=>{
                                         if(inputArea.value===null||inputArea.value==='') {inputArea.placeholder="Fill this area "; return;}
                                         let title=inputArea.value;
@@ -274,59 +303,12 @@ class EditCard extends React.Component {
                                 }}>
                                     Add  Checklist
                                 </button>
-                                <button id="checklistItem" ref="but2" style={{display: this.state.checklistItems.length>0 ? 'flex' : 'none'}} className="btn btn-info" onClick={(e)=>{
-                                    let inputArea=document.createElement("input");
-                                    inputArea.type="text";
-                                    inputArea.className="form-control";
-                                    inputArea.placeholder="Add an item";
-                                    inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
-                                    let saveButton=document.createElement("button");
-                                    saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
-                                    saveButton.className="btn btn-primary";
-                                    saveButton.innerText="Save";
-                                    document.getElementsByClassName("saveDiv")[0].append(inputArea);
-                                    document.getElementsByClassName("saveDiv")[0].append(saveButton);
-                                    saveButton.onclick=()=>{
-                                        if(inputArea.value===null|| inputArea.value==='') {
-                                            inputArea.placeholder="Fill this area " ;
-                                            return;
-                                        }
-                                        let checkList=[...this.state.checklistItems];
-                                        let item={
-                                          id:inputArea.value,
-                                          done:false
-                                        };
-                                        console.log(checkList);
-                                        checkList.push(item);
-                                        this.props.setCheckList(checkList);
-                                        this.setState({checklistItems:checkList});
-                                        console.log(this.state.checklistItems);
-                                        let nodes=  document.activeElement.parentElement.childNodes;
-                                        document.getElementsByClassName("saveDiv")[0].innerHTML="";
-                                        this.forceUpdate()
-                                    };
-                                    let cancelButton=document.createElement("button");
-                                    saveButton.style.margin="5px";
-                                    saveButton.style.left="30%";
-                                    saveButton.style.position="relative";
-                                    cancelButton.style.margin="5px";
-                                    cancelButton.style.left="40%";
-                                    cancelButton.style.position="relative";
-                                    cancelButton.className="btn btn-primary";
-                                    cancelButton.innerText="Cancel";
-                                    document.getElementsByClassName("saveDiv")[0].append(cancelButton);
-                                    cancelButton.onclick=()=>{
-                                        document.getElementsByClassName("saveDiv")[0].innerHTML="";
-                                    }
-                                }
-                                }>
-                                    Add Item to Checklist
-                                </button>
-                                <div className="saveDiv"/>
+                                <h5 style={{display:this.state.checklistItems.length>0 ? 'inherit':'none',marginLeft:'3px',borderBottom:'1px solid grey'}}> Checklist :  {this.state.checklistItems[0]}</h5>
+
                             </div>
                             <div className="items" style={{display: this.state.checklistItems.length>0 ? 'inherit' : 'none'}}>
 
-                                <h5> Checklist :  {this.state.checklistItems[0]}</h5>
+                                {/*<h5 style={{marginLeft:'3px',borderBottom:'1px solid grey'}}> Checklist :  {this.state.checklistItems[0]}</h5>*/}
                                 {/*<div className="funkyradio">*/}
                                 {/*    <input type="checkbox" name="checkbox" id="checkbox1" />*/}
                                 {/*    <label htmlFor="checkbox1">First Option default</label>*/}
@@ -404,6 +386,56 @@ class EditCard extends React.Component {
                                 </div>
                                 </div>
                             </div>
+                            <button id="checklistItem" ref="but2" style={{display: this.state.checklistItems.length>0 ? 'flex' : 'none'}} className="btn btn-info" onClick={(e)=>{
+                                let inputArea=document.createElement("input");
+                                inputArea.type="text";
+                                inputArea.className="form-control";
+                                inputArea.placeholder="Add an item";
+                                inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
+                                let saveButton=document.createElement("button");
+                                saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
+                                saveButton.className="btn btn-primary";
+                                saveButton.innerText="Save";
+                                document.getElementsByClassName("saveDiv")[0].append(inputArea);
+                                document.getElementsByClassName("saveDiv")[0].append(saveButton);
+                                saveButton.onclick=()=>{
+                                    if(inputArea.value===null|| inputArea.value==='') {
+                                        inputArea.placeholder="Fill this area " ;
+                                        return;
+                                    }
+                                    let checkList=[...this.state.checklistItems];
+                                    let item={
+                                        id:inputArea.value,
+                                        done:false
+                                    };
+                                    console.log(checkList);
+                                    checkList.push(item);
+                                    this.props.setCheckList(checkList);
+                                    this.setState({checklistItems:checkList});
+                                    console.log(this.state.checklistItems);
+                                    let nodes=  document.activeElement.parentElement.childNodes;
+                                    document.getElementsByClassName("saveDiv")[0].innerHTML="";
+                                    this.forceUpdate()
+                                };
+                                let cancelButton=document.createElement("button");
+                                saveButton.style.margin="5px";
+                                saveButton.style.left="30%";
+                                saveButton.style.position="relative";
+                                cancelButton.style.margin="5px";
+                                cancelButton.style.left="40%";
+                                cancelButton.style.position="relative";
+                                cancelButton.className="btn btn-primary";
+                                cancelButton.innerText="Cancel";
+                                document.getElementsByClassName("saveDiv")[0].append(cancelButton);
+                                cancelButton.onclick=()=>{
+                                    document.getElementsByClassName("saveDiv")[0].innerHTML="";
+                                }
+                            }
+                            }>
+                                Add Item to Checklist
+                            </button>
+                            <div className="saveDiv"/>
+
                             <div className="coverIMG">
                                 <input id="file" type="file" accept="image/*" name="file" className="inputfile" onChange={(e)=>{
                                     let file = document.getElementById("file").files[0];
@@ -420,12 +452,13 @@ class EditCard extends React.Component {
                                         console.log('there are some problems');
                                     };
 
-                                }} /><label id="for" htmlFor="file">Choose a file</label>
+                                }} /><label style={{padding:'6px 12px'}} id="for" htmlFor="file">Choose a file</label>
                             </div>
                         </div>
+                    {/*<button id="exitEdit" className="btn btn-info"  onClick={this.props.onClose}>Exit editing Card</button>*/}
 
-                        <button id="exitEdit" className="btn btn-info"  onClick={this.props.onClose}>Exit editing Card</button>
                 </div>
+
             </div>
         );
     }

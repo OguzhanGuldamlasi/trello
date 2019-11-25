@@ -190,6 +190,7 @@ class Home extends React.Component{
             lists:arr,
         },()=>this.forceUpdate());
         this.setIndexes(list.key)
+        // document.getElementsByClassName("listDiv")[0].remove();
     }
 
     setIndexes(id){

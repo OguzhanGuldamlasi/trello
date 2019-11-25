@@ -3,6 +3,9 @@
     display: flex;
     position: relative;
 }
+#saveButss{
+    color: white;
+}
 .header{
 
     border: solid 3px black;
@@ -13,6 +16,9 @@
 .headerItems{
     display:inline-flex;
     position: relative;
+}
+body{
+
 }
 h1{
     font-family: "Open Sans", serif;

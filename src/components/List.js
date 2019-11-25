@@ -244,6 +244,7 @@ class List extends React.Component{
     }
     onDragOver(ev){
         ev.preventDefault();
+        // console.log("Dragged a list")
         // document.getElementsByClassName("emptyDiv")[0]
         // this.deleteEmptyCards();
     }
@@ -282,6 +283,7 @@ class List extends React.Component{
     }
     onDragStart(event){
         let json=JSON.stringify(this.state);
+        console.log("dragStart");
         event.dataTransfer.setData("list",json);
         let lists=document.getElementsByClassName("cardList");
         let card;
@@ -340,16 +342,20 @@ class List extends React.Component{
                     </button>
                     <div id={this.state.id}/>
                 </div>
-                <div className="cardContainer">
+                <div  className="cardContainer">
                     {this.state.children.map(child=> {return child})}
                 </div>
                 <div onDragEnter={(ev) => {
+                    // console.log(JSON.parse(ev.dataTransfer.getData("list")));
+                    // if(ev.dataTransfer.getData("list")=='') return ;
                     let div = document.createElement("div");
                     div.className = "emptyDiv";
                     div.ondrop = this.onDrop;
                     ev.currentTarget.appendChild(div);
                 }
                 } onDragLeave={(ev) => {
+                    // if(ev.dataTransfer.getData("list")=='') return ;
+
                     ev.currentTarget.lastChild.remove();
                 }} className="emptyList" onDragOver={event => this.onDragOver(event)} onDrop={event => this.onDrop(event)}/>
             </div>
