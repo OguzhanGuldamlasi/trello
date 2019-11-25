@@ -31,10 +31,15 @@ class LandingPage extends React.Component{
         this.state = {
             user: undefined,
             password: undefined,
-            homes: undefined
-        }
+            homes: undefined,
+            toggleSignUp:false,
+        };
+        this.setToggleSignUp=this.setToggleSignUp.bind(this);
     }
-
+    setToggleSignUp(){
+        console.log("here");
+        this.setState({toggleSignUp:!this.state.toggleSignUp})
+    }
     setUser = (u) =>{
         this.setState({user:u});
     };
@@ -53,24 +58,31 @@ class LandingPage extends React.Component{
             password=getCookieValue("password");
             homes=getCookieValue("homes")
         }
-        console.log(document.cookie);
+        // console.log(document.cookie);
+        const pageName=this.state.toggleSignUp ?  'LogIn' : 'SignIn';
+        const linkName=pageName==="SignIn" ?  "SignIn" : '';
         return(
             <BrowserRouter>
                 <Switch>
                     <Route exact path='/' component={() => (
                         <div className="landingPage">
-                            <Login setUser = {this.setUser} setPassword = {this.setPassword} setHomes = {this.setHomes}/>
-                            <SignIn/>
+
+                            <Login  toggleSignUp={this.state.toggleSignUp} functionToggleSignUp={this.setToggleSignUp} setUser = {this.setUser} setPassword = {this.setPassword} setHomes = {this.setHomes}/>
                         </div>
                     )}
                     />
+                    <Route  path='/SignIn' component={()=><div className="landingPage"><SignIn toggleSignUp={this.state.toggleSignUp} /></div>}/>
                     { homes !== undefined &&
                     <Route path='/board' component={() => <BoardRoute user={user} pass={password}  homes={homes}/>}/>
                     }
 
 
                 </Switch>
+                <Link to={linkName}>
+                <button style={{position:'relative',left:'43.5%',top:'48px'}} id="hideThis" className="btn btn-success" onClick={this.setToggleSignUp}>{pageName}</button>
+                </Link>
             </BrowserRouter>
+
         )
     }
 }

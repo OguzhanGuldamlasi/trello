@@ -164,6 +164,7 @@
     font-style: italic;
 }
 .popup {
+    /*margin: 10px;*/
     top:10px;
     overflow-x: hidden;
     overflow-y: scroll;

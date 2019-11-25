@@ -10,6 +10,13 @@ import {
 } from "react-router-dom";
 class SignIn extends React.Component{
     constructor(props){
+
+        console.log(document.cookie);
+        document.cookie="homeName=;homeId=;user=;password=;homes=;";
+        document.cookie="homeId=;user=;password=;homes=;";
+        document.cookie="user=;password=;homes=;";
+        document.cookie="password=;homes=;";
+        document.cookie="homes=;";
         super(props);
         this.saveUser=this.saveUser.bind(this);
         this.validateUsername=this.validateUsername.bind(this);
@@ -17,7 +24,8 @@ class SignIn extends React.Component{
     }
 
     saveUser(event){
-        event.preventDefault();
+        // event.preventDefault();
+        console.log(document.cookie)
         let userName=document.getElementById("login").value;
         let password=document.getElementById("password").value;
         let email=document.getElementById("email").value;
@@ -62,14 +70,14 @@ class SignIn extends React.Component{
             else{for (let i = 0; i <response.length ; i++) {
                 console.log(response[i].answers[3].answer);
                 if(response[i].answers[3].answer===userName){
-                    document.getElementsByClassName("saved")[0].style.display='none';
-                    document.getElementsByClassName("error")[0].style.visibility="inherit";
+                    // document.getElementsByClassName("saved")[0].style.display='none';
+                    // document.getElementsByClassName("error")[0].style.visibility="inherit";
                     document.getElementsByClassName("error")[0].innerText="This username already taken";
                     document.getElementsByClassName("saved")[0].style.display="none";
                 }
                 else{
-                    document.getElementsByClassName("error")[0].style.visbility="hidden";
-                    document.getElementsByClassName("saved")[0].style.display="block";
+                    // document.getElementsByClassName("error")[0].style.visbility="hidden";
+                    // document.getElementsByClassName("saved")[0].style.display="block";
                     let submission = new Object();
                     submission['3'] = userName;
                     submission['4'] = password;
@@ -112,17 +120,23 @@ class SignIn extends React.Component{
         return true;
     }
     render() {
+        if(this.props.toggleSignUp){
         return(
                 <form className="SignIn">
-                    <h2 className="signInText">Sign in</h2>
+                    <h2 className="signInText">Sign Up</h2>
                     <input  type="text" id="login" className="form-control" name="login" placeholder="UserName"/>
                     <input  type="email" id="email" className="form-control" name="email" placeholder="email"/>
                     <input  type="password" id="password" className="form-control" name="login" placeholder="password"/>
-                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>SignIn</button>
-                     <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
+                    <Link to="/board">
+                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>SignUn</button>
+                    </Link>
+                        <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
                     <div className="error" style={{visibility:'hidden'}}><img alt="" src="http://cdn.jotfor.ms/images/exclamation-octagon.png"/></div>
                 </form>
-        )
+        )}
+        else{
+            return null;
+        }
     }
 }
 export default SignIn;

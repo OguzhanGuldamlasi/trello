@@ -11,10 +11,44 @@ class EditCard extends React.Component {
 
     }
 
+    editCheckList(itemName){
+        
+    }
+    deleteCheckList(itemName){
+        let items=[...this.state.checklistItems];
+        for (let i = 1; i < items.length; i++) {
+            if(itemName==items[i].id){
+                items.splice(i, 1);
+            }
+        }
+        this.setState({checklistItems:items},this.forceUpdate())
+        window.JF.getFormSubmissions("92931856730969", response=>{
+            for(let i=0; i<response.length; i++){
+                if(response[i].answers['9'].answer==this.props.id && response[i].answers['14'].answer==this.props.homeid){
+                    let submission=new Object()
+                    submission['10']=JSON.stringify(items);
+                    submission['9']=response[i].answers['9'].answer;
+                    submission['3']=response[i].answers['3'].answer;
+                    submission['4']=response[i].answers['4'].answer;
+                    submission['5']=response[i].answers['5'].answer;
+                    submission['11']=response[i].answers['11'].answer;
+                    submission['7']=response[i].answers['7'].answer;
+                    submission['12']=response[i].answers['12'].answer;
+                    submission['13']=response[i].answers['13'].answer
+                    submission['14']=response[i].answers['14'].answer;
+                    console.log(response[i]);
+                    window.JF.editSubmission(response[i].id, submission, (response)=>{
+                        console.log(response)
+                    })
+                }
+            }
+        });
 
+    }
     constructor(props){
         super(props);
         // console.log(props)
+        this.deleteCheckList=this.deleteCheckList.bind(this);
         this.setToDo=this.setToDo.bind(this);
         this.openTextArea=this.openTextArea.bind(this);
         this.saveDesc=this.saveDesc.bind(this);
@@ -375,7 +409,7 @@ class EditCard extends React.Component {
                                                 this.forceUpdate() });
                                             }
                                         }
-                                        } /><span  id={item.id+index}> &nbsp; &nbsp; {item.id}</span>
+                                        } /><span  id={item.id+index}> &nbsp; &nbsp; {item.id}</span><button  className="editChecklist">Edit</button><button className="btn btn-secondary" onClick={ev=>this.deleteCheckList(item.id)}>Delete</button>
                                         </div>
                                     })}
                                 </ul>

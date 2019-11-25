@@ -102,7 +102,7 @@ class Card extends React.Component{
 
     }
     onDragStart(ev){
-        // this.props.onDragLeave();
+        this.props.onDragLeave();
         let json=JSON.stringify(this.state);
         ev.dataTransfer.setData("card",json);
         ev.dataTransfer.setData("listId",this.props.listId);

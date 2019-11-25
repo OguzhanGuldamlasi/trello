@@ -77,7 +77,7 @@ class Login extends React.Component{
     render() {
         // document.getElementById("login1").innerText=getCookieValue("user");
         // document.getElementById("password1").innerText=getCookieValue("pass");
-
+        if(!this.props.toggleSignUp){
         return(
             <div  className="logIn">
                 <h2>Log in</h2>
@@ -89,7 +89,8 @@ class Login extends React.Component{
                     </Link>
                 </form>
             </div>
-        )
+        )}
+        else{return null}
     }
 }
 export default Login;

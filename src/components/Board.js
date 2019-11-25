@@ -57,6 +57,11 @@ function getCookieValue(a) {
 }
 class Board extends React.Component{
     constructor(props){
+        try{
+        document.getElementById("hideThis").remove();}
+        catch (e) {
+            
+        }
         super(props);
         this.state={
             homeIds:this.props.homes,//
@@ -111,7 +116,11 @@ class Board extends React.Component{
 
     }
     render() {
+        try{
+            document.getElementById("hideThis").remove();}
+        catch (e) {
 
+        }
         const {user,pass} = this.props;
         if (user !== undefined){
             // document.cookie=`user=${user} ; domain=http://localhost:3000/board`;
