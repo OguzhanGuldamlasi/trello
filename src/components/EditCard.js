@@ -11,8 +11,63 @@ class EditCard extends React.Component {
 
     }
 
-    editCheckList(itemName){
-        
+    editCheckList(itemName,index,ev){
+
+        // ev.preventDefault();
+        let inputArea=document.createElement("input");
+        let saveButton=document.createElement("button");
+        inputArea.id="removeThis1";
+        inputArea.placeholder="Edit this checklist item";
+        inputArea.className="form-control";
+        saveButton.id="removeThis2";
+        saveButton.className="btn btn-secondary";
+        document.getElementById(itemName+index+"lol").append(inputArea);
+        document.getElementById(itemName+index+"lol").append(saveButton);
+        saveButton.innerText="Save";
+        saveButton.onclick=(ev)=>{
+            ev.preventDefault();
+
+            if(inputArea.value==''){
+                inputArea.placeholder="Fill this area"
+            }
+            else{
+                let items=[...this.state.checklistItems];
+                for (let i = 1; i < items.length; i++) {
+                    console.log(itemName);
+                    console.log(this.state.checklistItems);
+                    if(itemName==items[i].id){
+                        console.log("here3");
+                        items[i].id=inputArea.value;
+                        console.log(items);
+                        this.setState({checklistItems:items},()=>this.forceUpdate());
+                        console.log(this.state.checklistItems)
+                    }
+                }
+                this.props.setChecklist2(items);
+                document.getElementById("removeThis1").remove();
+                document.getElementById("removeThis2").remove();
+                window.JF.getFormSubmissions("92931856730969", response=>{
+                    for(let i=0; i<response.length; i++){
+                        if(response[i].answers['9'].answer==this.props.id && response[i].answers['14'].answer==this.props.homeid){
+                            let submission=new Object()
+                            submission['10']=JSON.stringify(items);
+                            submission['9']=response[i].answers['9'].answer;
+                            submission['3']=response[i].answers['3'].answer;
+                            submission['4']=response[i].answers['4'].answer;
+                            submission['5']=response[i].answers['5'].answer;
+                            submission['11']=response[i].answers['11'].answer;
+                            submission['7']=response[i].answers['7'].answer;
+                            submission['12']=response[i].answers['12'].answer;
+                            submission['13']=response[i].answers['13'].answer;
+                            submission['14']=response[i].answers['14'].answer;
+                            console.log(response[i]);
+                            window.JF.editSubmission(response[i].id, submission, (response)=>{
+                                console.log(response)
+                            })
+                        }
+                    }
+                });            }
+        }
     }
     deleteCheckList(itemName){
         let items=[...this.state.checklistItems];
@@ -21,7 +76,7 @@ class EditCard extends React.Component {
                 items.splice(i, 1);
             }
         }
-        this.setState({checklistItems:items},this.forceUpdate())
+        this.setState({checklistItems:items},this.forceUpdate());
         window.JF.getFormSubmissions("92931856730969", response=>{
             for(let i=0; i<response.length; i++){
                 if(response[i].answers['9'].answer==this.props.id && response[i].answers['14'].answer==this.props.homeid){
@@ -349,7 +404,7 @@ class EditCard extends React.Component {
                                 {/*</div>*/}
                                <ul>
                                     {this.state.checklistItems.slice(1).map((item,index)=>{
-                                        return <div style={{marginBottom:'7px'}} id={item.id+index}><input type="checkbox" name="checkbox" className="form-check-input"  id={item.id+"lol"} checked={item.done}  onClick={()=>{
+                                        return <div style={{marginBottom:'7px',display:'inline-flex'}} id={item.id+index}><input type="checkbox" name="checkbox" className="form-check-input"  id={item.id+"lol"} checked={item.done}  onClick={()=>{
                                             let submission=[];
                                             let editedSubmissionId;
                                             if(document.activeElement.checked===true){
@@ -409,7 +464,7 @@ class EditCard extends React.Component {
                                                 this.forceUpdate() });
                                             }
                                         }
-                                        } /><span  id={item.id+index}> &nbsp; &nbsp; {item.id}</span><button  className="editChecklist">Edit</button><button className="btn btn-secondary" onClick={ev=>this.deleteCheckList(item.id)}>Delete</button>
+                                        } /><span  id={item.id+index}> &nbsp; &nbsp; {item.id}</span><button onClick={ev=>this.editCheckList(item.id,index,ev)}  className="btn btn-secondary">Edit</button><div style={{display:'inline-flex'}} id={item.id+index+"lol"} className="appendEditDiv"/><button className="btn btn-secondary" onClick={ev=>this.deleteCheckList(item.id)}>Delete</button>
                                         </div>
                                     })}
                                 </ul>

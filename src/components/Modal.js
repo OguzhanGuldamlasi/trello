@@ -55,7 +55,7 @@ export default function SimpleModal(props) {
                 open={open}
                 onClose={handleClose}
             >
-                <EditCard img={props.img} owner={props.owner} homeid={props.homeId} onClose={handleClose} id={props.id} setImg={props.setImg} setTasks={props.setTasks} params={props.params} setCheckList={props.setCheckList} closePopup={props.togglePopup}/>
+                <EditCard setChecklist2={props.setChecklist2} img={props.img} owner={props.owner} homeid={props.homeId} onClose={handleClose} id={props.id} setImg={props.setImg} setTasks={props.setTasks} params={props.params} setCheckList={props.setCheckList} closePopup={props.togglePopup}/>
                 {/*<div style={modalStyle} className={classes.paper}>*/}
                     {/*<button onClick={props.togglePopup}>Edit</button>*/}
                     {/*<SimpleModal  />*/}
