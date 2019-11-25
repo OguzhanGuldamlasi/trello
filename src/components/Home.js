@@ -361,7 +361,7 @@ class Home extends React.Component{
                         } style={{marginTop:"10px"}} className="btn btn-dark" type="button">Add User</button>
                     </div>
                 </div>
-                <h1 style={{textAlign:"center"}}>{this.state.name}</h1>
+                <h1 className={"headerForHome"} style={{textAlign:"center"}}>{this.state.name}</h1>
                 <div style={{display:'inline-flex'}} >
                     <div     className="listContainer">
                         {arr.map(list=>{return list})}

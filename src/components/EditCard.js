@@ -184,7 +184,7 @@ class EditCard extends React.Component {
                             <div className="fix"/>
                             {/*<div style={{borderBottom:'2px solid black'}}/>*/}
                             <div className="labelSection">
-                                <div style={{position:'relative',left:'33%'}} className="labelDiv">
+                                <div style={{position:'relative',left:'32%'}} className="labelDiv">
                                 <div id="blueLabel" className="label label-primary" onClick={() => {
                                     let labels = this.props.params.labels;
                                     let inputArea=document.createElement("input");
@@ -315,7 +315,7 @@ class EditCard extends React.Component {
                                 {/*</div>*/}
                                <ul>
                                     {this.state.checklistItems.slice(1).map((item,index)=>{
-                                        return <div id={item.id+index}><input type="checkbox" name="checkbox" className="form-check-input"  id={item.id+"lol"} checked={item.done}  onClick={()=>{
+                                        return <div style={{marginBottom:'7px'}} id={item.id+index}><input type="checkbox" name="checkbox" className="form-check-input"  id={item.id+"lol"} checked={item.done}  onClick={()=>{
                                             let submission=[];
                                             let editedSubmissionId;
                                             if(document.activeElement.checked===true){

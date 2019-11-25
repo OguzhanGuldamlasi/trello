@@ -162,7 +162,11 @@ class List extends React.Component{
         this.props.deleteCard(id);
     }
     onDrop=(ev)=>{
-        document.getElementsByClassName("emptyDiv")[0].remove();
+        try{
+        document.getElementsByClassName("emptyDiv")[0].remove();}
+        catch (e) {
+
+        }
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -205,7 +209,7 @@ class List extends React.Component{
         let card=<Card homeid={this.props.homeid} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         let element=document.getElementsByClassName("emptyDiv")[0].nextSibling;
-        console.log(element)
+        // console.log(element)
         arr.splice(this.getIndex(element.id),0,card);
         this.setState({
             children:arr
@@ -248,9 +252,12 @@ class List extends React.Component{
         // document.getElementsByClassName("emptyDiv")[0]
         // this.deleteEmptyCards();
     }
+    findElementToDrop(target){
+
+    }
     onDragEnter(ev){
         ev.preventDefault();
-        // console.log(ev.currentTarget);
+        console.log(ev.currentTarget);
         if(document.getElementsByClassName("emptyDiv") [0] !==undefined){return;}
         let div = document.createElement("div");
         div.className = "emptyDiv";
@@ -260,8 +267,12 @@ class List extends React.Component{
         div.ondragleave=()=>{
             document.getElementsByClassName("emptyDiv")[0].remove();
         };
-        ev.currentTarget.appendChild(div);
+        // ev.currentTarget.appendChild(div);
         ev.currentTarget.parentNode.insertBefore(div, ev.currentTarget);
+        // ev.currentTarget.parentNode.insertBefore(div,ev.currentTarget)
+        // ev.currentTarget.appendChild(div);
+        // console.log(ev.currentTarget.previousSibling);
+        // ev.currentTarget.parentNode.insertBefore(div, ev.currentTarget);
         // for (let i = 0; i <this.state.children ; i++) {
         //     console.log(this.state.children[i])
         //     if(this.state.children[i].key==-1){
@@ -279,7 +290,7 @@ class List extends React.Component{
     }
 
     onDragLeave(ev){
-        this.deleteEmptyCards();
+        // this.deleteEmptyCards();
     }
     onDragStart(event){
         let json=JSON.stringify(this.state);
@@ -349,6 +360,11 @@ class List extends React.Component{
                     // console.log(JSON.parse(ev.dataTransfer.getData("list")));
                     // if(ev.dataTransfer.getData("list")=='') return ;
                     let div = document.createElement("div");
+                    // console.log(document.getElementsByClassName("emptyDiv")[0]);
+                    // if(document.getElementsByClassName("emptyDiv")[0]!==undefined){
+                    //     return ;
+                    // }
+                    ev.preventDefault();
                     div.className = "emptyDiv";
                     div.ondrop = this.onDrop;
                     ev.currentTarget.appendChild(div);

@@ -323,21 +323,24 @@ li{
     margin-top:20px ;
 }
 #greenLabel{
-
-    margin-left: 5px;
-    margin-right: 5px;
+    font-size: 13px;
+    margin-left: 3px;
+    margin-right: 3px;
     padding: 7px;
     /*margin-left: 276px;*/
     /*margin-right: 276px;*/
     cursor:pointer;
 }
+
 #redLabel{
     padding: 7px;
+    font-size: 13px;
 
     cursor:pointer;
 }
 #blueLabel{
     padding: 7px;
+    font-size: 13px;
 
     cursor:pointer;
 }

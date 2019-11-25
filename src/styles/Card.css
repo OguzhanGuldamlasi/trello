@@ -45,7 +45,7 @@
     height: 100%;
 }
 .card{
-    max-height:120px;
+    /*max-height:150px;*/
     margin-top: 10px;
     cursor:grab;
     position: relative;
