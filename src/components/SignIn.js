@@ -8,6 +8,10 @@ import {
     Link,
     useParams
 } from "react-router-dom";
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 class SignIn extends React.Component{
     constructor(props){
 
@@ -18,18 +22,34 @@ class SignIn extends React.Component{
         document.cookie="password=;homes=;";
         document.cookie="homes=;";
         super(props);
+        this.state={
+            users:[],
+            user:false,
+            pass:false,
+            email:false,
+        };
         this.saveUser=this.saveUser.bind(this);
         this.validateUsername=this.validateUsername.bind(this);
         this.validatePassword=this.validatePassword.bind(this);
+        this.checkUser=this.checkUser.bind(this);
+        this.checkMail=this.checkMail.bind(this);
+        this.checkPass=this.checkPass.bind(this);
+    }
+    componentDidMount() {
+        let arr=[];
+        window.JF.getFormSubmissions("93141352586963", (response)=>{
+            for(let i=0; i<response.length; i++){
+                arr.push(response[i].answers['3'].answer);
+            }
+        }, this.setState({users:arr}));
     }
 
     saveUser(event){
         // event.preventDefault();
-        console.log(document.cookie)
+        console.log(document.cookie);
         let userName=document.getElementById("login").value;
         let password=document.getElementById("password").value;
         let email=document.getElementById("email").value;
-        let bool=this.validateUsername(userName);
         const dataToSubmit={
             name:userName,
             mail:email,
@@ -37,101 +57,92 @@ class SignIn extends React.Component{
         };
         try {
             // console.log(dataToSubmit);
-            axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
+            // axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
         }catch (e) {
             console.log(e)
         }
-
-        if(!bool){
-            document.getElementsByClassName("saved")[0].style.display='none';
-            document.getElementsByClassName("error")[0].style.visibility="inherit";
-            document.getElementsByClassName("error")[0].innerText="Enter a valid UserName";
-            event.preventDefault();
-            return false;
-        }
-        bool=this.validatePassword(password);
-        if(bool){
-            document.getElementsByClassName("saved")[0].style.display='none';
-            document.getElementsByClassName("error")[0].style.visibility="inherit";
-            document.getElementsByClassName("error")[0].innerText="Enter a valid Password";
-            event.preventDefault();
-            return false;
-        }
-        window.JF.getFormSubmissions("93141352586963",response=>{
-            if(response.length===0){
-                let submission = new Object();
-                submission['3'] = userName;
-                submission['4'] = password;
-                submission['5'] = null;
-                submission['6']= email;
-                window.JF.createFormSubmission("93141352586963", submission,response=>{
-                });
-            }
-            else{for (let i = 0; i <response.length ; i++) {
-                console.log(response[i].answers[3].answer);
-                if(response[i].answers[3].answer===userName){
-                    // document.getElementsByClassName("saved")[0].style.display='none';
-                    // document.getElementsByClassName("error")[0].style.visibility="inherit";
-                    document.getElementsByClassName("error")[0].innerText="This username already taken";
-                    document.getElementsByClassName("saved")[0].style.display="none";
-                }
-                else{
-                    // document.getElementsByClassName("error")[0].style.visbility="hidden";
-                    // document.getElementsByClassName("saved")[0].style.display="block";
-                    let submission = new Object();
-                    submission['3'] = userName;
-                    submission['4'] = password;
-                    submission['5'] = null;
-                    submission['6']=email;
+        document.cookie=`user=${userName};`;
+        document.cookie=`password=${password}`;
+        document.cookie=`homes=;`
+         let submission=new Object();
+          submission['3'] = userName;
+         submission['4'] = password;
+           submission['5'] = null;
+            submission['6']=email;
                     window.JF.createFormSubmission("93141352586963", submission,response=>{
                         console.log(response)
                     });
-                }
-            }}
-
-        },response=>{console.log(response)});
 
     }
     validatePassword(pw) {
-        return /[A-Z]/       .test(pw) &&
-            /[a-z]/       .test(pw) &&
-            /[0-9]/       .test(pw) &&
-            /[^A-Za-z0-9]/.test(pw) &&
-            pw.length > 4;
+        var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        if(pw.match(passw))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
 
     }
     validateUsername(fld) {
-        let error = "";
-        let illegalChars = /\W/; // allow letters, numbers, and underscores
-        if (fld.value == "") {
-            error = "You didn't enter a username.\n";
-            // document.getElementsByClassName("");
-            return false;
+        return fld.length >= 5;
 
-        } else if ((fld.length < 5) || (fld.length > 15)) {
-            error = "The username is the wrong length.\n";
+    }
+    checkPass(){
+        let password=document.getElementById("password").value;
+        if(this.validatePassword(password)===false){
+            console.log("here")
+            this.setState({pass:false})
             return false;
-
-        } else if (illegalChars.test(fld.value)) {
-            error = "The username contains illegal characters.\n";
-            return false;
-
         }
+        this.setState({pass:true})
+        return true;
+    }
+    checkMail(){
+        let email=document.getElementById("email").value;
+        if(validateEmail(email)===false){
+            console.log("here")
+            this.setState({mail:false});
+            return false;
+        }
+        this.setState({mail:true});
+        return true;
+    }
+    checkUser(){
+        let name=document.getElementById("login").value;
+        if(this.validateUsername(name)===false){
+            console.log("here")
+            this.setState({user:false});
+            return false;
+        }
+        for (let i = 0; i <this.state.users.length ; i++) {
+            if(this.state.users[i]===name){
+                console.log("here");
+                this.setState({user:false});
+                return false;
+            }
+        }
+
+        this.setState({user:true});
         return true;
     }
     render() {
+        // window.addEventListener('keydown',function(e){if(e.keyIdentifier=='U+000A'||e.keyIdentifier=='Enter'||e.keyCode==13){if(e.target.nodeName=='INPUT'&&e.target.type=='text'){e.preventDefault();return false;}}},true);
+
         if(this.props.toggleSignUp){
         return(
                 <form className="SignIn">
                     <h2 className="signInText">Sign Up</h2>
-                    <input  type="text" id="login" className="form-control" name="login" placeholder="UserName"/>
-                    <input  type="email" id="email" className="form-control" name="email" placeholder="email"/>
-                    <input  type="password" id="password" className="form-control" name="login" placeholder="password"/>
-                    <Link to="/board">
-                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>Sign Up</button>
+                    <input  onChange={this.checkUser} type="text" id="login" className="form-control" name="login" placeholder="UserName( bigger than 4)"/><div style={{display:!this.state.user?'inline':'none'}} className="userNameError">Wrong UserName</div>
+                    <input onChange={this.checkMail} type="email" id="email" className="form-control" name="email" placeholder="email"/><div style={{display:!this.state.mail?'inline':'none'}} className="mailError">Wrong mail</div>
+                    <input onChange={this.checkPass} type="password" id="password" className="form-control" name="login" placeholder="password"/><div style={{display:!this.state.pass?'inline':'none'}} className="passwordError">Wrong password</div>
+                    <Link style={{visibility:this.state.pass&&this.state.user&&this.state.mail?'inherit':'hidden'}} className="errCheck" to="/board">
+                    <button style={{visibility:this.state.pass&&this.state.user&&this.state.mail?'inherit':'hidden'}} id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>Sign Up</button>
                     </Link>
-                        <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
-                    <div className="error" style={{visibility:'hidden'}}><img alt="" src="http://cdn.jotfor.ms/images/exclamation-octagon.png"/></div>
+                    {/*<div className="errorCheckDiv"/>*/}
+
                 </form>
         )}
         else{

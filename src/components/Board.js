@@ -60,7 +60,7 @@ class Board extends React.Component{
         try{
         document.getElementById("hideThis").remove();}
         catch (e) {
-            
+
         }
         super(props);
         this.state={
@@ -186,8 +186,14 @@ class Board extends React.Component{
                                         },()=>console.log(this.state));
                                         window.JF.getFormSubmissions("93141352586963",  async response=>{
                                             for(let i=0; i<response.length; i++){
+                                                console.log("I'm here")
+                                                console.log(response[i].answers[3].answer);
+                                                console.log(this.props.user);
+                                                console.log(response[i].answers[4].answer);
+                                                console.log(this.props.pass);
                                                 if(response[i].answers[3].answer==this.props.user&&response[i].answers[4].answer==this.props.pass){
                                                     let boards;
+                                                    console.log("I'm here")
                                                     boards=(response[i].answers[5].answer==="undefined")? ""+currentId : response[i].answers[5].answer+","+currentId;
                                                     let sid=response[i].id;
                                                     let userSubmission=new Object();

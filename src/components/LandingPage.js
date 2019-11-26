@@ -79,7 +79,7 @@ class LandingPage extends React.Component{
 
                 </Switch>
                 <Link to={linkName}>
-                <button style={{position:'relative',left:'43.5%',top:'48px'}} id="hideThis" className="btn btn-success" onClick={this.setToggleSignUp}>{pageName}</button>
+                <button  id="hideThis" className="btn btn-success" onClick={this.setToggleSignUp}>{pageName}</button>
                 </Link>
             </BrowserRouter>
 
