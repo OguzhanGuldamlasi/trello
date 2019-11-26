@@ -128,7 +128,7 @@ class SignIn extends React.Component{
                     <input  type="email" id="email" className="form-control" name="email" placeholder="email"/>
                     <input  type="password" id="password" className="form-control" name="login" placeholder="password"/>
                     <Link to="/board">
-                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>SignUn</button>
+                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>Sign Up</button>
                     </Link>
                         <div className="saved"  style={{display:'none'}} ><a  href="https://icon-library.net/icon/successful-icon-10.html"/>Successful Sign</div>
                     <div className="error" style={{visibility:'hidden'}}><img alt="" src="http://cdn.jotfor.ms/images/exclamation-octagon.png"/></div>

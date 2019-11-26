@@ -358,7 +358,7 @@ class Home extends React.Component{
                             ev.preventDefault();
                             this.addUser(document.getElementById("takeIt").value);
                         }
-                        } style={{marginTop:"10px"}} className="btn btn-dark" type="button">Add User</button>
+                        } style={{marginTop:"4px"}} id="buttonUser" className="btn btn-secondary" type="button">Add User</button>
                     </div>
                 </div>
                 <h1 className={"headerForHome"} style={{textAlign:"center"}}>{this.state.name}</h1>

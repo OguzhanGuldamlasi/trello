@@ -7,6 +7,12 @@
     height: auto;
     width: auto;
 }
+#buttonUser{
+    margin-top: 4px;
+    position: relative;
+    height: 36px;
+    top: 9px;
+}
 .addList{
     position: relative;
     /*display: flex;*/

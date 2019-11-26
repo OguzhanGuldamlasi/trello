@@ -12,6 +12,8 @@
 .emptyDiv {
     height: 150px;
     width: 100%;
+    position: relative;
+    left: 10px;
     /*box-sizing: border-box;*/
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
     /*height: 150px;*/

@@ -152,6 +152,18 @@
 .appendDiv button{
     margin-top:5px;
 }
+#removeThis1{
+    position: relative;
+    left: 50px;
+}
+.popup .btn-secondary{
+    /*height: 10px;*/
+    left: 50px;
+    position: relative;
+    margin-left:5px;
+    margin-right: 5px;
+}
+
 .name{
     margin: 1em 0 0.5em 0;
     color: #343434;
@@ -163,6 +175,13 @@
     letter-spacing: 1px;
     font-style: italic;
 }
+/*.removeThis1{*/
+/*    margin:3px;*/
+/*    height: 10px;*/
+/*}*/
+/*.removeThis2{*/
+/*    margin:3px*/
+/*}*/
 .popup {
     /*margin: 10px;*/
     top:10px;
@@ -195,13 +214,23 @@
     margin-top: 5px;
     margin-bottom:5px;
 }
+#takeIt{
+    position: relative;
+    top: 4px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
 
 #qweqwe{
+    word-break: break-word;
     padding: 5px;
     margin:5px;
     width: 80%;
     position: relative;
-    left:10%
+    left:10%;
+    /*white-space: nowrap;*/
+    /*overflow: hidden;*/
+    /*text-overflow: ellipsis;*/
 }
 #mySaveButton{
     position: relative;

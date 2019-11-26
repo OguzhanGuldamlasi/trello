@@ -351,6 +351,7 @@ class EditCard extends React.Component {
                                 }}>
                                    Red Label</div>
                                 </div>
+                                <div style={{marginTop:'10px'}} className="appendDiv"/>
                                 <div  style={{overflow:'visible',display:this.props.params.labels.length===0 ? 'none' : 'block'}}>
                                     <h4 style={{padding:'5px'}}>Current Labels</h4>
                                     <div className="fix"/>
@@ -361,7 +362,7 @@ class EditCard extends React.Component {
                                         })}
                                     </div>
                                 </div>
-                            </div><div style={{marginTop:'10px'}} className="appendDiv"/>
+                            </div>
                             <div className="checkListSection">
                                 <button id="addCheck" style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="btn btn-warning" onClick={(e)=>{
                                     document.activeElement.addEventListener("click",(ev)=>ev.stopPropagation());
@@ -392,7 +393,7 @@ class EditCard extends React.Component {
                                 }}>
                                     Add  Checklist
                                 </button>
-                                <h5 style={{display:this.state.checklistItems.length>0 ? 'inherit':'none',marginLeft:'3px',borderBottom:'1px solid grey'}}> Checklist :  {this.state.checklistItems[0]}</h5>
+                                <h5 style={{display:this.state.checklistItems.length>0 ? 'inherit':'none',marginLeft:'3px',borderBottom:'1px solid grey'}}> Checklist :  {this.state.checklistItems[0]}   {this.state.checklistItems.length===1 ? '(No items in checklist)' : ''}</h5>
 
                             </div>
                             <div className="items" style={{display: this.state.checklistItems.length>0 ? 'inherit' : 'none'}}>
@@ -402,9 +403,9 @@ class EditCard extends React.Component {
                                 {/*    <input type="checkbox" name="checkbox" id="checkbox1" />*/}
                                 {/*    <label htmlFor="checkbox1">First Option default</label>*/}
                                 {/*</div>*/}
-                               <ul>
+                               <ul style={{display:'inline-grid'}}>
                                     {this.state.checklistItems.slice(1).map((item,index)=>{
-                                        return <div style={{marginBottom:'7px',display:'inline-flex'}} id={item.id+index}><input type="checkbox" name="checkbox" className="form-check-input"  id={item.id+"lol"} checked={item.done}  onClick={()=>{
+                                        return <div style={{marginBottom:'7px',display:'inline-flex'}} id={item.id+index}><input  style={{position:'relative',top:'8px',left:'50px'}} type="checkbox" name="checkbox" className="form-check-input"  id={item.id+"lol"} checked={item.done}  onClick={()=>{
                                             let submission=[];
                                             let editedSubmissionId;
                                             if(document.activeElement.checked===true){
@@ -464,7 +465,7 @@ class EditCard extends React.Component {
                                                 this.forceUpdate() });
                                             }
                                         }
-                                        } /><span  id={item.id+index}> &nbsp; &nbsp; {item.id}</span><button onClick={ev=>this.editCheckList(item.id,index,ev)}  className="btn btn-secondary">Edit</button><div style={{display:'inline-flex'}} id={item.id+index+"lol"} className="appendEditDiv"/><button className="btn btn-secondary" onClick={ev=>this.deleteCheckList(item.id)}>Delete</button>
+                                        } /><span style={{position: 'relative', top: '8px',left:'45px'}} id={item.id+index}> &nbsp; &nbsp; {item.id}</span><button onClick={ev=>this.editCheckList(item.id,index,ev)}  className="btn btn-secondary">Edit</button><div style={{display:'inline-flex'}} id={item.id+index+"lol"} className="appendEditDiv"/><button className="btn btn-secondary" onClick={ev=>this.deleteCheckList(item.id)}>Delete</button>
                                         </div>
                                     })}
                                 </ul>
@@ -541,7 +542,7 @@ class EditCard extends React.Component {
                                         console.log('there are some problems');
                                     };
 
-                                }} /><label style={{padding:'6px 12px'}} id="for" htmlFor="file">Choose a file</label>
+                                }} /><label style={{padding:'6px 12px',position:'relative',left:'273px'}} id="for" htmlFor="file">Choose a Cover Image</label>
                             </div>
                         </div>
                     {/*<button id="exitEdit" className="btn btn-info"  onClick={this.props.onClose}>Exit editing Card</button>*/}
