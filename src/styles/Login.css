@@ -36,3 +36,6 @@
 .logIn input{
     margin-top: 10px;
 }
+#hideThis{
+    position: relative;
+}
