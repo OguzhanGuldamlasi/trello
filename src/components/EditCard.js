@@ -103,6 +103,8 @@ class EditCard extends React.Component {
     constructor(props){
         super(props);
         // console.log(props)
+        this.editComment=this.editComment.bind(this);
+        this.deleteComment=this.deleteComment.bind(this);
         this.deleteCheckList=this.deleteCheckList.bind(this);
         this.setToDo=this.setToDo.bind(this);
         this.openTextArea=this.openTextArea.bind(this);
@@ -121,7 +123,7 @@ class EditCard extends React.Component {
             descButton:false,
             backgroundImage:null
         };
-        // console.log(this.props)
+        console.log(document.cookie);
         // try{
         // document.getElementsByClassName("saveList")[0].style.display='none';
         // }catch (e) {
@@ -201,10 +203,49 @@ class EditCard extends React.Component {
 
         return (finishedJob/totalJob*100).toFixed(1);
     }
+    deleteComment(id,ev){
+        ev.preventDefault();
+        console.log(this.props.params.comments);
+        let comments=[...this.props.params.comments];
+        for (let i = 0; i <comments.length ; i++) {
+            if(comments[i].id==id){
+                comments.splice(i,1);
+                break;
+            }
+        }
+        this.props.setTasks(undefined,undefined,undefined,comments);
+    }
+    editComment(id,ev){
+        ev.preventDefault();
+        let inputArea = document.createElement("input");
+        let saveButton = document.createElement("button");
+        inputArea.placeholder="Edit this comment";
+        saveButton.innerText="Save";
+        inputArea.className="form-control";
+        saveButton.className="btn btn-light";
+        document.getElementById(id+"append").append(inputArea);
+        document.getElementById(id+"append").append(saveButton);
+        saveButton.onclick=(ev)=>{ev.preventDefault();
+            if(inputArea.value==''){
+                inputArea.placeholder="Need input";
+                return ;
+            }
+            else{
+                let arr=[...this.props.params.comments];
+                for (let i = 0; i <arr.length ; i++) {
+                    if(arr[i].id==id){
+                        arr[i].id=inputArea.value;
+                        arr[i].text=inputArea.value;
+                        break;
+                    }
+                }
+                this.props.setTasks(undefined,undefined,undefined,arr)
+            }
+        }
+    }
     render() {
         let img=new Image();
         img.src=this.props.img ? "data:image/png;base64,"+this.props.img : "";
-        console.log(img);
         return (
 
             <div className='popup'>
@@ -246,14 +287,16 @@ class EditCard extends React.Component {
                             <ul className="list-group">
                                 {this.props.params.comments.map(comment => {
                                     return <div id={comment.id}>
-                                        {/*margin: 10px;*/}
-                                        {/*width: 95%;*/}
-                                        {/*left: 10px;*/}
                                         <li style={{margin:'10px',width:'95%',left:'10px'}} className="list-group-item">
-                                            <div>
+                                            <div style={{display:'inline-flex'}}>
                                                 <span>{comment.user} commented :</span>
                                                 <span id={comment.id + "1"}>{comment.text}</span>
                                                 <span>{comment.file}</span>
+                                                <div style={{display:comment.user==getCookieValue("user")? 'inherit' :'none'}}>
+                                                    <button onClick={ev=>{this.editComment(comment.id,ev)}} style={{background:'transparent'}} id="editComment"   className="btn btn-light">Edit</button>
+                                                    <div style={{display:'inline-flex'}} id={comment.id+"append"}/>
+                                                    <button onClick={ev=>this.deleteComment(comment.id,ev)} style={{background:'transparent'}} id="deleteComment" className="btn btn-light">Delete</button>
+                                                </div>
                                             </div>
                                         </li>
                                     </div>

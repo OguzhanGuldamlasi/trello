@@ -57,7 +57,7 @@ class SignIn extends React.Component{
         };
         try {
             // console.log(dataToSubmit);
-            // axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
+            axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
         }catch (e) {
             console.log(e)
         }

@@ -271,7 +271,7 @@ class Home extends React.Component{
                         const dataToSubmit={
                             name:userName,
                             mail:user['6'],
-                            message:`You are added board ${this.state.name}`,
+                            message:`You are added to board ${this.state.name}`,
                         };
                         try {
                             // console.log(dataToSubmit);
