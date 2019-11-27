@@ -14,6 +14,7 @@ import {
     useParams
 } from "react-router-dom";
 import axios from 'axios';
+
 class Home extends React.Component{
     // insertionSort(){
     //     let arr=[...this.state.lists];
@@ -28,6 +29,43 @@ class Home extends React.Component{
     //     this.setState({lists:arr});
     //
     // }
+    // initNotifications(){
+    //     if(window.Notification){
+    //         window.Notification.requestPermission((permission)=> {
+    //             if(permission==='granted'){
+    //                 this.setState({notificationsEnabled:true},()=>console.log(this.state.notificationsEnabled))
+    //             }
+    //             else{
+    //                 console.log("ignored")
+    //             }
+    //         });
+    //     }
+    //     else{
+    //         console.log("Your browser doesnt support notifications")
+    //     }
+    // }
+    showNotifications(header,message){
+        console.log("hereee");
+        if(this.state.notificationsEnabled){
+            let notification=new Notification(header,{
+                body:message,
+                icon:"https://www.jotform.com/resources/assets/logo/jotform-icon-transparent-280x280.png"
+
+                },setTimeout(function () {
+                    notification.close();
+                },3000)
+            )
+        }else{
+            console.log("notifications are closed")
+        }
+    }
+    checkDueDate(date){
+        let date1 = new Date();
+        let date2 = new Date(date);
+        let diffTime = Math.abs(date2 - date1);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    }
     constructor(props){
         super(props);
         this.state={
@@ -38,8 +76,12 @@ class Home extends React.Component{
             cards:[],
             lists:[],
             cardInfos:[],
+            notificationsEnabled:true,
             // editCard:null
         };
+        this.checkDueDate=this.checkDueDate.bind(this);
+        this.showNotifications=this.showNotifications.bind(this);
+        // this.initNotifications=this.initNotificat/ions.bind(this);
         // this.insertionSort=this.insertionSort.bind(this);
         this.onListDrop=this.onListDrop.bind(this);
         this.getIndex=this.getIndex.bind(this);
@@ -60,6 +102,7 @@ class Home extends React.Component{
     // showEditCard(){
     //     return this.state.editCard;
     // }
+
     async takeInfos(listId){
         let infos=[];
         await window.JF.getFormSubmissions("92931856730969", (response)=>{
@@ -81,8 +124,8 @@ class Home extends React.Component{
                 return infos;
         });
     }
+
     componentDidMount() {
-        console.log(this.state.homeId)
         let dbLists=[];
         let dbCards=[];
         let biggestCardId=-1;
@@ -110,9 +153,13 @@ class Home extends React.Component{
                         coverImg:response[i].answers[7].answer,
                         checklist:response[i].answers[10].answer,
                         listId:response[i].answers[12].answer,
+                        dueDate:response[i].answers['15'].answer,
                         showEditForm:false
                     };
                     dbCards.push(obj);
+                    if(obj.dueDate!==''&&this.checkDueDate(obj.dueDate)<=7){
+                        this.showNotifications(`${obj.toDo}'s due date is approaching`,`${obj.toDo}'s due date is ${obj.dueDate} you have`+" "+this.checkDueDate(obj.dueDate)+" days left");
+                    }
                 }}
             this.setState({cardInfos:dbCards,cardId:biggestCardId-1+2});
              window.JF.getFormSubmissions("92931845207966",(response)=> {
@@ -128,7 +175,7 @@ class Home extends React.Component{
                          id=id-1+2;
                          mainId=id;
                          // this.insertionSort(dbLists);
-                         this.setState({lists:dbLists,listId:mainId},);
+                         this.setState({lists:dbLists,listId:mainId});
                      }
                  }
              });
@@ -185,7 +232,6 @@ class Home extends React.Component{
         let index=this.getListIndex(targetId);
         let arr=this.state.lists;
         arr.splice(index,0,list);
-        console.log(this.state.lists);
         this.setState({
             lists:arr,
         },()=>this.forceUpdate());
@@ -196,14 +242,10 @@ class Home extends React.Component{
     setIndexes(id){
         let arr=[...this.state.lists];
         let index=this.getListIndex(id);
-        console.log(id);
-        // console.log(arr);
-        console.log(index);
         // let arr=[];
         // for (let i = index; i <this.state.lists.length ; i++) {
         //     arr.push(this.state.lists[i]);
         // }
-        // console.log(arr);
         for (let i = 0; i <arr.length ; i++) {
            window.JF.getFormSubmissions("92931845207966", (response)=>{
                 for(let j=0; j<response.length; j++){
@@ -223,11 +265,9 @@ class Home extends React.Component{
     }
     onListDrop(ev){
         ev.preventDefault();
-        console.log(ev);
         let state;
         try{
             state=JSON.parse(ev.dataTransfer.getData("list"));
-            console.log(state);
             ev.dataTransfer.clearData("list");
         }catch (e) {
             // state=JSON.parse(ev.dataTransfer.getData("card"));
@@ -267,14 +307,12 @@ class Home extends React.Component{
                     user['5']=response[i].answers['5'].answer+','+this.props.id;
                     user['6']=response[i].answers['6'].answer;
                     window.JF.editSubmission(id, user, (response)=>{
-                        // console.log(user['6'])
                         const dataToSubmit={
                             name:userName,
                             mail:user['6'],
                             message:`You are added to board ${this.state.name}`,
                         };
                         try {
-                            // console.log(dataToSubmit);
                             axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
                         }catch (e) {
                             console.log(e)
