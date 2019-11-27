@@ -239,6 +239,8 @@ class EditCard extends React.Component {
                         break;
                     }
                 }
+                inputArea.remove();
+                saveButton.remove();
                 this.props.setTasks(undefined,undefined,undefined,arr)
             }
         }
@@ -288,14 +290,14 @@ class EditCard extends React.Component {
                                 {this.props.params.comments.map(comment => {
                                     return <div id={comment.id}>
                                         <li style={{margin:'10px',width:'95%',left:'10px'}} className="list-group-item">
-                                            <div style={{display:'inline-flex'}}>
+                                            <div style={{display:'contents'}}>
                                                 <span>{comment.user} commented :</span>
-                                                <span id={comment.id + "1"}>{comment.text}</span>
+                                                <span style={{marginRight:'10px'}} id={comment.id + "1"}>{comment.text}</span>
                                                 <span>{comment.file}</span>
                                                 <div style={{display:comment.user==getCookieValue("user")? 'inherit' :'none'}}>
-                                                    <button onClick={ev=>{this.editComment(comment.id,ev)}} style={{background:'transparent'}} id="editComment"   className="btn btn-light">Edit</button>
+                                                    <button onClick={ev=>{this.editComment(comment.id,ev)}} style={{background:'transparent',marginRight:'5px'}} id="editComment"   className="btn btn-light">Edit</button>
                                                     <div style={{display:'inline-flex'}} id={comment.id+"append"}/>
-                                                    <button onClick={ev=>this.deleteComment(comment.id,ev)} style={{background:'transparent'}} id="deleteComment" className="btn btn-light">Delete</button>
+                                                    <button onClick={ev=>this.deleteComment(comment.id,ev)} style={{background:'transparent',marginRight:'5px'}} id="deleteComment" className="btn btn-light">Delete</button>
                                                 </div>
                                             </div>
                                         </li>
