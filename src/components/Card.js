@@ -21,7 +21,40 @@ class Card extends React.Component{
         submission['12']=state.listId;
         submission['13']='';
         submission['14']=this.props.homeid;
+        submission['15']='';
         window.JF.createFormSubmission("92931856730969",submission,function (response) {});
+    }
+    setDueDate(date){
+        let date1 = new Date();
+        let date2 = new Date(this.state.dueDate);
+        let diffTime = Math.abs(date2 - date1);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        if(diffDays<=0){
+            alert("Cannot enter past dates");
+        }
+        else{
+            this.setState({ dueDate: date }, () => {
+                console.log(this.state.dueDate, 'dueDate');
+            });
+            window.JF.getFormSubmissions("92931856730969", (response)=>{
+                for(let i=0; i<response.length; i++){
+                    if(response[i].answers['14'].answer==this.props.homeid&&response[i].answers['9'].answer==this.state.cardId){
+                        response['15']=date;
+                        window.JF.editSubmission(response[i].id, response, (response)=>{
+                         console.log(response);
+                        });
+                        break;
+                    }
+                }
+            });
+        }
+    }
+    checkDueDate(){
+        let date1 = new Date();
+        let date2 = new Date(this.state.dueDate);
+        let diffTime = Math.abs(date2 - date1);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        console.log(diffDays);
     }
     constructor(props){
         super(props);
@@ -42,10 +75,13 @@ class Card extends React.Component{
                 comments:[],
                 coverImg:'',
                 owner:'',
+                dueDate:'',
                 listId:this.props.listId
             };
             this.submitCardAPI(this.state)
         }
+        this.checkDueDate=this.checkDueDate.bind(this);
+        this.setDueDate=this.setDueDate.bind(this);
         this.setTasks=this.setTasks.bind(this);
         this.setCheckList=this.setCheckList.bind(this);
         this.setImg=this.setImg.bind(this);
@@ -83,7 +119,7 @@ class Card extends React.Component{
         },()=>console.log(this.state));
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
-                if(response[i].answers[9].answer==this.state.cardId){
+                if(response[i].answers[9].answer==this.state.cardId&&response[i].answers[14].answer==this.props.homeid){
                     let submissionId=response[i].id;
                     let submission=new Object();
                     submission['9']=this.state.cardId;
@@ -158,7 +194,7 @@ class Card extends React.Component{
                 {/*position: relative;*/}
                 {/*display: inline-flex;*/}
                 <div style={{position:"relative",display:"inline-flex"}}  className="buttonDiv">
-                    <SimpleModal setChecklist2={this.setChecklist2} img={this.state.coverImg} owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
+                    <SimpleModal setDueDate={this.setDueDate} checkDueDate={this.checkDueDate} setChecklist2={this.setChecklist2} img={this.state.coverImg} owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
                     {/*<button className="editCard" onClick={this.togglePopup}>Edit</button>*/}
                     <button className="btn btn-info" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);

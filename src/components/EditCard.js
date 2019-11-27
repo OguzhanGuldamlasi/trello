@@ -102,7 +102,8 @@ class EditCard extends React.Component {
     }
     constructor(props){
         super(props);
-        // console.log(props)
+        console.log(props)
+        this.getRemainingDays=this.getRemainingDays.bind(this);
         this.editComment=this.editComment.bind(this);
         this.deleteComment=this.deleteComment.bind(this);
         this.deleteCheckList=this.deleteCheckList.bind(this);
@@ -245,7 +246,35 @@ class EditCard extends React.Component {
             }
         }
     }
+    setDueDate(ev){
+        ev.preventDefault();
+        let inputArea = document.createElement("input");
+        let saveButton = document.createElement("button");
+        inputArea.placeholder="Edit Due Date";
+        saveButton.innerText="Save";
+        inputArea.className="form-control";
+        saveButton.className="btn btn-light";
+        document.getElementsByClassName("dateAppendDiv")[0].append(inputArea);
+        document.getElementsByClassName("dateAppendDiv")[0].append(saveButton);
+        saveButton.onclick=(ev)=>{ev.preventDefault();
+            if(inputArea.value==''){
+                inputArea.placeholder="Need input";
+                return ;
+            }
+            else{
+                this.props.setDueDate(inputArea.value);
+            }
+        }
+    }
+    getRemainingDays(){
+        let date1 = new Date();
+        let date2 = new Date(this.props.params.dueDate);
+        let diffTime = Math.abs(date2 - date1);
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    }
     render() {
+        console.log(this.props.params.dueDate)
         let img=new Image();
         img.src=this.props.img ? "data:image/png;base64,"+this.props.img : "";
         return (
@@ -259,9 +288,14 @@ class EditCard extends React.Component {
                         <img style={{display:this.props.img==''? 'none' : 'inherit' ,borderTopLeftRadius:'14.9px',borderTopRightRadius:'17.5px'}} className="img" src={img.src} height="300px" width="752px" alt=""/>
                     </div>
                     <h3 id={"ownerHeader"}>Owner:{this.props.owner==''? "No one assigned to card" : this.props.owner}</h3>
+                    <h4 style={{display:this.props.params.dueDate=='' ? 'none':'inherit'}}>Due Date :{this.props.params.dueDate}(Remaining Days:{this.getRemainingDays()})</h4>
                     <div className="fix"/>
-                    <div style={{display:this.props.owner==''? 'inherit':'none'}} className="DropDown">
-                        <Card id={this.props.id} homeid={this.props.homeid}/>
+                    <div className="lollol" style={{display:'inline-block'}}>
+                        <div style={{display:this.props.owner==''? 'inherit':'none'}} className="DropDown">
+                            <Card id={this.props.id} homeid={this.props.homeid}/>
+                        </div>
+                        <button onClick={(ev)=>this.setDueDate(ev)} className="btn btn-primary">Set Due Date</button>
+                        <div style={{display:'inline-flex'}} className="dateAppendDiv"/>
                     </div>
                 <div className="toDoDiv">
                             <h4 id="cardName">Enter Card Name</h4>

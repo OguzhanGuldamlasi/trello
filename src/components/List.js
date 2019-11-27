@@ -36,7 +36,8 @@ class List extends React.Component{
                 comments:comments,
                 owner:cardInfos[i].owner,
                 coverImg:cardInfos[i].coverImg,
-                listId:cardInfos[i].listId
+                listId:cardInfos[i].listId,
+                dueDate:cardInfos[i].dueDate
             };
 
             (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard} */ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
@@ -63,6 +64,7 @@ class List extends React.Component{
                         owner:response[i].answers[13].answer,
                         checklist:response[i].answers[10].answer,
                         listId:response[i].answers[12].answer,
+                        dueDate:response[i].answers[15].answer,
                         showEditForm:false
                     };
                     cardInfos.push(obj);
