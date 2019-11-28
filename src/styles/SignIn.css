@@ -1,12 +1,14 @@
 #hideThis{
     position: relative;
-    left:1000px;
+    right:-645px;
+    height: 50px;
+    width: 247px;
     /*toppx*/
 }
 .SignIn{
     position: relative;
-    top: 80px;
-    left: 43.5%;
+    top:-10px;
+    left: 41.8%;
     display: inline-grid;
 }
 .SignIn input{
@@ -14,4 +16,31 @@
 }
 #buttonSign{
     margin-top: 10px;
+}
+#buttonSign{
+    position: relative;
+    height: 60px;
+    width: 248px;
+    /*background-color: #4CAF50; !* Green *!*/
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+#buttonSign {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+}
+
+#buttonSign:hover {
+    background-color: #555555;
+    color: white;
 }

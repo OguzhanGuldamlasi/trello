@@ -190,7 +190,7 @@
     max-height: 98%;
     /*overflow-x: inherit;*/
     /*width: 750px;*/
-    left:650px;
+    left:425px;
     /*max-height: 100%;*/
     position: fixed;
     /*overflow-y: auto;*/
@@ -259,6 +259,11 @@
 .currentLabels{
     padding: 5px;
     display: inline-flex;
+}
+.labelDiv{
+    margin-top: 7px;
+    /*margin-bottom: 10px;*/
+
 }
 .wrapperEditCard{
     background: #F4F5F7;

@@ -63,7 +63,7 @@ class Home extends React.Component{
         let date1 = new Date();
         let date2 = new Date(date);
         let diffTime = Math.abs(date2 - date1);
-        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        let diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         return diffDays;
     }
     constructor(props){
@@ -157,7 +157,7 @@ class Home extends React.Component{
                         showEditForm:false
                     };
                     dbCards.push(obj);
-                    if(obj.dueDate!==''&&this.checkDueDate(obj.dueDate)<=7){
+                    if(obj.dueDate!==''&&this.checkDueDate(obj.dueDate)<=7 && this.checkDueDate(obj.dueDate)>=0){
                         this.showNotifications(`${obj.toDo}'s due date is approaching`,`${obj.toDo}'s due date is ${obj.dueDate} you have`+" "+this.checkDueDate(obj.dueDate)+" days left");
                     }
                 }}

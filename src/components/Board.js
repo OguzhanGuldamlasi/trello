@@ -212,7 +212,7 @@ class Board extends React.Component{
                                 }
                             }
                         }
-                        }>Create new board</button>
+                        } style={{color:'white'}}>Create new board</button>
                         <div className="headerItems"/>
                         {/*<div className="headerImg"/>*/}
                         {/*<div className="header">My Trello</div>*/}

@@ -53,7 +53,7 @@ class Card extends Component {
         {console.log(this.props)}
         return (
             <div>
-                <button className="btn btn-primary" style={{color:'white',position:'relative'}} type="button" id="dropdownMenuButton"  onClick={this.showMenu}>
+                <button className="btn btn-primary" style={{color:'white',position:'relative',top:'2.5px',height:'32.5px',marginLeft:'5px',width:'93px'}} type="button" id="dropdownMenuButton"  onClick={this.showMenu}>
                     Assign User
                 </button>
 
@@ -66,7 +66,7 @@ class Card extends Component {
                                     this.dropdownMenu = element;
                                 }}
                             >
-                                {this.state.users.map(user=>{return <button style={{marginLeft:'3px',marginTop:'3px'}} className="btn btn-info" onClick={ev=>{this.onButtonClick(ev,user.toString())}}>{user.toString()}</button>})}
+                                {this.state.users.map(user=>{return <button style={{marginLeft:'5px',marginTop:'10px',width:'93px'}} className="btn btn-info" onClick={ev=>{this.onButtonClick(ev,user.toString())}}>{user.toString()}</button>})}
                             </div>
                         )
                         : (

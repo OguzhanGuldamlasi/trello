@@ -14,6 +14,7 @@
     top: 9px;
 }
 .addList{
+    height: 63px;
     position: relative;
     /*display: flex;*/
     background-color: #fa8900;

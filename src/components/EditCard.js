@@ -250,7 +250,8 @@ class EditCard extends React.Component {
         ev.preventDefault();
         let inputArea = document.createElement("input");
         let saveButton = document.createElement("button");
-        inputArea.placeholder="Edit Due Date";
+        inputArea.placeholder="MM/DD/YYYY";
+        inputArea.style.marginRight="5px";
         saveButton.innerText="Save";
         inputArea.className="form-control";
         saveButton.className="btn btn-light";
@@ -291,13 +292,15 @@ class EditCard extends React.Component {
                     <h4 style={{display:this.props.params.dueDate=='' ? 'none':'inherit'}}>Due Date :{this.props.params.dueDate}(Remaining Days:{this.getRemainingDays()})</h4>
                     <div className="fix"/>
                     <div className="lollol" style={{display:'inline-block'}}>
-                        <div style={{display:this.props.owner==''? 'inherit':'none'}} className="DropDown">
+                        <div style={{display:this.props.owner==''? 'inline-flex ':'none'}} className="DropDown">
                             <Card id={this.props.id} homeid={this.props.homeid}/>
                         </div>
-                        <button onClick={(ev)=>this.setDueDate(ev)} className="btn btn-primary">Set Due Date</button>
-                        <div style={{display:'inline-flex'}} className="dateAppendDiv"/>
                     </div>
-                <div className="toDoDiv">
+                    <div>
+                        <button style={{position:'relative',top:'1px',padding:'5px',margin:'5px'}} onClick={(ev)=>this.setDueDate(ev)} className="btn btn-primary">Set Due Date</button>
+                        <div style={{display:'inline-flex',top:'3px',position:'relative'}} className="dateAppendDiv"/>
+                    </div>
+                        <div className="toDoDiv">
                             <h4 id="cardName">Enter Card Name</h4>
                             <div className="fix"/>
                             <div>
@@ -560,11 +563,16 @@ class EditCard extends React.Component {
                                 inputArea.type="text";
                                 inputArea.className="form-control";
                                 inputArea.placeholder="Add an item";
+                                inputArea.style.width='400px';
+                                inputArea.style.position='relative';
+                                inputArea.style.left='171px';
                                 inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
                                 let saveButton=document.createElement("button");
                                 saveButton.addEventListener('click',(ev)=>ev.stopPropagation());
                                 saveButton.className="btn btn-primary";
                                 saveButton.innerText="Save";
+                                saveButton.style.position="relative";
+                                saveButton.style.left='37%';
                                 document.getElementsByClassName("saveDiv")[0].append(inputArea);
                                 document.getElementsByClassName("saveDiv")[0].append(saveButton);
                                 saveButton.onclick=()=>{
@@ -588,10 +596,10 @@ class EditCard extends React.Component {
                                 };
                                 let cancelButton=document.createElement("button");
                                 saveButton.style.margin="5px";
-                                saveButton.style.left="30%";
+                                saveButton.style.left="37%";
                                 saveButton.style.position="relative";
                                 cancelButton.style.margin="5px";
-                                cancelButton.style.left="40%";
+                                cancelButton.style.left="43%";
                                 cancelButton.style.position="relative";
                                 cancelButton.className="btn btn-primary";
                                 cancelButton.innerText="Cancel";

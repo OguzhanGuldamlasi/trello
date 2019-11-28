@@ -125,13 +125,11 @@ class Login extends React.Component{
 
             <div  className="logIn">
                 <h2>Log in</h2>
-                <form>
                     <input onChange={this.checkUserName} type="text" id="login1" className="form-control" name="login" placeholder="UserName"/>
                     <input onChange={this.checkPassword}  type="password" id="password1" className="form-control" name="login" placeholder="password"/>
                     <Link style={{visibility:this.state.userBool&&this.state.passBool?'inherit':'hidden'}} to="/board">
-                        <button style={{visibility:this.state.userBool&&this.state.passBool?'inherit':'hidden'}} id="buttonSign" type="submit"  className="form-control" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
+                        <button style={{visibility:this.state.userBool&&this.state.passBool?'inherit':'hidden'}} id="buttonLog" type="submit"  className="form-control" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
                     </Link>
-                </form>
             </div>
         )}
         else{return null}
