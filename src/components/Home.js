@@ -14,7 +14,10 @@ import {
     useParams
 } from "react-router-dom";
 import axios from 'axios';
-
+function getCookieValue(a) {
+    let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}
 class Home extends React.Component{
     // insertionSort(){
     //     let arr=[...this.state.lists];
@@ -67,6 +70,7 @@ class Home extends React.Component{
     }
     constructor(props){
         super(props);
+
         this.state={
             name:this.props.name,
             homeId:this.props.id,
@@ -76,6 +80,7 @@ class Home extends React.Component{
             lists:[],
             cardInfos:[],
             notificationsEnabled:true,
+            admin:'',
             // editCard:null
         };
         this.checkDueDate=this.checkDueDate.bind(this);
@@ -153,10 +158,12 @@ class Home extends React.Component{
                         checklist:response[i].answers[10].answer,
                         listId:response[i].answers[12].answer,
                         dueDate:response[i].answers['15'].answer,
+                        finished:response[i].answers['16'].answer,
                         showEditForm:false
                     };
+
                     dbCards.push(obj);
-                    if(obj.dueDate!==''&&this.checkDueDate(obj.dueDate)<=7 && this.checkDueDate(obj.dueDate)>=0){
+                    if(obj.finished!=="true"&&obj.dueDate!==''&&this.checkDueDate(obj.dueDate)<=7 && this.checkDueDate(obj.dueDate)>=0){
                         this.showNotifications(`${obj.toDo}'s due date is approaching`,`${obj.toDo}'s due date is ${obj.dueDate} you have`+" "+this.checkDueDate(obj.dueDate)+" days left");
                     }
                 }}
@@ -169,12 +176,19 @@ class Home extends React.Component{
                          let index=response[i].answers[5].answer;
                          let homeId=response[i].answers[6].answer;
                          let state1={id,name,index,homeId};
-                         let list=<List index={index} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
+                         let list=<List admin={this.state.admin} index={index} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={deleteList} getListIndex={getListIndex} key={id} incrementCardId={incrementCardId} getCardId={getCardId} deleteCard={deleteCard} appendCard={appendCard}  state={state1}/>;
                          dbLists.push(list);
                          id=id-1+2;
                          mainId=id;
                          // this.insertionSort(dbLists);
                          this.setState({lists:dbLists,listId:mainId});
+                     }
+                 }
+             });
+             window.JF.getFormSubmissions("93143614742960", (response)=>{
+                 for(let i=0; i<response.length; i++){
+                     if(this.state.homeId==response[i].answers['3'].answer){
+                         this.setState({admin:response[i].answers['5'].answer})
                      }
                  }
              });
@@ -226,7 +240,7 @@ class Home extends React.Component{
         }catch (e) {
             return ;
         }
-        let list=<List index={0} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let list=<List admin={this.state.admin} index={0} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let targetId=event.currentTarget.id;
         let index=this.getListIndex(targetId);
         let arr=this.state.lists;
@@ -276,7 +290,7 @@ class Home extends React.Component{
             // }
             return ;
         }
-        let list=<List index={this.state.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
+        let list=<List admin={this.state.admin} index={this.state.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId} /*editCard={this.editCard}*/ cardInfos={this.state.cardInfos} onDrop={this.onDrop} deleteList={this.deleteList} getListIndex={this.getListIndex} key={state.id} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} state={state} />;
         let arr=this.state.lists;
         arr.push(list);
         this.setState({
@@ -355,7 +369,6 @@ class Home extends React.Component{
                     return 1;
                 }
             });
-
         return (
             <div className="HomeComp">
                 {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
@@ -372,7 +385,7 @@ class Home extends React.Component{
                             if(event.key==="Enter"){
                                 saveButton.click();
                             }
-                        })
+                        });
                         document.getElementsByClassName("addList")[0].append(inputArea);
                         let saveButton=document.createElement("button");
                         saveButton.className="saveList";
@@ -387,7 +400,7 @@ class Home extends React.Component{
                             }
                             // {console.log(this.)}
                             // console.log(this.state.lists.length);
-                            let newList=<List  index={this.state.lists.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.lists.length} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
+                            let newList=<List admin={this.state.admin} index={this.state.lists.length} homeId={this.state.homeId} takeInfos={this.takeInfos} homeid={this.state.homeId}/* editCard={this.editCard}*/ onDrop={this.onDrop} cardInfos={this.state.cardInfos} deleteList={this.deleteList} getListIndex={this.getListIndex} key={this.state.listId} listId={this.state.lists.length} incrementCardId={this.incrementCardId} getCardId={this.getCardId} deleteCard={this.deleteCard} appendCard={this.appendCard} name={inputArea.value}/>;
                             this.setState({
                                 lists:[...this.state.lists,newList],
                                 listId:this.state.listId+1
@@ -401,7 +414,7 @@ class Home extends React.Component{
                 <Link to="/board">
                 <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
                 </Link>
-                <button style={{marginTop:"5px",marginLeft:"5px"}} onClick={(ev)=>
+                <button  style={{marginTop:"5px",marginLeft:"5px",visibility:getCookieValue("user")==this.state.admin? 'visible':'hidden'}} onClick={(ev)=>
                 {
                     ev.preventDefault();
                     document.getElementsByClassName("lollol")[0].style.display="inline-flex";
@@ -428,4 +441,4 @@ class Home extends React.Component{
         )
     }
 }
-export default Home
+export default Home;

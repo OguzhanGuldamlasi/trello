@@ -60,6 +60,7 @@ class EditCard extends React.Component {
                             submission['12']=response[i].answers['12'].answer;
                             submission['13']=response[i].answers['13'].answer;
                             submission['14']=response[i].answers['14'].answer;
+                            submission['15']=response[i].answers['15'].answer;
                             console.log(response[i]);
                             window.JF.editSubmission(response[i].id, submission, (response)=>{
                                 console.log(response)
@@ -293,7 +294,6 @@ class EditCard extends React.Component {
         document.getElementById(user+"123").style.display='none';
     }
     render() {
-        console.log(this.props.params.dueDate);
         let img=new Image();
         img.src=this.props.img ? "data:image/png;base64,"+this.props.img : "";
         return (
@@ -315,14 +315,14 @@ class EditCard extends React.Component {
                         </div>
                     </div>
                     <div>
-                        <button style={{position:'relative',top:'1px',padding:'5px',margin:'5px'}} onClick={(ev)=>this.setDueDate(ev)} className="btn btn-primary">Set Due Date</button>
+                        <button  style={{position:'relative',top:'1px',padding:'5px',margin:'5px'}} onClick={(ev)=>this.setDueDate(ev)} className="btn btn-primary">Set Due Date</button>
                         <div style={{display:'inline-flex',top:'3px',position:'relative'}} className="dateAppendDiv"/>
                     </div>
                         <div className="toDoDiv">
                             <h4 id="cardName">Enter Card Name</h4>
                             <div className="fix"/>
                             <div>
-                            <input defaultValue={this.props.params.toDo} id="dynamicName" style={{width:'50%',padding:'5px'}} className="form-control" placeholder="Dynamically"
+                            <input readOnly={(getCookieValue("user")===this.props.admin)}  defaultValue={this.props.params.toDo} id="dynamicName" style={{width:'50%',padding:'5px'}} className="form-control" placeholder="Dynamically"
                                    onChange={e => this.setToDo(e)}/>
                             </div>
                         </div>
@@ -330,7 +330,7 @@ class EditCard extends React.Component {
                             <h4 id="forDesc"> Description</h4>
                             <div className="fix"/>
                             <div>
-                                <textarea  defaultValue={this.props.params.description} style={{width:'700px',height:'100px',marginBottom:'10px',position:'relative',left:'25px',resize:'none'}} onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
+                                <textarea readOnly={(getCookieValue("user")===this.props.admin)} defaultValue={this.props.params.description} style={{width:'700px',height:'100px',marginBottom:'10px',position:'relative',left:'25px',resize:'none'}} onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
                                           className="form-control" rows="5" id="descdesc"/>
                                 {/*<button id="descSave" className="btn btn-info"  onClick={e => this.saveDesc(e)}>Save*/}
                                 {/*</button>*/}
@@ -360,7 +360,7 @@ class EditCard extends React.Component {
                                 })}
                             </ul>
                             <div className="writeComment">
-                                <input onClick={this.showSave} type="text" id="commentInp" className="form-control"
+                                <input readOnly={(getCookieValue("user")===this.props.admin)}  onClick={getCookieValue("user")!==this.props.admin?this.showSave: console.log("")} type="text" id="commentInp" className="form-control"
                                        placeholder="Write a comment"/>
                                 <button style={{display: this.state.showCommentSave ? 'flex' : 'none'}}
                                         id="saveComment"    className="btn btn-success" onClick={(e) => this.saveComment(e)}>Save Comment
@@ -654,6 +654,9 @@ class EditCard extends React.Component {
                             </div>
                         </div>
                     <button id="exitEdit" className="btn btn-success"  onClick={this.props.onClose}>Save</button>
+                    <button style={{position: 'relative',
+                        top: '-5px',
+                        left: '500px'}} className="btn btn-success" onClick={(ev)=>this.props.setFinished(ev)}>Finish the Card</button>
 
                 </div>
 

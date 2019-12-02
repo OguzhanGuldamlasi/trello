@@ -22,6 +22,7 @@ class Card extends React.Component{
         submission['13']='';
         submission['14']=this.props.homeid;
         submission['15']='';
+        submission['16']=false;
         window.JF.createFormSubmission("92931856730969",submission,function (response) {});
     }
     setDueDate(date){
@@ -76,6 +77,7 @@ class Card extends React.Component{
                 coverImg:'',
                 owner:'',
                 dueDate:'',
+                finished:false,
                 listId:this.props.listId
             };
             this.submitCardAPI(this.state)
@@ -93,6 +95,40 @@ class Card extends React.Component{
         this.togglePopup=this.togglePopup.bind(this);
         this.setChecklist2=this.setChecklist2.bind(this);
         this.setOwner=this.setOwner.bind(this);
+        this.setFinished=this.setFinished.bind(this)
+    }
+    setFinished(ev){
+        ev.preventDefault();
+        this.setState({finished:'true'},()=>console.log(this.state.finished));
+        window.JF.getFormSubmissions("92931856730969", response=>{
+            console.log("here1");
+            for(let i=0; i<response.length; i++){
+                console.log("here2");
+                console.log(response[i].answers['9'].answer)
+                console.log(this.props.id)
+                console.log(response[i].answers['12'].answer)
+                console.log(this.props.listId)
+                if(response[i].answers['9'].answer==this.props.id && response[i].answers['12'].answer==this.props.listId){
+                    let submission=new Object()
+                    submission['10']=response[i].answers['10'].answer;
+                    submission['9']=response[i].answers['9'].answer;
+                    submission['3']=response[i].answers['3'].answer;
+                    submission['4']=response[i].answers['4'].answer;
+                    submission['5']=response[i].answers['5'].answer;
+                    submission['11']=response[i].answers['11'].answer;
+                    submission['7']=response[i].answers['7'].answer;
+                    submission['12']=response[i].answers['12'].answer;
+                    submission['13']=response[i].answers['13'].answer;
+                    submission['14']=response[i].answers['14'].answer;
+                    submission['15']=response[i].answers['15'].answer;
+                    submission['16']=true;
+                    console.log(response[i]);
+                    window.JF.editSubmission(response[i].id, submission, (response)=>{
+                        console.log(response)
+                    })
+                }
+            }
+        });
     }
     setOwner(userName){
         this.setState({owner:userName},()=>console.log(this.state.owner))
@@ -182,7 +218,7 @@ class Card extends React.Component{
         let img=new Image();
         img.src=this.state.coverImg ? "data:image/png;base64,"+this.state.coverImg : "";
         return (
-            <div   onDragEnter={this.props.onDragEnter}  onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
+            <div style={{background:this.state.finished==="true" ? '#fa8900' :'#d8d8d8'}}   onDragEnter={this.props.onDragEnter}  onDragOver={this.onDragOver} onDrag={event => this.onDrag(event)} id={this.state.cardId} draggable={!(getCookieValue("user")===this.props.admin)} onDragStart={(e)=>this.onDragStart(e,this.state.cardId)} className='card' >
                 <div className="toDO">
                     <span>{this.state.toDo}</span>
                 </div>
@@ -198,9 +234,9 @@ class Card extends React.Component{
                 {/*position: relative;*/}
                 {/*display: inline-flex;*/}
                 <div style={{position:"relative",display:"inline-flex"}}  className="buttonDiv">
-                    <SimpleModal setOwner={this.setOwner} setDueDate={this.setDueDate} checkDueDate={this.checkDueDate} setChecklist2={this.setChecklist2} img={this.state.coverImg} owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
+                    <SimpleModal admin={this.props.admin} setFinished={this.setFinished} setOwner={this.setOwner} setDueDate={this.setDueDate} checkDueDate={this.checkDueDate} setChecklist2={this.setChecklist2} img={this.state.coverImg} owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
                     {/*<button className="editCard" onClick={this.togglePopup}>Edit</button>*/}
-                    <button className="btn btn-info" onClick={(event)=>{
+                    <button style={{cursor:getCookieValue("user")===this.props.admin? 'not-allowed':'pointer'}} className="btn btn-info" onClick={getCookieValue("user")===this.props.admin ?console.log():(event)=>{
                         this.props.deleteCard(this.state.cardId);
                         event.target.parentElement.parentElement.remove();
                         window.JF.getFormSubmissions("92931856730969",response=>{
@@ -220,3 +256,7 @@ class Card extends React.Component{
     }
 }
 export default Card;
+function getCookieValue(a) {
+    let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}

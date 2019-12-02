@@ -65,6 +65,7 @@ class Board extends React.Component{
         super(props);
         this.state={
             homeIds:this.props.homes,//
+            adminIds:[]
         };
         console.log(props);
         window.JF.getFormSubmissions("93141352586963", function(response){
@@ -74,23 +75,9 @@ class Board extends React.Component{
             }
         });
         // sendMail().then(response=>console.log(response));
-        this.getBoardUsers=this.getBoardUsers.bind(this);
         this.findBoardComp=this.findBoardComp.bind(this);
     }
     componentDidMount() {
-        // sendMail()
-        // window.Email.send({
-        //     port :"2525",
-        //     SecureToken : "4a6bfe2a-bb8c-4d89-a330-068d7fd1f61c",
-        //     Username : "oguzhanguldamlasi@gmail.com",
-        //     Password : "66de0b65-68cc-4fe0-b105-ee42733814c7",
-        //     To : 'oguzhan_g99@hotmail.com',
-        //     From : "oguzhanguldamlasi@gmail.com",
-        //     Subject : "This mail sent by board component",
-        //     Body : "aldfkþasldkfþasdkfçwömerçmçzvmçcxmvçmvcþlkwerþksdaf"
-        // }).then(
-        //     message => console.log(message)
-        // );
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[3].answer==this.props.user){
@@ -101,6 +88,16 @@ class Board extends React.Component{
                 }
             }
         },response=>{console.log(response)});
+        let arr=[];
+        window.JF.getFormSubmissions("93143614742960", (response)=>{
+            for(let i=0; i<response.length; i++){
+                if(response[i].answers['5'].answer==getCookieValue("user")){
+                    arr.push(response[i].answers['3'].answer);
+                    this.setState({adminIds:arr},this.forceUpdate)
+                }
+            }
+            console.log(arr)
+        });
     }
     findBoardComp(id){
         console.log(id);
@@ -112,9 +109,7 @@ class Board extends React.Component{
             }
         }
     }
-    getBoardUsers(){
 
-    }
     render() {
         try{
             document.getElementById("hideThis").remove();}
@@ -159,41 +154,20 @@ class Board extends React.Component{
                                             submission['3']=incrementedId;
                                             window.JF.editSubmission(subId, submission, (response)=>{
                                             })
-                                            // let users=[];
-                                            // window.JF.getFormSubmissions(formID, function(response){
-                                            //     for(let i=0; i<response.length; i++){
-                                            //         if(response[i].answers['5'].answer.split(',').splice(1).includes(this.state));
-                                            //
-                                            //     }
-                                            // });
-                                            // const dataToSubmit={
-                                            //     name:userName,
-                                            //     mail:email,
-                                            //     message:"Welcome to Trello",
-                                            // };
-                                            // try {
-                                            //     // console.log(dataToSubmit);
-                                            //     axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
-                                            // }catch (e) {
-                                            //     console.log(e)
-                                            // }
-
                                         });
                                         let submission = new Object();
                                         submission['3'] =currentId-1+1;
                                         submission['4'] =inputArea.value;
+                                        submission['5'] =this.props.user;
+                                        let arr=[...this.state.adminIds];
+                                        arr.push(submission['3']);
+                                        this.setState({adminIds:arr});
                                         window.JF.createFormSubmission("93143614742960", submission,(response)=>{
                                         },()=>console.log(this.state));
                                         window.JF.getFormSubmissions("93141352586963",  async response=>{
                                             for(let i=0; i<response.length; i++){
-                                                console.log("I'm here")
-                                                console.log(response[i].answers[3].answer);
-                                                console.log(this.props.user);
-                                                console.log(response[i].answers[4].answer);
-                                                console.log(this.props.pass);
                                                 if(response[i].answers[3].answer==this.props.user&&response[i].answers[4].answer==this.props.pass){
                                                     let boards;
-                                                    console.log("I'm here")
                                                     boards=(response[i].answers[5].answer==="undefined")? ""+currentId : response[i].answers[5].answer+","+currentId;
                                                     let sid=response[i].id;
                                                     let userSubmission=new Object();
@@ -203,6 +177,7 @@ class Board extends React.Component{
                                                     window.JF.editSubmission(sid, userSubmission, (response)=>{
                                                     });
                                                     await this.setState({homeIds:boards},()=>this.forceUpdate());
+
                                                     document.getElementsByClassName("headerItems")[0].innerHTML="";
                                                     break;
                                                 }
@@ -223,6 +198,13 @@ class Board extends React.Component{
                             return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
                         })}
                     </div>
+                    <h1 style={{textAlign:"center"}}>Boards that you are the Scrum Master</h1>
+                    <h3 style={{textAlign:"center"}}>These boards are readonly</h3>
+                    <div style={{display:'inline-flex'}} className="Homes">
+                        {this.state.adminIds.map(id=>{
+                            return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
+                        })}
+                    </div>
                     {/*<div style={{display:this.state.homeIds.includes(getCookieValue("homeId"))? "block":"none"}} className="lastVisited">*/}
                     {/*    <h2>Last visited board</h2>*/}
                     {/*    {*/}
@@ -233,33 +215,5 @@ class Board extends React.Component{
             );
         }
     }
-
 }
 export default Board;
-
-/*
- var transporter = NodeMailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'oguzhanguldamlasi@gmail.com',
-                pass: 'Clau0onix'
-            }
-        });
-
-        var mailOptions = {
-            from: 'oguzhanguldamlasi@gmail.com',
-            to: 'oguzhanguldamlasi@gmail.com',
-            subject: 'Sending Email using Node.js',
-            text: 'That was easy!'
-        };
-
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-
-
- */

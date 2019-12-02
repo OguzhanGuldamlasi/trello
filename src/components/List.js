@@ -37,10 +37,13 @@ class List extends React.Component{
                 owner:cardInfos[i].owner,
                 coverImg:cardInfos[i].coverImg,
                 listId:cardInfos[i].listId,
-                dueDate:cardInfos[i].dueDate
+                dueDate:cardInfos[i].dueDate,
+                finished:cardInfos[i].finished
             };
-
-            (child.push(<Card  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard} */ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
+            if(state.finished==true){
+                state.dueDate=''
+            }
+            (child.push(<Card admin={this.props.admin}  homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard} */ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardInfos[i].cardId} key={cardInfos[i].cardId} state={state}/>));
 
             this.setState({
                 children:child
@@ -48,7 +51,7 @@ class List extends React.Component{
         }
     }
     componentDidMount() {
-        console.log(this.props.homeId)
+        console.log(this.props.homeId);
 
            let cardInfos=[];
            window.JF.getFormSubmissions("92931856730969", (response)=>{
@@ -65,6 +68,7 @@ class List extends React.Component{
                         checklist:response[i].answers[10].answer,
                         listId:response[i].answers[12].answer,
                         dueDate:response[i].answers[15].answer,
+                        finished:response[i].answers[16].answer,
                         showEditForm:false
                     };
                     cardInfos.push(obj);
@@ -126,7 +130,7 @@ class List extends React.Component{
             return;
         }
         let cardId=this.props.getCardId();
-        let card =<Card name={name} homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
+        let card =<Card admin={this.props.admin} name={name} homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} getIndex={this.getIndex} listId={this.state.id} deleteCard={this.props.deleteCard} id={cardId} key={cardId}/>;
         this.setState({
             children:[
                 ...this.state.children,
@@ -178,7 +182,7 @@ class List extends React.Component{
         }catch (e) {
             return ;
         }
-        let card=<Card homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card admin={this.props.admin} homeid={this.props.homeid} onDragOver={this.onDragOve} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter} /*editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         this.appendChild(card);
         window.JF.getFormSubmissions("92931856730969",response=>{
             for (let i = 0; i <response.length ; i++) {
@@ -209,7 +213,7 @@ class List extends React.Component{
         }catch (e) {
             return ;
         }
-        let card=<Card homeid={this.props.homeid} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
+        let card=<Card admin={this.props.admin} homeid={this.props.homeid} onDragLeave={this.onDragLeave} onDragEnter={this.onDragEnter}/* editCard={this.props.editCard}*/ onDrop={this.onCardDrop} deleteChildren={this.deleteChildren} key={state.cardId}  listId={this.state.id} deleteCard={this.props.deleteCard}  state={state}/>;
         let arr=[...this.state.children];
         let element=document.getElementsByClassName("emptyDiv")[0].nextSibling;
         // console.log(element)
@@ -337,7 +341,7 @@ class List extends React.Component{
     render() {
         return(
             <div className="container">
-                <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
+                <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable={!(getCookieValue("user")===this.props.admin)} onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
                     <input contentEditable="true" onChange={(ev)=>this.setTasks(ev,document.getElementById(this.state.index+123123+"").value)} id={this.state.index+123123+""} defaultValue={this.state.name} style={{color:'white',border:'0px',position:'relative',left:'-30px'}}  className="listName">
                     </input>
                     <button className="addCard" onClick={()=>{
@@ -402,3 +406,7 @@ class List extends React.Component{
     }
 }
 export default List;
+function getCookieValue(a) {
+    let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+}
