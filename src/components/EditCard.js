@@ -338,7 +338,7 @@ class EditCard extends React.Component {
                             </div>
                         </div>
                         <div className="comments">
-                            <h4 className="line">Comments</h4>
+                            <h4  className="line">Comments</h4>
                             <div className="fix"/>
                             {/*<div className="line"/>*/}
                             <ul className="list-group">
@@ -369,7 +369,7 @@ class EditCard extends React.Component {
                         </div>
                         <div className="addSection">
 
-                            <h4 style={{padding:'5px'}}> Choose Label</h4>
+                            <h4 style={{padding:'5px'}} > Choose Label</h4>
                             <div className="fix"/>
                             {/*<div style={{borderBottom:'2px solid black'}}/>*/}
                             <div className="labelSection">
@@ -463,6 +463,8 @@ class EditCard extends React.Component {
                                     </div>
                                 </div>
                             </div>
+                            <h4 style={{padding:'5px'}}>Checklist</h4>
+                            <div className="fix"/>
                             <div className="checkListSection">
                                 <button id="addCheck" style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="btn btn-warning" onClick={(e)=>{
                                     document.activeElement.addEventListener("click",(ev)=>ev.stopPropagation());
@@ -630,7 +632,8 @@ class EditCard extends React.Component {
                                 Add Item to Checklist
                             </button>
                             <div className="saveDiv"/>
-
+                            <h4 style={{padding:'5px'}} >Choose Cover Image</h4>
+                            <div className="fix"/>
                             <div className="coverIMG">
                                 <input id="file" type="file" accept="image/*" name="file" className="inputfile" onChange={(e)=>{
                                     let file = document.getElementById("file").files[0];

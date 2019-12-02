@@ -113,6 +113,7 @@ class List extends React.Component{
         this.onDragLeave=this.onDragLeave.bind(this);
         this.onDragOver=this.onDragOver.bind(this);
         this.getCards=this.getCards.bind(this);
+        this.setTasks=this.setTasks.bind(this);
     }
     appendChild(draggedCard=null,name){
         if(draggedCard!=null){
@@ -312,13 +313,33 @@ class List extends React.Component{
     onDrag(){
         this.props.deleteList(this.state.id);
     }
+    setTasks(ev,name){
+        ev.preventDefault();
+        console.log(name);
+        this.setState({name:name},()=>console.log(this.state.name));
+        window.JF.getFormSubmissions("92931845207966", (response)=>{
+            for(let i=0; i<response.length; i++){
+                if(response[i].answers[3].answer==this.state.id&&response[i].answers[6].answer==this.props.homeId){
+                    let submission=new Object();
+                    submission['3']=response[i].answers[3].answer;
+                    submission['4']=name;
+                    submission['5']=response[i].answers[5].answer;
+                    submission['6']=response[i].answers[6].answer;
+                    window.JF.editSubmission(response[i].id, submission, (response)=>{
+
+                    });
+                    break;
+                }
+            }
+        });
+
+    }
     render() {
         return(
             <div className="container">
                 <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
-                    <h2  className="listName">
-                        {this.state.name}
-                    </h2>
+                    <input contentEditable="true" onChange={(ev)=>this.setTasks(ev,document.getElementById(this.state.index+123123+"").value)} id={this.state.index+123123+""} defaultValue={this.state.name} style={{color:'white',border:'0px',position:'relative',left:'-30px'}}  className="listName">
+                    </input>
                     <button className="addCard" onClick={()=>{
                         let inputArea=document.createElement("input");
                         inputArea.className="form-control";
