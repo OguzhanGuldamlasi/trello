@@ -90,8 +90,12 @@ class Card extends React.Component{
         this.onDragOver=this.onDragOver.bind(this);
         this.submitCardAPI=this.submitCardAPI.bind(this);
         // this.getComponent=this.getComponent.bind(this);
-        this.togglePopup=this.togglePopup.bind(this)
+        this.togglePopup=this.togglePopup.bind(this);
         this.setChecklist2=this.setChecklist2.bind(this);
+        this.setOwner=this.setOwner.bind(this);
+    }
+    setOwner(userName){
+        this.setState({owner:userName},()=>console.log(this.state.owner))
     }
     togglePopup() {
         let bool=!this.state.showEditForm;
@@ -194,7 +198,7 @@ class Card extends React.Component{
                 {/*position: relative;*/}
                 {/*display: inline-flex;*/}
                 <div style={{position:"relative",display:"inline-flex"}}  className="buttonDiv">
-                    <SimpleModal setDueDate={this.setDueDate} checkDueDate={this.checkDueDate} setChecklist2={this.setChecklist2} img={this.state.coverImg} owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
+                    <SimpleModal setOwner={this.setOwner} setDueDate={this.setDueDate} checkDueDate={this.checkDueDate} setChecklist2={this.setChecklist2} img={this.state.coverImg} owner={this.state.owner} homeId={this.props.homeid} id={this.state.cardId} setImg={this.setImg} setTasks={this.setTasks} params={this.state} setCheckList={this.setCheckList} closePopup={this.togglePopup}/>
                     {/*<button className="editCard" onClick={this.togglePopup}>Edit</button>*/}
                     <button className="btn btn-info" onClick={(event)=>{
                         this.props.deleteCard(this.state.cardId);

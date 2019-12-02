@@ -135,11 +135,11 @@ class SignIn extends React.Component{
         return(
                 <form className="SignIn">
                     <h2 className="signInText">Sign Up</h2>
-                    <input  onChange={this.checkUser} type="text" id="login" className="form-control" name="login" placeholder="UserName( bigger than 4)"/><div style={{display:!this.state.user?'inline':'none'}} className="userNameError">Wrong UserName</div>
+                    <input  onChange={this.checkUser} type="text" id="login" className="form-control" name="login" placeholder="UserName( bigger than 4)"/><div style={{display:!this.state.user?'inline':'none'}} className="userNameError"></div>
                     <input onChange={this.checkMail} type="email" id="email" className="form-control" name="email" placeholder="email"/><div style={{display:!this.state.mail?'inline':'none'}} className="mailError">Wrong mail</div>
-                    <input onChange={this.checkPass} type="password" id="password" className="form-control" name="login" placeholder="password"/><div style={{display:!this.state.pass?'inline':'none'}} className="passwordError">Wrong password</div>
-                    <Link style={{visibility:this.state.pass&&this.state.user&&this.state.mail?'inherit':'hidden'}} className="errCheck" to="/board">
-                    <button style={{visibility:this.state.pass&&this.state.user&&this.state.mail?'inherit':'hidden'}} id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={event => this.saveUser(event)}>Sign Up</button>
+                    <input onChange={this.checkPass} type="password" id="password" className="form-control" name="login" placeholder="password"/><div style={{display:!this.state.pass?'inline':'none'}} className="passwordError">Atleast 1 uppercase,1 lowercase and 1 number</div>
+                    <Link  className="errCheck" to={this.state.pass&&this.state.user&&this.state.mail ? "/board" : "/SignIn"}>
+                    <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={this.state.pass&&this.state.user&&this.state.mail ? event => this.saveUser(event): event=>console.log("failed")}>Sign Up</button>
                     </Link>
                     {/*<div className="errorCheckDiv"/>*/}
 

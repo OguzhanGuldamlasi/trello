@@ -127,8 +127,8 @@ class Login extends React.Component{
                 <h2>Log in</h2>
                     <input onChange={this.checkUserName} type="text" id="login1" className="form-control" name="login" placeholder="UserName"/>
                     <input onChange={this.checkPassword}  type="password" id="password1" className="form-control" name="login" placeholder="password"/>
-                    <Link style={{visibility:this.state.userBool&&this.state.passBool?'inherit':'hidden'}} to="/board">
-                        <button style={{visibility:this.state.userBool&&this.state.passBool?'inherit':'hidden'}} id="buttonLog" type="submit"  className="form-control" value="Log in" onClick={ev=>this.login(ev)}>Log in</button>
+                    <Link  to={this.state.userBool&&this.state.passBool? "/board" : '/'}>
+                        <button  id="buttonLog" type="submit"  className="form-control" value="Log in" onClick={this.state.userBool&&this.state.passBool?ev=>this.login(ev): console.log("failed")}>Log in</button>
                     </Link>
             </div>
         )}

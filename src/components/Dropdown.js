@@ -34,7 +34,8 @@ class Card extends Component {
                 }
             }
         });
-        // this.forceUpdate()
+        this.props.setOwner(name);
+        this.forceUpdate()
     }
     showMenu(event) {
         event.preventDefault();

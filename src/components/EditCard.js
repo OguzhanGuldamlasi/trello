@@ -116,6 +116,7 @@ class EditCard extends React.Component {
         this.closeDescButton=this.closeDescButton.bind(this);
         this.closeComments=this.closeComments.bind(this);
         this.calculateProgress=this.calculateProgress.bind(this);
+        this.onMouseOver=this.onMouseOver.bind(this);
         this.state={
             checklistItems:[],
             showTextArea:false,
@@ -160,6 +161,7 @@ class EditCard extends React.Component {
         let commentArea=document.getElementById("commentInp");
         comment.text=commentArea.value;
         if(comment.text==='') {
+            commentArea.placeholder="Please type something";
             return;
         }
         comment.id=comment.text;
@@ -251,8 +253,10 @@ class EditCard extends React.Component {
         let inputArea = document.createElement("input");
         let saveButton = document.createElement("button");
         inputArea.placeholder="MM/DD/YYYY";
+        inputArea.id="removed";
         inputArea.style.marginRight="5px";
         saveButton.innerText="Save";
+        saveButton.id="removed2";
         inputArea.className="form-control";
         saveButton.className="btn btn-light";
         document.getElementsByClassName("dateAppendDiv")[0].append(inputArea);
@@ -264,6 +268,9 @@ class EditCard extends React.Component {
             }
             else{
                 this.props.setDueDate(inputArea.value);
+                document.getElementById("removed").remove();
+                document.getElementById("removed2").remove();
+
             }
         }
     }
@@ -274,8 +281,19 @@ class EditCard extends React.Component {
         let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays;
     }
+    onMouseOver(ev,user,user1){
+        ev.preventDefault();
+        if(user1!==getCookieValue("user")) return;
+        console.log(ev.currentTarget);
+        document.getElementById(user+"123").style.display='inherit';
+    }
+    onMouseLeave(ev,user,user1){
+        ev.preventDefault();
+        if(user1!==getCookieValue("user")) return;
+        document.getElementById(user+"123").style.display='none';
+    }
     render() {
-        console.log(this.props.params.dueDate)
+        console.log(this.props.params.dueDate);
         let img=new Image();
         img.src=this.props.img ? "data:image/png;base64,"+this.props.img : "";
         return (
@@ -291,9 +309,9 @@ class EditCard extends React.Component {
                     <h3 id={"ownerHeader"}>Owner:{this.props.owner==''? "No one assigned to card" : this.props.owner}</h3>
                     <h4 style={{display:this.props.params.dueDate=='' ? 'none':'inherit'}}>Due Date :{this.props.params.dueDate}(Remaining Days:{this.getRemainingDays()})</h4>
                     <div className="fix"/>
-                    <div className="lollol" style={{display:'inline-block'}}>
+                    <div className="lollol" style={{display:this.props.owner==''? 'inline-block':'none'}}>
                         <div style={{display:this.props.owner==''? 'inline-flex ':'none'}} className="DropDown">
-                            <Card id={this.props.id} homeid={this.props.homeid}/>
+                            <Card setOwner={this.props.setOwner} id={this.props.id} homeid={this.props.homeid}/>
                         </div>
                     </div>
                     <div>
@@ -304,7 +322,7 @@ class EditCard extends React.Component {
                             <h4 id="cardName">Enter Card Name</h4>
                             <div className="fix"/>
                             <div>
-                            <input id="dynamicName" style={{width:'50%',padding:'5px'}} className="form-control" placeholder="Dynamically"
+                            <input defaultValue={this.props.params.toDo} id="dynamicName" style={{width:'50%',padding:'5px'}} className="form-control" placeholder="Dynamically"
                                    onChange={e => this.setToDo(e)}/>
                             </div>
                         </div>
@@ -312,11 +330,11 @@ class EditCard extends React.Component {
                             <h4 id="forDesc"> Description</h4>
                             <div className="fix"/>
                             <div>
-                                <textarea  style={{width:'700px',height:'100px',marginBottom:'10px',position:'relative',left:'25px',resize:'none'}} onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
+                                <textarea  defaultValue={this.props.params.description} style={{width:'700px',height:'100px',marginBottom:'10px',position:'relative',left:'25px',resize:'none'}} onBlur={e => this.saveDesc(e)} onClick={this.showDescButton}
                                           className="form-control" rows="5" id="descdesc"/>
                                 {/*<button id="descSave" className="btn btn-info"  onClick={e => this.saveDesc(e)}>Save*/}
                                 {/*</button>*/}
-                                <div id="qweqwe" className="list-group-item list-group-item-success">Description : {this.props.params.description}</div>
+                                <div style={{display:'none'}} id="qweqwe" className="list-group-item list-group-item-success">Description : {this.props.params.description}</div>
                             </div>
                         </div>
                         <div className="comments">
@@ -325,16 +343,16 @@ class EditCard extends React.Component {
                             {/*<div className="line"/>*/}
                             <ul className="list-group">
                                 {this.props.params.comments.map(comment => {
-                                    return <div id={comment.id}>
-                                        <li style={{margin:'10px',width:'95%',left:'10px'}} className="list-group-item">
-                                            <div style={{display:'contents'}}>
-                                                <span>{comment.user} commented :</span>
-                                                <span style={{marginRight:'10px'}} id={comment.id + "1"}>{comment.text}</span>
+                                    return <div onMouseLeave={(ev)=>this.onMouseLeave(ev,comment.id,comment.user)} onMouseOver={(ev)=>this.onMouseOver(ev,comment.id,comment.user)} id={comment.id}>
+                                        <li  style={{margin:'10px',width:'95%',left:'10px'}} className="list-group-item">
+                                            <div  style={{display:'contents'}}>
+                                                <span>{comment.user}&nbsp;:&nbsp;</span>
+                                                <span style={{marginRight:'10px',position:'relative',top:'0.5px'}} id={comment.id + "1"}>{comment.text}</span>
                                                 <span>{comment.file}</span>
-                                                <div style={{display:comment.user==getCookieValue("user")? 'inherit' :'none'}}>
-                                                    <button onClick={ev=>{this.editComment(comment.id,ev)}} style={{background:'transparent',marginRight:'5px'}} id="editComment"   className="btn btn-light">Edit</button>
+                                                <div id={comment.id+"123"} style={{display:'none'}}>
+                                                    <button onClick={ev=>{this.editComment(comment.id,ev)}} style={{background:'transparent',marginRight:'5px'}} id="editComment"   className="btn btn-light comment-action">Edit</button>
                                                     <div style={{display:'inline-flex'}} id={comment.id+"append"}/>
-                                                    <button onClick={ev=>this.deleteComment(comment.id,ev)} style={{background:'transparent',marginRight:'5px'}} id="deleteComment" className="btn btn-light">Delete</button>
+                                                    <button onClick={ev=>this.deleteComment(comment.id,ev)} style={{background:'transparent',marginRight:'5px'}} id="deleteComment" className="btn btn-light comment-action">Delete</button>
                                                 </div>
                                             </div>
                                         </li>
@@ -632,7 +650,7 @@ class EditCard extends React.Component {
                                 }} /><label style={{padding:'6px 12px',position:'relative',left:'273px'}} id="for" htmlFor="file">Choose a Cover Image</label>
                             </div>
                         </div>
-                    {/*<button id="exitEdit" className="btn btn-info"  onClick={this.props.onClose}>Exit editing Card</button>*/}
+                    <button id="exitEdit" className="btn btn-success"  onClick={this.props.onClose}>Save</button>
 
                 </div>
 

@@ -49,11 +49,10 @@ class Home extends React.Component{
         if(this.state.notificationsEnabled){
             let notification=new Notification(header,{
                 body:message,
-                icon:"https://www.jotform.com/resources/assets/logo/jotform-icon-transparent-280x280.png"
-
-                },setTimeout(function () {
+                icon:"https://www.jotform.com/resources/assets/logo/jotform-icon-transparent-280x280.png"},
+                setTimeout(function () {
                     notification.close();
-                },3000)
+                },10000)
             )
         }else{
             console.log("notifications are closed")
@@ -296,7 +295,15 @@ class Home extends React.Component{
                 if(response[i].answers['3'].answer===userName){
                     //check the users board!!!
                     if(response[i].answers['5'].answer.split(",").slice(1).includes(this.props.id+"")){
-                        console.log("This user already on board");
+                        let error=document.createElement("div");
+                        error.innerText="User you entered already on board";
+                        error.style.position="relative";
+                        error.style.width="100px";
+                        error.style.margin="10px";
+                        error.style.color="white";
+                        error.style.top="10px";
+                        document.getElementsByClassName("lollol")[0].append(error);
+                        setTimeout(()=>error.remove(),3000);
                         return ;
                     }
                     //
@@ -314,12 +321,23 @@ class Home extends React.Component{
                         };
                         try {
                             axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
+                            return ;
                         }catch (e) {
                             console.log(e)
                         }
                     },()=>console.log(response))
                 }
             }
+            let error=document.createElement("div");
+            // error.innerText="No such user";
+            error.style.position="relative";
+            error.style.width="100px";
+            error.style.margin="10px";
+            error.style.color="white";
+            error.style.top="10px";
+            document.getElementsByClassName("lollol")[0].append(error);
+            setTimeout(()=>error.remove(),3000);
+
         });
     }
     backToBoards(){

@@ -7,6 +7,9 @@
     height: auto;
     width: auto;
 }
+#takeIt{
+    width: 200px;
+}
 #buttonUser{
     margin-top: 4px;
     position: relative;
