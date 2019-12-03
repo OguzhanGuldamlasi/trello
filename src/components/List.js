@@ -51,8 +51,9 @@ class List extends React.Component{
         }
     }
     componentDidMount() {
-        console.log(this.props.homeId);
-
+        // console.log(this.props.homeId);
+        console.log(getCookieValue("user"));
+        console.log(document.cookie);
            let cardInfos=[];
            window.JF.getFormSubmissions("92931856730969", (response)=>{
            for (let i = 0; i <response.length ; i++) {
@@ -319,7 +320,6 @@ class List extends React.Component{
     }
     setTasks(ev,name){
         ev.preventDefault();
-        console.log(name);
         this.setState({name:name},()=>console.log(this.state.name));
         window.JF.getFormSubmissions("92931845207966", (response)=>{
             for(let i=0; i<response.length; i++){
@@ -339,12 +339,13 @@ class List extends React.Component{
 
     }
     render() {
+        let isAdminOnline=getCookieValue("user")===this.props.admin;
         return(
             <div className="container">
                 <div  onDrag={this.onDrag} onDragStart={this.onDragStart} id={this.state.id} draggable={!(getCookieValue("user")===this.props.admin)} onDrop={this.props.onDrop}  onDragOver={(e)=>this.onDragOver(e)} className="cardList">
-                    <input contentEditable="true" onChange={(ev)=>this.setTasks(ev,document.getElementById(this.state.index+123123+"").value)} id={this.state.index+123123+""} defaultValue={this.state.name} style={{color:'white',border:'0px',position:'relative',left:'-30px'}}  className="listName">
+                    <input readOnly={isAdminOnline} contentEditable={"true"} onChange={isAdminOnline? console.log(""):(ev)=>this.setTasks(ev,document.getElementById(this.state.index+123123+"").value)} id={this.state.index+123123+""} defaultValue={this.state.name} style={{color:'white',border:'0px',position:'relative',left:'-30px'}}  className="listName">
                     </input>
-                    <button className="addCard" onClick={()=>{
+                    <button className="addCard" onClick={getCookieValue("user")===this.props.admin?console.log(""):()=>{
                         let inputArea=document.createElement("input");
                         inputArea.className="form-control";
                         let saveButton=document.createElement("button");

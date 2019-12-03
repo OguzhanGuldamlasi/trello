@@ -83,6 +83,15 @@ class Home extends React.Component{
             admin:'',
             // editCard:null
         };
+        window.JF.getFormSubmissions("93143614742960", (response)=>{
+            for(let i=0; i<response.length; i++){
+                if(this.state.homeId==response[i].answers['3'].answer){
+                    console.log("here")
+                    this.setState({admin:response[i].answers['5'].answer},()=>console.log(this.state.admin));
+                    break;
+                }
+            }
+        });
         this.checkDueDate=this.checkDueDate.bind(this);
         this.showNotifications=this.showNotifications.bind(this);
         // this.initNotifications=this.initNotificat/ions.bind(this);
@@ -129,7 +138,7 @@ class Home extends React.Component{
         });
     }
 
-    componentDidMount() {
+   componentDidMount() {
         let dbLists=[];
         let dbCards=[];
         let biggestCardId=-1;
@@ -182,13 +191,6 @@ class Home extends React.Component{
                          mainId=id;
                          // this.insertionSort(dbLists);
                          this.setState({lists:dbLists,listId:mainId});
-                     }
-                 }
-             });
-             window.JF.getFormSubmissions("93143614742960", (response)=>{
-                 for(let i=0; i<response.length; i++){
-                     if(this.state.homeId==response[i].answers['3'].answer){
-                         this.setState({admin:response[i].answers['5'].answer})
                      }
                  }
              });
@@ -375,7 +377,7 @@ class Home extends React.Component{
                 {/*{this.state.editCard}*/}
                 <div className="addList">
                     {/*<div>Add name and position it</div>*/}
-                    <button className="addListButton" onClick={(ev)=> {
+                    <button className="addListButton" onClick={getCookieValue("user")===this.state.admin?console.log(""):(ev)=> {
                         // ev.preventDefault();
                         // console.log(ev.defaultPrevented)
                         let inputArea =document.createElement("input");

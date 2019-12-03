@@ -294,10 +294,10 @@ class EditCard extends React.Component {
         document.getElementById(user+"123").style.display='none';
     }
     render() {
+        let isAdminOnline=getCookieValue("user")===this.props.admin;
         let img=new Image();
         img.src=this.props.img ? "data:image/png;base64,"+this.props.img : "";
         return (
-
             <div className='popup'>
                 <div  className="wrapperEditCard">
                     <div>
@@ -310,8 +310,8 @@ class EditCard extends React.Component {
                     <h4 style={{display:this.props.params.dueDate=='' ? 'none':'inherit'}}>Due Date :{this.props.params.dueDate}(Remaining Days:{this.getRemainingDays()})</h4>
                     <div className="fix"/>
                     <div className="lollol" style={{display:this.props.owner==''? 'inline-block':'none'}}>
-                        <div style={{display:this.props.owner==''? 'inline-flex ':'none'}} className="DropDown">
-                            <Card setOwner={this.props.setOwner} id={this.props.id} homeid={this.props.homeid}/>
+                        <div style={{display:isAdminOnline? 'inline-flex ':'none'}} className="DropDown">
+                            <Card admin={getCookieValue("user")} isAdminOnline={isAdminOnline} setOwner={this.props.setOwner} id={this.props.id} homeid={this.props.homeid}/>
                         </div>
                     </div>
                     <div>
@@ -374,7 +374,7 @@ class EditCard extends React.Component {
                             {/*<div style={{borderBottom:'2px solid black'}}/>*/}
                             <div className="labelSection">
                                 <div style={{position:'relative',left:'32%'}} className="labelDiv">
-                                <div id="blueLabel" className="label label-primary" onClick={() => {
+                                <div style={{cursor:isAdminOnline?'not-allowed':'pointer'}} id="blueLabel" className="label label-primary" onClick={isAdminOnline ? console.log():() => {
                                     let labels = this.props.params.labels;
                                     let inputArea=document.createElement("input");
                                     inputArea.className='form-control';
@@ -399,7 +399,7 @@ class EditCard extends React.Component {
 
                                 }}>
                                     Blue Label</div>
-                                <div id="greenLabel" className="label label-success" onClick={() => {
+                                <div style={{cursor:isAdminOnline?'not-allowed':'pointer'}} id="greenLabel" className="label label-success" onClick={isAdminOnline ? console.log():() => {
                                     let labels = this.props.params.labels;
                                     let inputArea=document.createElement("input");
                                     inputArea.className='form-control';
@@ -425,7 +425,7 @@ class EditCard extends React.Component {
 
                                 }}>
                                     Green Label</div>
-                                <div id="redLabel" className="label label-danger" onClick={() => {
+                                <div style={{cursor:isAdminOnline?'not-allowed':'pointer'}} id="redLabel" className="label label-danger" onClick={isAdminOnline ? console.log():() => {
                                     let labels = this.props.params.labels;
                                     let inputArea=document.createElement("input");
                                     inputArea.className='form-control';
@@ -466,7 +466,7 @@ class EditCard extends React.Component {
                             <h4 style={{padding:'5px'}}>Checklist</h4>
                             <div className="fix"/>
                             <div className="checkListSection">
-                                <button id="addCheck" style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex'}}  className="btn btn-warning" onClick={(e)=>{
+                                <button id="addCheck" style={{display: this.state.checklistItems.length>0 ? 'none' : 'flex',cursor:isAdminOnline?'not-allowed':'pointer'}}  className="btn btn-warning" onClick={isAdminOnline?console.log(""):()=>{
                                     document.activeElement.addEventListener("click",(ev)=>ev.stopPropagation());
                                     let inputArea=document.createElement("input");
                                     inputArea.addEventListener('click',(ev)=>ev.stopPropagation());
@@ -650,7 +650,7 @@ class EditCard extends React.Component {
                                         console.log('there are some problems');
                                     };
 
-                                }} /><label style={{padding:'6px 12px',position:'relative',left:'273px'}} id="for" htmlFor="file">Choose a Cover Image</label>
+                                }} /><label style={{padding:'6px 12px',position:'relative',left:'273px'}} id="for"  htmlFor="file">Choose a Cover Image</label>
                             </div>
                         </div>
                     <button id="exitEdit" className="btn btn-success"  onClick={this.props.onClose}>Save</button>
