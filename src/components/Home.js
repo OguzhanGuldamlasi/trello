@@ -14,41 +14,14 @@ import {
     useParams
 } from "react-router-dom";
 import axios from 'axios';
+import Example from "./DropDownRemoveToUser";
 function getCookieValue(a) {
     let b = document.cookie.match('(^|[^;]+)\\s*' + a + '\\s*=\\s*([^;]+)');
     return b ? b.pop() : '';
 }
+
 class Home extends React.Component{
-    // insertionSort(){
-    //     let arr=[...this.state.lists];
-    //     arr.sort((a,b)=>{
-    //         // console.log(a.props.index);
-    //         if(parseInt(a.props.index)<parseInt(b.props.index)){
-    //             return -1
-    //         }else{
-    //             return 1;
-    //         }
-    //     });
-    //     this.setState({lists:arr});
-    //
-    // }
-    // initNotifications(){
-    //     if(window.Notification){
-    //         window.Notification.requestPermission((permission)=> {
-    //             if(permission==='granted'){
-    //                 this.setState({notificationsEnabled:true},()=>console.log(this.state.notificationsEnabled))
-    //             }
-    //             else{
-    //                 console.log("ignored")
-    //             }
-    //         });
-    //     }
-    //     else{
-    //         console.log("Your browser doesnt support notifications")
-    //     }
-    // }
     showNotifications(header,message){
-        console.log("hereee");
         if(this.state.notificationsEnabled){
             let notification=new Notification(header,{
                 body:message,
@@ -94,8 +67,6 @@ class Home extends React.Component{
         });
         this.checkDueDate=this.checkDueDate.bind(this);
         this.showNotifications=this.showNotifications.bind(this);
-        // this.initNotifications=this.initNotificat/ions.bind(this);
-        // this.insertionSort=this.insertionSort.bind(this);
         this.onListDrop=this.onListDrop.bind(this);
         this.getIndex=this.getIndex.bind(this);
         this.getCardId=this.getCardId.bind(this);
@@ -105,17 +76,12 @@ class Home extends React.Component{
         this.getListIndex=this.getListIndex.bind(this);
         this.deleteList=this.deleteList.bind(this);
         this.onDrop=this.onDrop.bind(this);
-        // this.showEditCard=this.showEditCard.bind(this);
-        // this.editCard=this.editCard.bind(this);
         this.backToBoards=this.backToBoards.bind(this);
         this.addUser=this.addUser.bind(this);
         this.takeInfos=this.takeInfos.bind(this);
         this.setIndexes=this.setIndexes.bind(this);
+        this.deleteThis=this.deleteThis.bind(this);
     }
-    // showEditCard(){
-    //     return this.state.editCard;
-    // }
-
     async takeInfos(listId){
         let infos=[];
         await window.JF.getFormSubmissions("92931856730969", (response)=>{
@@ -142,14 +108,12 @@ class Home extends React.Component{
         let dbLists=[];
         let dbCards=[];
         let biggestCardId=-1;
-        let getIndex= this.getIndex;
         let getCardId= this.getCardId;
         let deleteCard= this.deleteCard;
         let appendCard= this.appendCard;
         let incrementCardId= this.incrementCardId;
         let getListIndex= this.getListIndex;
         let deleteList= this.deleteList;
-        let onDrop= this.onDrop;
         let mainId=0;
          window.JF.getFormSubmissions("92931856730969", async (response)=>{
             for (let i = 0; i <response.length ; i++) {
@@ -319,7 +283,7 @@ class Home extends React.Component{
                         error.style.color="white";
                         error.style.top="10px";
                         document.getElementsByClassName("lollol")[0].append(error);
-                        setTimeout(()=>error.remove(),3000);
+                        setTimeout(()=>error.remove(),0);
                         return ;
                     }
                     //
@@ -357,8 +321,50 @@ class Home extends React.Component{
         });
     }
     backToBoards(){
+        document.cookie="homeName=;";
         // ReactDOM.render(<Board user={this.props.user} pass={this.props.pass}  homes={this.props.homes} addHome={this.addHome}/>, document.getElementById('root'));
     }
+    deleteThis(ev){
+        // ev.preventDefault();
+        window.JF.getFormSubmissions("93143614742960", (response)=>{
+            for(var i=0; i<response.length; i++){
+                if(response[i].answers[3].answer==this.state.homeId){
+                    window.JF.deleteSubmission(response[i].id, (response)=>{
+                    })
+                }
+            }
+        });
+        window.JF.getFormSubmissions("93141352586963", (response)=>{
+            for(let i=0; i<response.length; i++){
+                if(response[i].answers[3].answer==getCookieValue("user")){
+                    let homes=response[i].answers[5].answer.split(",");
+                    for (let j = 0; j <homes.length ; j++) {
+                        if(homes[j]==this.state.homeId) {
+                            homes.splice(j,1);
+                            break;
+                        }
+                    }
+                    console.log(homes)
+                    let string="";
+                    for (let i = 0; i < homes.length; i++) {
+                        string+=homes[i].toString()+",";
+                    }
+                    console.log(string)
+                    string.substring(0, string.length - 1);
+                    console.log(string)
+                    let submission=new Object();
+                    submission['3']=response[i].answers[3].answer;
+                    submission['4']=response[i].answers[4].answer;
+                    submission['5']=string;
+                    submission['6']=response[i].answers[6].answer;
+                    window.JF.editSubmission(response[i].id, submission, (response)=>{
+                    })
+                }
+            }
+
+        });
+    }
+
     render(){
         document.cookie=`homeName=${this.state.name}`;
         document.cookie=`homeId=${this.state.homeId}`;
@@ -375,7 +381,7 @@ class Home extends React.Component{
             <div className="HomeComp">
                 {/*<img id="imag" src="../images/jotform-logo-orange-400x200.png" alt=""/>*/}
                 {/*{this.state.editCard}*/}
-                <div className="addList">
+                <div  className="addList">
                     {/*<div>Add name and position it</div>*/}
                     <button className="addListButton" onClick={getCookieValue("user")===this.state.admin?console.log(""):(ev)=> {
                         // ev.preventDefault();
@@ -411,28 +417,37 @@ class Home extends React.Component{
                             document.activeElement.parentElement.childNodes[1].remove();
                         };
                     }}>Add List</button>
-                    {/*<div ></div>*/}
                 </div>
-                <Link to="/board">
-                <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
-                </Link>
-                <button  style={{marginTop:"5px",marginLeft:"5px",visibility:getCookieValue("user")==this.state.admin? 'visible':'hidden'}} onClick={(ev)=>
-                {
-                    ev.preventDefault();
-                    document.getElementsByClassName("lollol")[0].style.display="inline-flex";
-                }
-                } className="btn btn-secondary">Add Another User</button>
-                <div style={{display:'none'}}  className="lollol">
-                    <input style={{margin:"10px"}} id="takeIt" placeholder="Enter An User name" type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-                    <div className="input-group-append">
-                        <button onClick={(ev)=>{
-                            ev.preventDefault();
-                            this.addUser(document.getElementById("takeIt").value);
-                        }
-                        } style={{marginTop:"4px"}} id="buttonUser" className="btn btn-secondary" type="button">Add User</button>
+                <div style={{display:'flex'}} className="buttons">
+                    <Link to="/board">
+                        <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
+                    </Link>
+                    <Example  user={getCookieValue("user")} admin={this.state.admin} homeId={this.state.homeId} />
+                    <button  style={{marginTop:"5px",marginLeft:"1px",height:"35px",visibility:getCookieValue("user")==this.state.admin? 'visible':'hidden'}} onClick={(ev)=>
+                    {
+                        ev.preventDefault();
+                        document.getElementsByClassName("lollol")[0].style.display="inline-flex";
+                    }
+                    } className="btn btn-secondary">Add Another User</button>
+
+
+                    <div style={{display:'none'}}  className="lollol">
+                        <input style={{margin:"2px"}} id="takeIt" placeholder="Enter An User name" type="text" className="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                        <div className="input-group-append">
+                            <button onClick={(ev)=>{
+                                ev.preventDefault();
+                                this.addUser(document.getElementById("takeIt").value);
+                            }
+                            } style={{margin:"4px",position:'relative',top:'1px'}} id="buttonUser" className="btn btn-secondary" type="button">Add User</button>
+                        </div>
+
                     </div>
+                    <Link to="/board">
+                        <button  style={{marginTop:"5px",marginLeft:"5px",visibility:getCookieValue("user")==this.state.admin? 'visible':'hidden'}} onClick={ev=>this.deleteThis(ev)} className="btn btn-secondary">Delete this board</button>
+                    </Link>
                 </div>
-                <h1 className={"headerForHome"} style={{textAlign:"center"}}>{this.state.name}</h1>
+
+                <h1 contentEditable={true} className={"headerForHome"} style={{textAlign:"center"}}>{this.state.name}</h1>
                 <div style={{display:'inline-flex'}} >
                     <div     className="listContainer">
                         {arr.map(list=>{return list})}

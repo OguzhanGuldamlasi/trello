@@ -100,7 +100,6 @@ class Login extends React.Component{
                         document.cookie=`homes=${response[i].answers[5].answer}`;
                         setUser(userName);
                         setPassword(password);
-                        console.log(document.cookie);
                         setHomes(response[i].answers[5].answer);
                         break;
                     }

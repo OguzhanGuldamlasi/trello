@@ -58,16 +58,15 @@ function getCookieValue(a) {
 class Board extends React.Component{
     constructor(props){
         try{
-        document.getElementById("hideThis").remove();}
+            document.getElementById("hideThis").remove();}
         catch (e) {
 
         }
         super(props);
         this.state={
-            homeIds:this.props.homes,//
+            homeIds:[],
             adminIds:[]
         };
-        console.log(props);
         window.JF.getFormSubmissions("93141352586963", function(response){
             for(let i=0; i<response.length; i++){
                 let userName=response[i].answers[3].answer;
@@ -76,14 +75,14 @@ class Board extends React.Component{
         });
         // sendMail().then(response=>console.log(response));
         this.findBoardComp=this.findBoardComp.bind(this);
+        this.deleteBoard=this.deleteBoard.bind(this);
     }
     componentDidMount() {
         window.JF.getFormSubmissions("93141352586963",response=>{
             for (let i = 0; i <response.length ; i++) {
                 if(response[i].answers[3].answer==this.props.user){
                     if(response[i].answers[4].answer==this.props.pass){
-                        // ReactDOM.render(<Board user={userName} pass={password}  homes={response[i].answers[5].answer} addHome={this.addHome}/>, document.getElementById('root'));
-                        this.setState({homeIds:response[i].answers[5].answer})
+                        this.setState({homeIds:response[i].answers[5].answer.split(",").slice(1)})
                     }
                 }
             }
@@ -93,11 +92,11 @@ class Board extends React.Component{
             for(let i=0; i<response.length; i++){
                 if(response[i].answers['5'].answer==getCookieValue("user")){
                     arr.push(response[i].answers['3'].answer);
-                    this.setState({adminIds:arr},this.forceUpdate)
+                    this.setState({adminIds:arr},this.forceUpdate);
                 }
             }
-            console.log(arr)
         });
+        console.log(this.state)
     }
     findBoardComp(id){
         console.log(id);
@@ -109,13 +108,26 @@ class Board extends React.Component{
             }
         }
     }
-
+    deleteBoard(id){
+        let arr=[...this.state.adminIds];
+        for (let i = 0; i <arr.length ; i++) {
+            if(arr[i]==id){
+                arr.splice(i,1);
+                break;
+            }
+        }
+    }
     render() {
         try{
             document.getElementById("hideThis").remove();}
         catch (e) {
 
         }
+        console.log(this.state)
+        let difference=[];
+        let redundantArr= this.state.homeIds.filter(x => !this.state.adminIds.includes(x));
+        redundantArr.map(id=> id!=="" ? difference.push(id): console.log());
+        console.log(difference)
         const {user,pass} = this.props;
         if (user !== undefined){
             // document.cookie=`user=${user} ; domain=http://localhost:3000/board`;
@@ -160,15 +172,17 @@ class Board extends React.Component{
                                         submission['4'] =inputArea.value;
                                         submission['5'] =this.props.user;
                                         let arr=[...this.state.adminIds];
-                                        arr.push(submission['3']);
-                                        this.setState({adminIds:arr});
+                                        arr.push(submission['3']+"");
+                                        console.log(arr)
+                                        this.setState({adminIds:arr},this.forceUpdate);
+                                        console.log(arr)
                                         window.JF.createFormSubmission("93143614742960", submission,(response)=>{
                                         },()=>console.log(this.state));
                                         window.JF.getFormSubmissions("93141352586963",  async response=>{
                                             for(let i=0; i<response.length; i++){
                                                 if(response[i].answers[3].answer==this.props.user&&response[i].answers[4].answer==this.props.pass){
                                                     let boards;
-                                                    boards=(response[i].answers[5].answer==="undefined")? ""+currentId : response[i].answers[5].answer+","+currentId;
+                                                    boards=(response[i].answers[5].answer==="undefined")? ""+currentId : response[i].answers[5].answer+(response[i].answers[5].answer.charAt( response[i].answers[5].answer.length-1)===','?"":",")+currentId;
                                                     let sid=response[i].id;
                                                     let userSubmission=new Object();
                                                     userSubmission['3']=response[i].answers[3].answer;
@@ -176,8 +190,7 @@ class Board extends React.Component{
                                                     userSubmission['5']=boards;
                                                     window.JF.editSubmission(sid, userSubmission, (response)=>{
                                                     });
-                                                    await this.setState({homeIds:boards},()=>this.forceUpdate());
-
+                                                     // this.setState({homeIds:boards});
                                                     document.getElementsByClassName("headerItems")[0].innerHTML="";
                                                     break;
                                                 }
@@ -191,20 +204,23 @@ class Board extends React.Component{
                         <div className="headerItems"/>
                         {/*<div className="headerImg"/>*/}
                         {/*<div className="header">My Trello</div>*/}
+                        <h3 className="welcomeHeader">Welcome {this.props.user}</h3>
                     </div>
-                    <h1 style={{textAlign:"center"}}>Your Boards</h1>
-                    <div style={{display:'inline-flex'}} className="Homes">
-                        {this.state.homeIds.split(",").slice(1).map(id=>{
-                            return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
-                        })}
-                    </div>
-                    <h1 style={{textAlign:"center"}}>Boards that you are the Scrum Master</h1>
-                    <h3 style={{textAlign:"center"}}>These boards are readonly</h3>
-                    <div style={{display:'inline-flex'}} className="Homes">
+                    <h1 style={{textAlign:"center",display:this.state.adminIds.length<=0&&difference.length<=0?'inherit':'none'}}>You have no boards</h1>
+                    <h1 style={{textAlign:"center",display:this.state.adminIds.length>0?'inherit':'none'}}>Boards that you are the Scrum Master</h1>
+                    <h3 style={{textAlign:"center",display:this.state.adminIds.length>0?'inherit':'none'}}>These boards are readonly</h3>
+                    <div style={{display:'block'}} className="Homes">
                         {this.state.adminIds.map(id=>{
-                            return  <BoardComps setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
+                            return  <BoardComps deleteBoard={this.deleteBoard} setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
                         })}
                     </div>
+                    <h1  style={{textAlign:"center",display:difference.length>0 ? 'inherit' : 'none'}}>Shared boards with you</h1>
+                    <div style={{display:'block'}} className="Homes">
+                        {console.log(difference)}
+                        {difference.map(id=>{  return <BoardComps deleteBoard={this.deleteBoard} setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
+                        })}
+                    </div>
+
                     {/*<div style={{display:this.state.homeIds.includes(getCookieValue("homeId"))? "block":"none"}} className="lastVisited">*/}
                     {/*    <h2>Last visited board</h2>*/}
                     {/*    {*/}

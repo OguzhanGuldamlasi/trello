@@ -7,6 +7,9 @@
 #saveButss{
     color: white;
 }
+.homes{
+    display:block;
+}
 .header{
 
     border: solid 3px black;
@@ -35,6 +38,10 @@ h2{
     top:8px;
     background: url("../images/Webp.net-resizeimage (5).png") no-repeat;
 }
+.welcomeHeader{
+    position: absolute;
+    right: 43.3%;
+}
 #inputss{
     color:black;
     margin-bottom: 5px;
@@ -45,4 +52,12 @@ h2{
     margin-right: 20px;
     top: 9px;
     height: 35px;
+}
+.userHeader{
+    padding: 10px;
+    margin:0 auto;
+    position: absolute;
+    /*right: 65px;*/
+    left: 42.8%;
+
 }

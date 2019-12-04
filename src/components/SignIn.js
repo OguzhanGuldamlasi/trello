@@ -14,13 +14,6 @@ function validateEmail(email) {
 }
 class SignIn extends React.Component{
     constructor(props){
-
-        console.log(document.cookie);
-        document.cookie="homeName=;homeId=;user=;password=;homes=;";
-        document.cookie="homeId=;user=;password=;homes=;";
-        document.cookie="user=;password=;homes=;";
-        document.cookie="password=;homes=;";
-        document.cookie="homes=;";
         super(props);
         this.state={
             users:[],

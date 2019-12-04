@@ -51,9 +51,6 @@ class List extends React.Component{
         }
     }
     componentDidMount() {
-        // console.log(this.props.homeId);
-        console.log(getCookieValue("user"));
-        console.log(document.cookie);
            let cardInfos=[];
            window.JF.getFormSubmissions("92931856730969", (response)=>{
            for (let i = 0; i <response.length ; i++) {
