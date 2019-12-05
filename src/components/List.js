@@ -262,14 +262,17 @@ class List extends React.Component{
     }
     onDragEnter(ev){
         ev.preventDefault();
-        console.log(ev.currentTarget);
+        // console.log(ev.currentTarget);
+        console.log("entered");
         if(document.getElementsByClassName("emptyDiv") [0] !==undefined){return;}
         let div = document.createElement("div");
         div.className = "emptyDiv";
         div.ondragover=(ev)=>{ev.preventDefault()};
         div.ondragenter=(ev)=>{ev.preventDefault()};
         div.ondrop = (ev)=>{ ev.preventDefault();this.onCardDrop(ev)};
-        div.ondragleave=()=>{
+        div.ondragleave=(ev)=>{
+            ev.preventDefault();
+            console.log("leaved");
             document.getElementsByClassName("emptyDiv")[0].remove();
         };
         // ev.currentTarget.appendChild(div);

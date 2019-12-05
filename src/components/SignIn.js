@@ -46,7 +46,7 @@ class SignIn extends React.Component{
         const dataToSubmit={
             name:userName,
             mail:email,
-            message:"Welcome to Trello",
+            message:"Welcome to Orello",
         };
         try {
             // console.log(dataToSubmit);
@@ -130,7 +130,7 @@ class SignIn extends React.Component{
                     <h2 className="signInText">Sign Up</h2>
                     <input  onChange={this.checkUser} type="text" id="login" className="form-control" name="login" placeholder="UserName( bigger than 4)"/><div style={{display:!this.state.user?'inline':'none'}} className="userNameError"></div>
                     <input onChange={this.checkMail} type="email" id="email" className="form-control" name="email" placeholder="email"/><div style={{display:!this.state.mail?'inline':'none'}} className="mailError">Wrong mail</div>
-                    <input onChange={this.checkPass} type="password" id="password" className="form-control" name="login" placeholder="password"/><div style={{display:!this.state.pass?'inline':'none'}} className="passwordError">Atleast 1 uppercase,1 lowercase and 1 number</div>
+                    <input onChange={this.checkPass} type="password" id="password" className="form-control" name="login" placeholder="password"/><div style={{display:!this.state.pass?'inline':'none'}} className="passwordError">Atleast 1 uppercase,1 lowercase,1 number</div>
                     <Link  className="errCheck" to={this.state.pass&&this.state.user&&this.state.mail ? "/board" : "/SignIn"}>
                     <button id="buttonSign" type="submit"  className="fadeIn fourth" value="Sign in" onClick={this.state.pass&&this.state.user&&this.state.mail ? event => this.saveUser(event): event=>console.log("failed")}>Sign Up</button>
                     </Link>

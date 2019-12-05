@@ -10,6 +10,11 @@
 #takeIt{
     width: 200px;
 }
+.headerForBoard{
+    text-align: center;
+    color: white;
+    font-family: "Open Sans", serif;
+}
 #buttonUser{
     margin-top: 4px;
     position: relative;

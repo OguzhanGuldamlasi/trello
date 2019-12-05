@@ -173,9 +173,9 @@ class Board extends React.Component{
                                         submission['5'] =this.props.user;
                                         let arr=[...this.state.adminIds];
                                         arr.push(submission['3']+"");
-                                        console.log(arr)
+                                        console.log(this.state.adminIds);
                                         this.setState({adminIds:arr},this.forceUpdate);
-                                        console.log(arr)
+                                        console.log(this.state.adminIds);
                                         window.JF.createFormSubmission("93143614742960", submission,(response)=>{
                                         },()=>console.log(this.state));
                                         window.JF.getFormSubmissions("93141352586963",  async response=>{
@@ -216,7 +216,6 @@ class Board extends React.Component{
                     </div>
                     <h1  style={{textAlign:"center",display:difference.length>0 ? 'inherit' : 'none'}}>Shared boards with you</h1>
                     <div style={{display:'block'}} className="Homes">
-                        {console.log(difference)}
                         {difference.map(id=>{  return <BoardComps deleteBoard={this.deleteBoard} setName={this.props.setName} setId={this.props.setId} user={this.props.user} pass={this.props.pass} homes={this.props.homes} addHome={this.props.addHome} findName={this.findName} id={id}/>
                         })}
                     </div>

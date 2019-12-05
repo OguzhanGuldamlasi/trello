@@ -282,7 +282,7 @@ class Home extends React.Component{
                         error.style.margin="10px";
                         error.style.color="white";
                         error.style.top="10px";
-                        document.getElementsByClassName("lollol")[0].append(error);
+                        // document.getElementsByClassName("lollol")[0].append(error);
                         setTimeout(()=>error.remove(),0);
                         return ;
                     }
@@ -301,6 +301,7 @@ class Home extends React.Component{
                         };
                         try {
                             axios.post("http://localhost:5000", dataToSubmit).then(response => console.log(response)).catch(e => console.log(e));
+                            document.getElementsByClassName("lollol")[0].style.display="none";
                             return ;
                         }catch (e) {
                             console.log(e)
@@ -336,7 +337,7 @@ class Home extends React.Component{
         });
         window.JF.getFormSubmissions("93141352586963", (response)=>{
             for(let i=0; i<response.length; i++){
-                if(response[i].answers[3].answer==getCookieValue("user")){
+                if(response[i].answers[5].answer.includes(this.state.homeId)){
                     let homes=response[i].answers[5].answer.split(",");
                     for (let j = 0; j <homes.length ; j++) {
                         if(homes[j]==this.state.homeId) {
@@ -418,6 +419,7 @@ class Home extends React.Component{
                         };
                     }}>Add List</button>
                 </div>
+                <h3 className="headerForBoard">{getCookieValue("user")} , you are in board {this.state.name} </h3>
                 <div style={{display:'flex'}} className="buttons">
                     <Link to="/board">
                         <button style={{marginTop:"5px"}} onClick={this.backToBoards} className="btn btn-secondary">Back to my Boards</button>
@@ -442,9 +444,7 @@ class Home extends React.Component{
                         </div>
 
                     </div>
-                    <Link to="/board">
-                        <button  style={{marginTop:"5px",marginLeft:"5px",visibility:getCookieValue("user")==this.state.admin? 'visible':'hidden'}} onClick={ev=>this.deleteThis(ev)} className="btn btn-secondary">Delete this board</button>
-                    </Link>
+                        <button  style={{height:'35px',marginTop:"5px",marginLeft:"5px",visibility:getCookieValue("user")==this.state.admin? 'visible':'hidden'}} onClick={ev=>this.deleteThis(ev)} className="btn btn-secondary">Delete this board</button>
                 </div>
 
                 <h1 contentEditable={true} className={"headerForHome"} style={{textAlign:"center"}}>{this.state.name}</h1>
