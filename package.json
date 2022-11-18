@@ -21,7 +21,7 @@
     "react-dnd-html5-backend-cjs": "^9.4.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.2",
+    "react-scripts": "5.0.1",
     "reactstrap": "^8.1.1",
     "sendgrid": "^5.2.3",
     "sendmail": "^1.6.1"
